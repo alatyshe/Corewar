@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   other.h                                            :+:      :+:    :+:   */
+/*   reg_exp.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alatyshe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef OTHER_H
-# define OTHER_H
+#ifndef REG_EXP_H
+# define REG_EXP_H
 
 # include "other.h"
 # include "func.h"
@@ -19,37 +19,25 @@
 # include "asm.h"
 # include "reg_exp.h"
 
-typedef struct	s_label
+typedef struct	s_exp
 {
-	char				*name;
-	t_functions			*functions;
-	struct s_label		*next;
-}				t_label;
+	char				at_the_start;
+	char				at_the_end;
+	char				string;
+	int					counter;
+	struct	s_exp 		*next;	
+}				t_exp;
 
-/*
-** fillness_data -  0000 0000 - 00(have progname?)
-** 00(have comment?) 00 (?) 00(error)
-** line - номер линии на которой находимся
-** error - можно записать тип ошибки
-*/
-
-typedef struct	s_header
+typedef struct	s_reg_exp
 {
-	char				fillness_data;
-	int					line;
-	char				error;
-	unsigned int		magic;
-	unsigned int		prog_size;
-	char				*prog_name;
-	char				*comment;
-	t_label				*labels;
-}				t_header;
+	char				type;
+	char 				*flags;
+	char				*string;
+	t_exp				*expression;
 
-t_functions			*create_t_functions();
-t_label				*create_t_label();
-t_header			*create_t_header();
-int					skip_spaces_before_after_cmd(char *str);
-int					skip_numbers(char *str);
-int					skip_spaces(char *str);
+	struct s_reg_exp	*next;
+}				t_reg_exp;
+
+
 
 #endif

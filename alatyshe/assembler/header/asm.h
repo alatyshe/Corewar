@@ -23,12 +23,14 @@
 
 # define SAME		0
 
-// # include "../../libft/header/libft.h"
-// # include "../../libft/header/ft_printf.h"
+# include "../../libft/header/libft.h"
+# include "../../libft/header/ft_printf.h"
 
 # include "other.h"
 # include "func.h"
 # include "op.h"
+# include "asm.h"
+# include "reg_exp.h"
 
 # include <stdlib.h>
 # include <stdio.h>

@@ -18,7 +18,6 @@ void	ft_putendl(char const *s)
 
 	b = (char *)s;
 	if (b)
-		while (*b)
-			ft_putchar(*b++);
+		write(0, b, ft_strlen(b));
 	ft_putchar('\n');
 }

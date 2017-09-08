@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ld.c                                               :+:      :+:    :+:   */
+/*   other.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alatyshe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,15 +10,43 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../header/asm.h"
+#include "../../header/other.h"
 
-int					ld_func(t_functions *func, int line, char *str)
+int					skip_spaces_before_after_cmd(char *str)
 {
 	int				i;
-	int				j;
 
-	// i = skip_spaces_before_after_cmd(str);
-	func->func_id = 2;
+	i = 0;
+	if (ft_isblank(str[i]))
+		while (ft_isblank(str[i]))
+			i++;
+	if (ft_isalpha(str[i]))
+		while (ft_isalpha(str[i]))
+			i++;
+	if (ft_isblank(str[i]))
+		while (ft_isblank(str[i]))
+			i++;
+	return (i);
+}
 
-	return (1);
+int					skip_numbers(char *str)
+{
+	int				i;
+
+	i = 0;
+
+	while (str[i] && ft_isdigit(str[i]))
+		i++;
+	return (i);
+}
+
+int					skip_spaces(char *str)
+{
+	int				i;
+
+	i = 0;
+	if (ft_isblank(str[i]))
+		while (ft_isblank(str[i]))
+			i++;
+	return (i);
 }

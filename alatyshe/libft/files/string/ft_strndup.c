@@ -20,7 +20,7 @@ char	*ft_strndup(const char *s1, size_t n)
 	i = 0;
 	while (s1[i] && i < n)
 		i++;
-	res = (char*)malloc(sizeof(*s1) * i + 1);
+	res = (char*)malloc(sizeof(char) * i + 1);
 	if (!res)
 		return (0);
 	i = 0;

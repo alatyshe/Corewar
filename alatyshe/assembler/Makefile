@@ -29,7 +29,7 @@ OBJECTS_PATH	= ./objects
 
 #------ files ------
 HEART_FILES		= main
-OTHER_FILES		= struct_create
+OTHER_FILES		= struct_create other
 FUNC_FILES		= add aff and fork ld ldi lfor live lld lldi or st sti sub xor zjmp
 
 

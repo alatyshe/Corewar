@@ -17,16 +17,11 @@
 # define LEXICAL_ERROR	–2
 # define INVALID_PARR	-3
 
-# include "../../libft/header/libft.h"
-# include "../../libft/header/ft_printf.h"
-
 # include "other.h"
 # include "func.h"
 # include "op.h"
-
-
-# include <stdlib.h>
-# include <stdio.h>
+# include "asm.h"
+# include "reg_exp.h"
 
 typedef union	u_types {
 	long int			num;
@@ -37,6 +32,7 @@ typedef union	u_types {
 typedef struct	s_functions
 {
 	char				*name;
+	char				func_id;
 	char				arg_types;
 	t_types				arg_1;
 	t_types				arg_2;

@@ -48,3 +48,22 @@ t_header			*create_t_header()
 	header->comment = ft_strnew(((COMMENT_LENGTH + 1) / 4 ) * 4 + 4);
 	return (header);
 }
+
+t_reg_exp			*create_t_reg_exp()
+{
+	t_reg_exp		*exp;
+
+	exp = (t_reg_exp *)malloc(sizeof(t_reg_exp));
+
+	exp->type = 0;
+	exp->string = NULL;
+	exp->at_the_start = 0;
+	exp->at_the_end = 0;
+	exp->repeat_min = 1;
+	exp->repeat_max = 1;
+	exp->mast_be = NULL;
+	exp->should_not_be = NULL;
+	exp->can_be = NULL;
+	exp->next = NULL;
+	return (exp);
+}

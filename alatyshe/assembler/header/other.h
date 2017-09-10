@@ -48,6 +48,7 @@ typedef struct	s_header
 t_functions			*create_t_functions();
 t_label				*create_t_label();
 t_header			*create_t_header();
+t_reg_exp			*create_t_reg_exp();
 int					skip_spaces_before_after_cmd(char *str);
 int					skip_numbers(char *str);
 int					skip_spaces(char *str);

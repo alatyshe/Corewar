@@ -13,7 +13,7 @@
 #include "../../header/asm.h"
 
 
-
+//						поиск хотя бы одного символа из find в str и возврат его позиции
 int						find_chars_in_str(char *str, char *find)
 {
 	int					i;
@@ -34,6 +34,7 @@ int						find_chars_in_str(char *str, char *find)
 	return (-1);
 }
 
+//						сравнение нужного символа с символами из строки
 int 					cmp_char_with_str(char c, char *find)
 {
 	int					i;
@@ -48,28 +49,6 @@ int 					cmp_char_with_str(char c, char *find)
 	return (0);
 }
 
-t_exp					*create_t_exp()
-{
-	t_exp				*res;
-
-	res = (t_exp*)malloc(sizeof(t_exp));
-	res->at_the_start = 0;
-	res->at_the_end = 0;
-	res->next = NULL;
-	return (res);
-}
-
-t_reg_exp				*create_t_reg_exp()
-{
-	t_reg_exp		*exp;
-
-	exp = (t_reg_exp *)malloc(sizeof(t_reg_exp));
-	exp->string = NULL;
-	exp->expression = NULL;
-	exp->next = NULL;
-	return (exp);
-}
-
 void				print_regexp(t_reg_exp *lst)
 {
 	t_reg_exp 		*exp;
@@ -80,9 +59,54 @@ void				print_regexp(t_reg_exp *lst)
 	{
 		printf("exp->type :   |%c|\n", exp->type);
 		printf("exp->string : |%s|\n", exp->string);
-		// printf("exp->expression : |%s|\n", exp->expression);
 		printf("%s==============================================%s\n\n", GREEN, RESET);
 		exp = exp->next;
+	}
+}
+
+void				save_reg_exp_string(char type, char *reg_exp, int *i, t_reg_exp **exp_in)
+{
+	t_reg_exp 	*exp;
+
+	exp = (*exp_in);
+	// запись всего регулярнго выражения
+	exp->type = type;
+	exp->string = ft_strndup(reg_exp + (*i), find_chars_in_str(reg_exp + (*i), "[] \t\n\v\r\f"));
+	while (reg_exp[(*i)] && !cmp_char_with_str(reg_exp[(*i)], "[] \t\n\v\r\f"))
+		(*i)++;
+	if (reg_exp[(*i) + 1])
+	{
+		(*exp_in)->next = create_t_reg_exp();
+		(*exp_in) = (*exp_in)->next;
+	}
+}
+
+void				save_reg_exp(char type, char *reg_exp, int *i, t_reg_exp **exp_in)
+{
+	t_reg_exp 	*exp;
+
+	exp = (*exp_in);
+	// запись всего регулярнго выражения
+	(*i)++;
+	exp->type = type;
+	exp->string = ft_strndup(reg_exp + (*i), find_chars_in_str(reg_exp + (*i), "]"));
+	while (reg_exp[(*i)] && !cmp_char_with_str(reg_exp[(*i)], "]"))
+		(*i)++;
+	(*i)++;
+	// заполнение флагов если они есть
+	if (cmp_char_with_str(reg_exp[(*i)], "{"))
+	{
+		while (reg_exp[(*i)] && !cmp_char_with_str(reg_exp[(*i)], "}"))
+		{
+			if (!cmp_char_with_str(reg_exp[i], "#"))
+				save_flags()
+			(*i)++;
+		}
+	}
+	if (reg_exp[(*i) + 1])
+	{
+		(*exp_in)->next = create_t_reg_exp();
+		(*exp_in) = (*exp_in)->next;
 	}
 }
 
@@ -101,39 +125,9 @@ int						ft_regexp(char *string, char *reg_exp)
 	while (reg_exp[i] && i < len)
 	{
 		if (reg_exp[i] != '[')
-		{
-			// запись всего регулярнго выражения
-			exp->type = 's';
-			exp->string = ft_strndup(reg_exp + i, find_chars_in_str(reg_exp + i, "[^$.*+?|( \t\n\v\r\f"));
-			while (reg_exp[i] && !cmp_char_with_str(reg_exp[i], "[^$.*+?|( \t\n\v\r\f"))
-				i++;
-			// заполнение флагов если они есть
-			if (cmp_char_with_str(reg_exp[i], "("))
-				exp->flags = ft_strndup(reg_exp + i, find_chars_in_str(reg_exp + i, ")"));
-			if (reg_exp[i + 1])
-			{
-				exp->next = create_t_reg_exp();
-				exp = exp->next;
-			}
-		}
+			save_reg_exp_string('s', reg_exp, &i, &exp);
 		if (reg_exp[i] == '[')
-		{
-			i++;
-			// запись всего регулярнго выражения
-			exp->type = '[';
-			exp->string = ft_strndup(reg_exp + i, find_chars_in_str(reg_exp + i, "]"));
-			while(reg_exp[i] && reg_exp[i] != ']')
-				i++;
-			// заполнение флагов если они есть
-			if (cmp_char_with_str(reg_exp[i], "("))
-				exp->flags = ft_strndup(reg_exp + i, find_chars_in_str(reg_exp + i, ")"));
-			// если регулярное выражение не закончилось, то создаем новое
-			if (reg_exp[i + 1])
-			{
-				exp->next = create_t_reg_exp();
-				exp = exp->next;
-			}
-		}
+			save_reg_exp('[', reg_exp, &i, &exp);
 		i++;
 	}
 	print_regexp(res);
@@ -211,7 +205,7 @@ int					main(int argc, char **argv)
 	// live_func(&func, 1, "live %1");
 
 	char str[] = "wow";
-	ft_regexp(str, "      |AS    [awdaw] [1234make]");
+	ft_regexp(str, "live[ ]{1,}%[#d]{1,}[ #+#|;]");
 
 	return (0);
 }

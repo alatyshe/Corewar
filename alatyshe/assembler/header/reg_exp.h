@@ -19,21 +19,22 @@
 # include "asm.h"
 # include "reg_exp.h"
 
-typedef struct	s_exp
-{
-	char				at_the_start;
-	char				at_the_end;
-	char				string;
-	int					counter;
-	struct	s_exp 		*next;	
-}				t_exp;
 
 typedef struct	s_reg_exp
 {
 	char				type;
-	char 				*flags;
 	char				*string;
-	t_exp				*expression;
+
+	char				at_the_start;
+	char				at_the_end;
+
+	int					repeat_min;
+	int					repeat_max;
+
+
+	char				*mast_be;
+	char				*should_not_be;
+	char				*can_be;
 
 	struct s_reg_exp	*next;
 }				t_reg_exp;

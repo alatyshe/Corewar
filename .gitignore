@@ -2,6 +2,7 @@
 *.d
 ._*
 .DS*
+*.swp
 
 # Object files
 *.o

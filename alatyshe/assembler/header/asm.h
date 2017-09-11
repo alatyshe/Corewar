@@ -30,7 +30,6 @@
 # include "func.h"
 # include "op.h"
 # include "asm.h"
-# include "reg_exp.h"
 
 # include <stdlib.h>
 # include <stdio.h>

@@ -21,25 +21,33 @@
 # include "func.h"
 # include "op.h"
 # include "asm.h"
-# include "reg_exp.h"
 
-typedef union	u_types {
-	long int			num;
-	unsigned char		chr;
-	unsigned short		shrt;
-}				t_types;
+typedef struct	s_label
+{
+	char				*label_name;
+	int					label_size;
+	struct s_function	*functions;
+	struct s_label		*next;
+}				t_label;
 
-typedef struct	s_functions
+typedef struct	s_function
 {
 	char				*name;
-	char				func_id;
+	char				func_in_hex;
 	char				arg_types;
-	t_types				arg_1;
-	t_types				arg_2;
-	t_types				arg_3;
-	struct s_functions	*next;
-}				t_functions;
+	union u_arg			*arg_1;
+	union u_arg			*arg_2;
+	union u_arg			*arg_3;
+	struct s_function	*next_func;
+}				t_function;
 
-int					live_func(t_functions *func, int line, char *str);
+typedef union	u_arg {
+	long int			num;
+	short				shrt;
+	unsigned char		chr;
+}				t_arg;
+
+
+int					live_func(t_function *func, int line, char *str);
 
 #endif

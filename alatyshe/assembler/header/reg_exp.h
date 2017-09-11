@@ -20,25 +20,5 @@
 # include "reg_exp.h"
 
 
-typedef struct	s_reg_exp
-{
-	char				type;
-	char				*string;
-
-	char				at_the_start;
-	char				at_the_end;
-
-	int					repeat_min;
-	int					repeat_max;
-
-
-	char				*mast_be;
-	char				*should_not_be;
-	char				*can_be;
-
-	struct s_reg_exp	*next;
-}				t_reg_exp;
-
-
 
 #endif

@@ -17,14 +17,6 @@
 # include "func.h"
 # include "op.h"
 # include "asm.h"
-# include "reg_exp.h"
-
-typedef struct	s_label
-{
-	char				*name;
-	t_functions			*functions;
-	struct s_label		*next;
-}				t_label;
 
 /*
 ** fillness_data -  0000 0000 - 00(have progname?)
@@ -35,20 +27,19 @@ typedef struct	s_label
 
 typedef struct	s_header
 {
-	char				fillness_data;
-	int					line;
-	char				error;
 	unsigned int		magic;
-	unsigned int		prog_size;
 	char				*prog_name;
+	unsigned int		prog_size;
 	char				*comment;
+	char				error;
 	t_label				*labels;
 }				t_header;
 
-t_functions			*create_t_functions();
 t_label				*create_t_label();
+t_function			*create_t_function();
+t_arg				*create_t_arg();
 t_header			*create_t_header();
-t_reg_exp			*create_t_reg_exp();
+
 int					skip_spaces_before_after_cmd(char *str);
 int					skip_numbers(char *str);
 int					skip_spaces(char *str);

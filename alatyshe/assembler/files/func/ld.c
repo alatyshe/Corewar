@@ -12,13 +12,13 @@
 
 #include "../../header/asm.h"
 
-int					ld_func(t_functions *func, int line, char *str)
+int					ld_func(t_function *func, int line, char *str)
 {
 	int				i;
 	int				j;
 
 	// i = skip_spaces_before_after_cmd(str);
-	func->func_id = 2;
+	func->func_in_hex = 2;
 
 	return (1);
 }

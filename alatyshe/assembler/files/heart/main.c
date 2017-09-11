@@ -13,88 +13,128 @@
 #include "../../header/asm.h"
 
 
-//						поиск хотя бы одного символа из find в str и возврат его позиции
-int						find_chars_in_str(char *str, char *find)
+int						save_command(t_header *head, char **save_in, char *str, int fd)
 {
-	int					i;
-	int 				j;
+	char				*pos;
+	char				*find_error;
 
-	i = 0;
-	while (str[i])
+	if ((pos = ft_strchr(str, '"')) == NULL)
 	{
-		j = 0;
-		while (find[j])
+		*save_in = ft_strjoin("", str);
+		while (get_next_line(fd, &str))
 		{
-			if (str[i] == find[j])
-				return (i);
-			j++;
+			if ((pos = ft_strchr(str, '"')) != NULL)
+			{
+				*pos++ = '\0';
+				// дописать функцию для  проверки на мусор после скобки (.name "" dawwdawd)
+				*save_in = ft_strjoin(*save_in, str);
+				break ;
+			}
+			else
+			{
+				*save_in = ft_strjoin(*save_in, str);
+				*save_in = ft_strjoin(*save_in, "\n");
+			}
 		}
-		i++;
 	}
-	return (-1);
+	else
+	{
+		*pos++ = '\0';
+		// дописать функцию для  проверки на мусор после скобки (.name "" dawwdawd)
+		*save_in = ft_strdup(str);
+	}
+	printf("|%s|\n", *save_in);
+	return (1);
 }
 
-//						сравнение нужного символа с символами из строки
-int 					cmp_char_with_str(char c, char *find)
+int						check_comment_name(t_header *head, char *str, int fd)
 {
-	int					i;
+	int					x;
 
-	i = 0;
-	while (find[i])
+	x = skip_spaces(str); 
+	if (str[x])
 	{
-		if (find[i] == c)
-			return (1);
-		i++;
+		if (str[x] == '#')
+			return (0);
+		else if (str[x] == '.' && ft_strncmp(".name", str + x, 5) == SAME)
+		{
+			x = skip_spaces_before_after_cmd(str + x + 1) + 1;
+			if (str[x] != '"')
+ 				return (error_message_type(LEXICAL_ERROR, head, x));
+ 			x++;
+ 			save_command(head, &head->prog_name, str + x, fd);
+		}
+		else if (str[x] == '.' && ft_strncmp(".comment", str + x, 7) == SAME)
+		{
+			x = skip_spaces_before_after_cmd(str + x + 1) + 1;
+			if (str[x] != '"')
+				return (error_message_type(LEXICAL_ERROR, head, x));
+			x++;
+			save_command(head, &head->prog_comment, str + x, fd);
+		}
+		else
+			return (error_message_type(SYNTAX_ERROR, head, x));
 	}
 	return (0);
 }
 
 
-void				reading_file(int fd)
+t_header				*reading_file(int fd)
 {
-	char			*read;
-	t_header		*info;
+	char				*str;
+	t_header			*head;
+	int 				y;
+	int					x;
+	int					i;
+	
 
-
-	info = create_t_header();
-	while (get_next_line(fd, &read))
+	head = create_t_header();
+	y = 0;
+	x = 0;
+	while (get_next_line(fd, &str) > 0)
 	{
-		printf("%s\n", read);
+		y++;
+		if (head->prog_name == NULL || head->prog_comment == NULL)
+			x = check_comment_name(head, str, fd);
+		else if (head->prog_name != NULL && head->prog_comment != NULL)
+			;// check_functions_labels( , str);
+
+
+		if (head->error > 0)
+			return (error_message_y_x(head, y, x, str));
+		free(str);
+		str = NULL;
 	}
+	if (str != NULL)
+		printf("Error");
+	return (head);
+}
+
+void				valid_name(t_header *head, char *str)
+{
+
+	printf("%s\n", str);	
 }
 
 int					main(int argc, char **argv)
 {
 	int				fd;
-
 	t_function		func;
-	// if (argc == 2)
-	// {
-	// 	fd = open(argv[1], O_RDONLY);
-	// 	if (fd < 0)
-	// 	{
-	// 		perror("Error");
-	// 		exit(0);
-	// 	}
-	// 	reading_file(fd);
-	// }
-	// else if (argc == 3)
-	// {
-	// 	fd = open(argv[2], O_RDONLY);
-	// 	if (fd < 0)
-	// 	{
-	// 		perror("Error");
-	// 		exit(0);
-	// 	}
-	// 	reading_file(fd);
-	// }
-	// else
-	// {
-	// 	ft_printf("usage: ./asm file.s\n");
-	// }
+	if (argc == 2)
+	{
+		fd = open(argv[1], O_RDONLY);
+		if (fd < 0)
+		{
+			perror("Error");
+			exit(0);
+		}
+		reading_file(fd);
+	}
+	else
+	{
+		ft_printf("usage: ./asm file.s\n");
+	}
 
-
-	//Lexical error at [5:9]
 	
 	// printf("=========================\n");
 	// live_func(&func, 1, "live %");			//Syntax error at token [TOKEN][006:001] ENDLINE

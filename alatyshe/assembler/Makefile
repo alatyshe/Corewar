@@ -24,6 +24,7 @@ HEAD = header/asm.h header/other.h header/func.h
 HEART_PATH		= ./files/heart
 OTHER_PATH		= ./files/other
 FUNC_PATH		= ./files/func
+VALIDATION_PATH = ./files/validation
 OBJECTS_PATH	= ./objects
 
 
@@ -31,23 +32,28 @@ OBJECTS_PATH	= ./objects
 HEART_FILES		= main
 OTHER_FILES		= struct_create other
 FUNC_FILES		= add aff and fork ld ldi lfor live lld lldi or st sti sub xor zjmp
-
+VALIDATION_FILES= validate_arg error_message
 
 #------ other ------
 HEART_OBJ 		= $(addprefix $(OBJECTS_PATH)/, $(addsuffix .o, $(HEART_FILES)))
 OTHER_OBG 		= $(addprefix $(OBJECTS_PATH)/, $(addsuffix .o, $(OTHER_FILES)))
 FUNC_OBG 		= $(addprefix $(OBJECTS_PATH)/, $(addsuffix .o, $(FUNC_FILES)))
-
+VALIDATION_OBJ	= $(addprefix $(OBJECTS_PATH)/, $(addsuffix .o, $(VALIDATION_FILES)))
 
 #------ make ------
 all: $(NAME)
 
-$(NAME): $(HEART_OBJ) $(OTHER_OBG) $(FUNC_OBG)
+$(NAME): $(HEART_OBJ) $(OTHER_OBG) $(FUNC_OBG) $(VALIDATION_OBJ)
 	@echo "\n"
 	@make -C ../libft/
 	@echo $(CYAN) "\tCompiling $@"$(RESET)
 	@gcc $(FLAGS) -o $@ $^ ../libft/libft.a
 	@echo $(GREEN) "\tasm\t\t- has been made\n"$(RESET)
+
+$(OBJECTS_PATH)/%.o: $(VALIDATION_PATH)/%.c
+	@echo $(PURPLE) "\tCompiling $<"$(RESET)
+	@mkdir $(OBJECTS_PATH) 2> /dev/null || true
+	@gcc $(FLAGS) -o $@ -c $<
 
 $(OBJECTS_PATH)/%.o: $(HEART_PATH)/%.c
 	@echo $(PURPLE) "\tCompiling $<"$(RESET)

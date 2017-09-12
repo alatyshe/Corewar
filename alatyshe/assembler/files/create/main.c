@@ -14,5 +14,15 @@
 
 int main()
 {
+	t_header *header;
+
+	header = (t_header *)malloc(sizeof(t_header));
+	header->magic = 0xea83f3;
+	header->comment = "some comment";
+	header->prog_name = "some prog name";
+	header->prog_size = 0;
+	header->error = 0;
+	ft_printf("%s", "hello");
+
 	return (0);
 }

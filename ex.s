@@ -1,6 +1,9 @@
-# 0100 0000 01
-.name "zork"
-.comment "just a basic living prog"
 
+		# 0100 0000 01
+.name "
+	dawwdw sdawd
 
-live ;1
+.comment ""
+
+libe:
+live %200

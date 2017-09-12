@@ -6,7 +6,7 @@
 /*   By: zaz <marvin@42.fr>                         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2013/10/04 11:33:27 by zaz               #+#    #+#             */
-/*   Updated: 2017/09/12 16:04:49 by coleksii         ###   ########.fr       */
+/*   Updated: 2013/11/06 14:21:46 by zaz              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,12 @@
 
 #ifndef OP_H
 # define OP_H
+
+# include "other.h"
+# include "func.h"
+# include "op.h"
+# include "asm.h"
+# include "validation.h"
 
 # define IND_SIZE				2
 # define REG_SIZE				4
@@ -98,13 +104,5 @@ static	t_op		g_tab[17] =
 	{"aff", 1, {T_REG}, 16, 2, "aff", 1, 0},
 	{0, 0, {0}, 0, 0, 0, 0, 0}
 };
-/*
-typedef struct			s_header
-{
-	unsigned int		magic;
-	char 				prog_name[PROG_NAME_LENGTH + 1];
-	unsigned int 		prog_size;
-	char 				comment[COMMENT_LENGTH + 1];
-}						t_header;
-*/
+
 #endif

@@ -1,24 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   reg_exp.h                                          :+:      :+:    :+:   */
+/*   validate_arg.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alatyshe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/12/12 16:17:23 by alatyshe          #+#    #+#             */
-/*   Updated: 2016/12/12 16:22:52 by alatyshe         ###   ########.fr       */
+/*   Created: 2017/03/29 16:00:41 by alatyshe          #+#    #+#             */
+/*   Updated: 2017/03/29 16:00:44 by alatyshe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef REG_EXP_H
-# define REG_EXP_H
-
-# include "other.h"
-# include "func.h"
-# include "op.h"
-# include "asm.h"
-# include "reg_exp.h"
+#include "../../header/asm.h"
 
 
-
-#endif
+// int					check_valid_args(t_function *func, char *str)
+// {
+	
+// 	return (-1);
+// }

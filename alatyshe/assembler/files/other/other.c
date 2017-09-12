@@ -50,3 +50,39 @@ int					skip_spaces(char *str)
 			i++;
 	return (i);
 }
+
+//						поиск хотя бы одного символа из find в str и возврат его позиции
+int					find_chars_in_str(char *str, char *find)
+{
+	int				i;
+	int 			j;
+
+	i = 0;
+	while (str[i])
+	{
+		j = 0;
+		while (find[j])
+		{
+			if (str[i] == find[j])
+				return (i);
+			j++;
+		}
+		i++;
+	}
+	return (-1);
+}
+
+//						сравнение нужного символа с символами из строки
+int 				cmp_char_with_str(char c, char *find)
+{
+	int				i;
+
+	i = 0;
+	while (find[i])
+	{
+		if (find[i] == c)
+			return (1);
+		i++;
+	}
+	return (0);
+}

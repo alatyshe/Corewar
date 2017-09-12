@@ -6,7 +6,7 @@
 /*   By: zaz <marvin@42.fr>                         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2013/10/04 11:33:27 by zaz               #+#    #+#             */
-/*   Updated: 2013/11/06 14:21:46 by zaz              ###   ########.fr       */
+/*   Updated: 2017/09/12 16:04:49 by coleksii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ static	t_op		g_tab[17] =
 	{"aff", 1, {T_REG}, 16, 2, "aff", 1, 0},
 	{0, 0, {0}, 0, 0, 0, 0, 0}
 };
-
+/*
 typedef struct			s_header
 {
 	unsigned int		magic;
@@ -106,5 +106,5 @@ typedef struct			s_header
 	unsigned int 		prog_size;
 	char 				comment[COMMENT_LENGTH + 1];
 }						t_header;
-
+*/
 #endif

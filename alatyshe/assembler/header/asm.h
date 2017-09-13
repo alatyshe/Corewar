@@ -63,7 +63,11 @@ typedef struct	s_header
 	unsigned int 		prog_size;
 	// char 				comment[COMMENT_LENGTH + 1];
 	char 				*prog_comment;
+	
 	char				error;
+	int					line;
+	char				*error_string;
+
 	t_label				*labels;
 }				t_header;
 

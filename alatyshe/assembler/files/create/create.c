@@ -12,20 +12,8 @@
 
 #include "../../header/create.h"
 
-int main()
+int create_file(t_header *header)
 {
-	t_header *header;
-
-	header = (t_header *)malloc(sizeof(t_header));
-	header->magic = 0xea83f3;
-	header->prog_comment = "some comment";
-	header->prog_name = "some prog name";
-	header->prog_size = 0;
-	header->error = 0;
-	header->file_name = "some_file.cor";
-	ft_printf("%s", "hello");
-
-
-	create_file(header);
+	
 	return (0);
 }

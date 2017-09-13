@@ -12,9 +12,9 @@
 
 #include "../../header/other.h"
 
-int					error_message_type(int type, t_header *head, int x)
+int					error_message_type(int type, t_header *head, int x, int error)
 {
-	head->error = 1;
+	head->error = error;
 	if (type == 1)
 		ft_putstr_fd("Syntax error at token [TOKKEN]", 2);
 	if (type == 2 && (head->error = 2))
@@ -37,8 +37,10 @@ void 				*error_message_y_x(t_header *head, int y, int x, char *str)
 		else
 			ft_printf("LABEL \"%s\"", str);
 	}
-	if (head->error == 2)
+	else if (head->error == 2)
 		ft_printf("END \"(null)\"", str);
+	else if (head->error == 3)	
+		ft_printf("STRING AFTER \"%s\"", str);
 	ft_putchar_fd('\n', 2);
 	return (NULL);
 }

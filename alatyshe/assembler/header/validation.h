@@ -24,7 +24,7 @@
 # include "op.h"
 # include "validation.h"
 
-int					error_message_type(int type, t_header *head, int x);
+int					error_message_type(int type, t_header *head, int x, int error);
 void 				*error_message_y_x(t_header *head, int y, int x, char *str);
 int					check_comment_name(t_header *head, char *str, int fd);
 int					save_command(t_header *head, char **save_in, char *str, int fd);

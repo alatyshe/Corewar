@@ -34,6 +34,7 @@ typedef struct	s_label
 	char				*label_name;
 	int					label_size;
 	struct s_function	*functions;
+	struct s_label		*prev;	
 	struct s_label		*next;
 }				t_label;
 
@@ -45,6 +46,7 @@ typedef struct	s_function
 	union u_arg			*arg_1;
 	union u_arg			*arg_2;
 	union u_arg			*arg_3;
+	struct s_function	*prev_func;
 	struct s_function	*next_func;
 }				t_function;
 

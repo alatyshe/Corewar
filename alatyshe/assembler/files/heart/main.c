@@ -16,6 +16,7 @@ t_header				*reading_file(int fd)
 {
 	char				*str;
 	t_header			*head;
+	char 				buff[1];
 	int					x;
 	int					i;
 	
@@ -27,9 +28,7 @@ t_header				*reading_file(int fd)
 		if (head->prog_name == NULL || head->prog_comment == NULL)
 			x = check_comment_name(head, str, fd);
 		else if (head->prog_name != NULL && head->prog_comment != NULL)
-			;// check_functions_labels( , str);
-		else
-			printf("aaaa\n");;// x = save_error_string(head, str, fd);
+			;
 		if (head->error > 0)
 		{
 			if (head->error_string == NULL)
@@ -40,11 +39,17 @@ t_header				*reading_file(int fd)
 		str = NULL;
 		head->line++;
 	}
-
+	//	проверка на \n в конце файла
+	lseek(fd, (long)-1, 2);
+	read(fd, buff, 1);
+	if (buff[0] != '\n')
+	{
+		ft_putstr_fd("Syntax error - unexpected end of input", 2);
+		ft_putstr_fd("(Perhaps you forgot to end with a newline ?)\n", 2);
+	}
 	// проверка инфы на заплненость
 	// check_info()
-	if (str != NULL)
-		printf("Error");
+		
 	return (head);
 }
 

@@ -20,6 +20,7 @@ t_label				*create_t_label()
 	label->label_name = NULL;
 	label->label_size = 0;
 	label->functions = NULL;
+	label->prev = NULL;
 	label->next = NULL;
 	return (label);
 }
@@ -35,6 +36,7 @@ t_function			*create_t_function()
 	function->arg_1 = NULL;
 	function->arg_2 = NULL;
 	function->arg_3 = NULL;
+	function->prev_func = NULL;
 	function->next_func = NULL;
 	return (function);
 }

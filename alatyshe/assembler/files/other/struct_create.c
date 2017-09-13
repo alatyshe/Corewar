@@ -12,7 +12,7 @@
 
 #include "../../header/other.h"
 
-t_label				*create_t_label()
+t_label				*create_t_label(void)
 {
 	t_label			*label;
 
@@ -25,7 +25,7 @@ t_label				*create_t_label()
 	return (label);
 }
 
-t_function			*create_t_function()
+t_function			*create_t_function(void)
 {
 	t_function		*function;
 
@@ -41,7 +41,7 @@ t_function			*create_t_function()
 	return (function);
 }
 
-t_arg				*create_t_arg()
+t_arg				*create_t_arg(void)
 {
 	t_arg			*arg;
 
@@ -50,21 +50,19 @@ t_arg				*create_t_arg()
 	return (arg);
 }
 
-t_header			*create_t_header()
+t_header			*create_t_header(void)
 {
 	t_header		*header;
-	
+
 	header = (t_header *)malloc(sizeof(t_header));
 	header->file_name = NULL;
 	header->magic = COREWAR_EXEC_MAGIC;
 	header->prog_size = 0;
 	header->labels = NULL;
 	header->prog_name = NULL;
-	// ft_strnew(((PROG_NAME_LENGTH + 1) / 4) * 4 + 4);
 	header->prog_comment = NULL;
 	header->line = 1;
 	header->error = 0;
 	header->error_string = NULL;
-	// ft_strnew(((COMMENT_LENGTH + 1) / 4 ) * 4 + 4);
 	return (header);
 }

@@ -11,10 +11,3 @@
 /* ************************************************************************** */
 
 #include "../../header/asm.h"
-
-
-// int					check_valid_args(t_function *func, char *str)
-// {
-	
-// 	return (-1);
-// }

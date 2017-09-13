@@ -17,8 +17,6 @@ int					ld_func(t_function *func, int line, char *str)
 	int				i;
 	int				j;
 
-	// i = skip_spaces_before_after_cmd(str);
 	func->func_in_hex = 2;
-
 	return (1);
 }

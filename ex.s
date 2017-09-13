@@ -1,6 +1,6 @@
-.name "
-	dawwdw sdawd"
 
+		# 0100 0000 01
+.name ""
 .comment ""
 
 libe:

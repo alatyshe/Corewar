@@ -16,10 +16,7 @@ t_header				*reading_file(int fd)
 {
 	char				*str;
 	t_header			*head;
-	char 				buff[1];
 	int					x;
-	int					i;
-	
 
 	head = create_t_header();
 	x = 0;
@@ -39,29 +36,24 @@ t_header				*reading_file(int fd)
 		str = NULL;
 		head->line++;
 	}
-	//	проверка на \n в конце файла
-	lseek(fd, (long)-1, 2);
-	read(fd, buff, 1);
-	if (buff[0] != '\n')
+	if (!check_new_line_at_the_end(fd, &x))
 	{
 		ft_putstr_fd("Syntax error - unexpected end of input", 2);
 		ft_putstr_fd("(Perhaps you forgot to end with a newline ?)\n", 2);
 	}
-	// проверка инфы на заплненость
 	// check_info()
-		
 	return (head);
 }
 
-void				valid_name(t_header *head, char *str)
+void					valid_name(t_header *head, char *str)
 {
-	printf("%s\n", str);	
+	printf("%s\n", str);
 }
 
-int					main(int argc, char **argv)
+int						main(int argc, char **argv)
 {
-	int				fd;
-	t_function		func;
+	int					fd;
+
 	if (argc == 2)
 	{
 		fd = open(argv[1], O_RDONLY);
@@ -73,35 +65,6 @@ int					main(int argc, char **argv)
 		reading_file(fd);
 	}
 	else
-	{
 		ft_printf("usage: ./asm file.s\n");
-	}
-
-	
-	// printf("=========================\n");
-	// live_func(&func, 1, "live %");			//Syntax error at token [TOKEN][006:001] ENDLINE
-	
-	// printf("=========================\n");
-	// live_func(&func, 1, "live ;1");			//Syntax error at token [TOKEN][006:008] ENDLINE
-	
-	// printf("=========================\n");
-	// live_func(&func, 1, "			live");	//Syntax error at token [TOKEN][005:008] ENDLINE
-	
-	// printf("=========================\n");
-	// live_func(&func, 1, "live %1adwawd");	//Syntax error at token [TOKEN][005:011] INSTRUCTION "adwawd"
-	
-	// printf("=========================\n");
-	// live_func(&func, 1, "live %1 ''dawd");	//Lexical error at [5:9]
-	
-	// printf("=========================\n");
-	// live_func(&func, 1, "live 1");			//Invalid parameter 0 type register for instruction live
-	
-	// printf("=========================\n");
-	// live_func(&func, 1, "live r1"); 		//Invalid parameter 0 type register for instruction live
-
-	// printf("=========================\n");
-	// live_func(&func, 1, "live %1");
-
-
 	return (0);
 }

@@ -12,12 +12,13 @@
 
 #include "../../header/other.h"
 
-int					error_message_type(int type, t_header *head, int x, int error)
+int					error_message_type(int type, t_header *head,
+	int x, int error)
 {
 	head->error = error;
 	if (type == 1)
 		ft_putstr_fd("Syntax error at token [TOKKEN]", 2);
-	if (type == 2 && (head->error = 2))
+	if (type == 2)
 		ft_putstr_fd("Lexical error at ", 2);
 	if (type == 3)
 		ft_putstr_fd("Invalid instruction at token [TOKKEN]", 2);
@@ -26,10 +27,10 @@ int					error_message_type(int type, t_header *head, int x, int error)
 	return (x + 1);
 }
 
-void 				*error_message_y_x(t_header *head, int y, int x, char *str)
+void				*error_message_y_x(t_header *head, int y,
+	int x, char *str)
 {
 	ft_printf("[%03d:%03d] ", y, x);
-
 	if (head->error == 1)
 	{
 		if (find_chars_in_str(str, ":") < 0)
@@ -39,8 +40,10 @@ void 				*error_message_y_x(t_header *head, int y, int x, char *str)
 	}
 	else if (head->error == 2)
 		ft_printf("END \"(null)\"", str);
-	else if (head->error == 3)	
+	else if (head->error == 3)
 		ft_printf("STRING AFTER \"%s\"", str);
+	else if (head->error == 4)
+		ft_printf("ENDLINE");
 	ft_putchar_fd('\n', 2);
 	return (NULL);
 }

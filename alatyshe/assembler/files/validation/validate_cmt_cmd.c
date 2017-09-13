@@ -31,20 +31,20 @@ int						read_cmd_cmt(t_header *head, char **save_in, char *str)
 			head->error_string = ft_strdup(pos + x);
 			return (ft_strlen(str) + x + 2);
 		}
-		*save_in = ft_strjoin(*save_in, str);	//	leaks
-		return (0) ;
+		*save_in = ft_strjoin(*save_in, str);//	leaks
+		return (0);
 	}
-	*save_in = ft_strjoin(*save_in, str);	//	leaks
-	*save_in = ft_strjoin(*save_in, "\n");	//	leaks
+	*save_in = ft_strjoin(*save_in, str);//		leaks
+	*save_in = ft_strjoin(*save_in, "\n");//	leaks
 	return (-1);
 }
 
-int						save_command(t_header *head, char **save_in, char *str, int fd)
+int						save_command(t_header *head, char **save_in,
+	char *str, int fd)
 {
 	char				*pos;
 	char				*find_error;
-	int 				x;
-	char 				buff[1];
+	int					x;
 
 	if ((pos = ft_strchr(str, '"')) == NULL)
 	{
@@ -55,16 +55,10 @@ int						save_command(t_header *head, char **save_in, char *str, int fd)
 			if (x >= 0)
 				return (x);
 			x = ft_strlen(str) + 1;
-			free (str);
+			free(str);
 			str = NULL;
 		}
-		lseek(fd, (long)-1, 2);
-		read(fd, buff, 1);
-		if (buff[0] == '\n')
-		{
-			x = 1;
-			head->line++;
-		}
+		head->line += check_new_line_at_the_end(fd, &x);
 		error_message_type(SYNTAX_ERROR, head, x, 1);
 		head->error = 2;
 		return (x);
@@ -84,11 +78,11 @@ int						save_command(t_header *head, char **save_in, char *str, int fd)
 	return (0);
 }
 
-int					check_comment_name(t_header *head, char *str, int fd)
+int						check_comment_name(t_header *head, char *str, int fd)
 {
-	int				x;
+	int					x;
 
-	x = skip_spaces(str); 
+	x = skip_spaces(str);
 	if (str[x])
 	{
 		if (str[x] == '#')
@@ -97,17 +91,15 @@ int					check_comment_name(t_header *head, char *str, int fd)
 		{
 			x = skip_spaces_before_after_cmd(str + x + 1) + 1;
 			if (str[x] != '"')
-				return (error_message_type(LEXICAL_ERROR, head, x, 1));
-			x++;
-			return (save_command(head, &head->prog_name, str + x, fd));
+				return (error_message_type(SYNTAX_ERROR, head, x, 4));
+			return (save_command(head, &head->prog_name, str + x + 1, fd));
 		}
 		else if (str[x] == '.' && ft_strncmp(".comment", str + x, 7) == SAME)
 		{
 			x = skip_spaces_before_after_cmd(str + x + 1) + 1;
 			if (str[x] != '"')
-				return (error_message_type(LEXICAL_ERROR, head, x, 1));
-			x++;
-			return (save_command(head, &head->prog_comment, str + x, fd));
+				return (error_message_type(SYNTAX_ERROR, head, x, 4));
+			return (save_command(head, &head->prog_comment, str + x + 1, fd));
 		}
 		else
 			return (error_message_type(SYNTAX_ERROR, head, x, 1));

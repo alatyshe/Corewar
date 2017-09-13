@@ -32,7 +32,7 @@ OBJECTS_PATH	= ./objects
 HEART_FILES		= main
 OTHER_FILES		= struct_create other
 FUNC_FILES		= add aff and fork ld ldi lfor live lld lldi or st sti sub xor zjmp
-VALIDATION_FILES= validate_arg error_message
+VALIDATION_FILES= validate_arg error_message validate_cmt_cmd
 
 #------ other ------
 HEART_OBJ 		= $(addprefix $(OBJECTS_PATH)/, $(addsuffix .o, $(HEART_FILES)))

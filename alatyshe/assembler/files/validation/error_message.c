@@ -37,6 +37,8 @@ void 				*error_message_y_x(t_header *head, int y, int x, char *str)
 		else
 			ft_printf("LABEL \"%s\"", str);
 	}
+	if (head->error == 2)
+		ft_printf("END \"(null)\"", str);
 	ft_putchar_fd('\n', 2);
 	return (NULL);
 }

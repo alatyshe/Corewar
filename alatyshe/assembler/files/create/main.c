@@ -19,11 +19,11 @@ int main()
 	header = (t_header *)malloc(sizeof(t_header));
 	header->magic = 0xea83f3;
 	header->prog_comment = "some comment";
-	header->prog_name = "some prog name";
-	header->prog_size = 0;
+	header->prog_name = "some prog namea";
+	header->prog_size = 7;
 	header->error = 0;
 	header->file_name = "some_file.cor";
-	ft_printf("%s", "hello");
+	ft_printf("%s", "hello main\n");
 
 
 	create_file(header);

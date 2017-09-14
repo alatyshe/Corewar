@@ -15,6 +15,7 @@
 
 #include "asm.h"
 
-int create_file(t_header *header);
+int		create_file(t_header *header);
+int 	write_program(int fd, t_header *header);
 
 #endif

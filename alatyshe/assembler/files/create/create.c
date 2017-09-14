@@ -1,14 +1,4 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: coleksii <marvin@42.fr>                    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/09/12 16:01:24 by coleksii          #+#    #+#             */
-/*   Updated: 2017/09/12 16:02:06 by coleksii         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
+
 
 #include "../../header/create.h"
 
@@ -51,9 +41,10 @@ int		write_first(int fd, t_header * header)
 
 int		create_file(t_header *header)
 {
-	int fd1;
+	int fd;
 
-	fd1 = open(header->file_name, O_RDWR|O_CREAT|O_TRUNC , S_IRUSR|S_IWUSR);
-	write_first(fd1, header);
+	fd = open(header->file_name, O_RDWR|O_CREAT|O_TRUNC , S_IRUSR|S_IWUSR);
+	write_first(fd, header);
+	write_program(fd, header);
 	return (0);
 }

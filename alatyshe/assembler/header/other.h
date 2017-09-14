@@ -30,4 +30,6 @@ int					skip_spaces(char *str);
 int					find_chars_in_str(char *str, char *find);
 int 				cmp_char_with_str(char c, char *find);
 int 				check_new_line_at_the_end(int fd, int *x);
+void				concat_and_free(char **cmt_cmd, char *read);
+
 #endif

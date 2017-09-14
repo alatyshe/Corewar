@@ -24,10 +24,10 @@ int					error_message_type(int type, t_header *head,
 		ft_putstr_fd("Invalid instruction at token [TOKKEN]", 2);
 	if (type == 4)
 		ft_putstr_fd("Invalid parameter ", 2);
-	return (x + 1);
+	return (x);
 }
 
-void				*error_message_y_x(t_header *head, int y,
+int					error_message_y_x(t_header *head, int y,
 	int x, char *str)
 {
 	ft_printf("[%03d:%03d] ", y, x);
@@ -45,5 +45,5 @@ void				*error_message_y_x(t_header *head, int y,
 	else if (head->error == 4)
 		ft_printf("ENDLINE");
 	ft_putchar_fd('\n', 2);
-	return (NULL);
+	return (0);
 }

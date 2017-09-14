@@ -61,9 +61,7 @@ typedef struct	s_header
 	char				*file_name;
 	unsigned int		magic;
 	char 				*prog_name;
-	// char 				prog_name[PROG_NAME_LENGTH + 1];
 	unsigned int 		prog_size;
-	// char 				comment[COMMENT_LENGTH + 1];
 	char 				*prog_comment;
 	
 	char				error;

@@ -105,3 +105,12 @@ int					check_new_line_at_the_end(int fd, int *x)
 	}
 	return (0);
 }
+
+void				concat_and_free(char **cmt_cmd, char *read)
+{
+	char			*buff;
+
+	buff = *cmt_cmd;
+	*cmt_cmd = ft_strjoin(*cmt_cmd, read);
+	free(buff);
+}

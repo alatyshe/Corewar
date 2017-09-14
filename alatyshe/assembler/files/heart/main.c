@@ -12,28 +12,28 @@
 
 #include "../../header/asm.h"
 
-t_header				*reading_file(int fd)
+int						reading_file(t_header *head, int fd)
 {
-	char				*str;
-	t_header			*head;
+	char				*read;
 	int					x;
 
-	head = create_t_header();
 	x = 0;
-	while (get_next_line(fd, &str))
+	while (get_next_line(fd, &read))
 	{
 		if (head->prog_name == NULL || head->prog_comment == NULL)
-			x = check_comment_name(head, str, fd);
+			x = check_comment_name(head, read, fd);
 		else if (head->prog_name != NULL && head->prog_comment != NULL)
 			;
 		if (head->error > 0)
 		{
 			if (head->error_string == NULL)
-				head->error_string = str;
+				head->error_string = read;
+			else
+				free(read);
 			return (error_message_y_x(head, head->line, x, head->error_string));
 		}
-		free(str);
-		str = NULL;
+		free(read);
+		read = NULL;
 		head->line++;
 	}
 	if (!check_new_line_at_the_end(fd, &x))
@@ -42,7 +42,7 @@ t_header				*reading_file(int fd)
 		ft_putstr_fd("(Perhaps you forgot to end with a newline ?)\n", 2);
 	}
 	// check_info()
-	return (head);
+	return (1);
 }
 
 void					valid_name(t_header *head, char *str)
@@ -53,7 +53,9 @@ void					valid_name(t_header *head, char *str)
 int						main(int argc, char **argv)
 {
 	int					fd;
+	t_header			*head;
 
+	head = create_t_header();
 	if (argc == 2)
 	{
 		fd = open(argv[1], O_RDONLY);
@@ -62,7 +64,7 @@ int						main(int argc, char **argv)
 			perror("Error");
 			exit(0);
 		}
-		reading_file(fd);
+		reading_file(head, fd);
 	}
 	else
 		ft_printf("usage: ./asm file.s\n");

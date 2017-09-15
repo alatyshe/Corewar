@@ -50,6 +50,21 @@ int					skip_spaces(char *str)
 	return (i);
 }
 
+int					ft_str_find_char(char *str, int (*f)(int))
+{
+	int 			i;
+
+	i = 0;
+	if (str && f)
+		while (str[i])
+		{
+			if (!f(str[i]))
+				break;
+			i++;
+		}
+	return (i);
+}
+
 /*
 **	поиск хотя бы одного символа из find в str и возврат его позиции
 */
@@ -113,4 +128,21 @@ void				concat_and_free(char **cmt_cmd, char *read)
 	buff = *cmt_cmd;
 	*cmt_cmd = ft_strjoin(*cmt_cmd, read);
 	free(buff);
+}
+
+
+t_function			*get_last_function(t_header *head)
+{
+	t_function		*copy;
+
+	if (head->functions)
+	{
+		copy = head->functions;
+		while(copy->next)
+			copy = copy->next;
+		return (copy);
+	}
+	else
+		head->functions = create_t_function();
+	return (head->functions);
 }

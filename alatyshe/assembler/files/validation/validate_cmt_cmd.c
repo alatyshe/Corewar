@@ -47,7 +47,7 @@ static int			check_symbols_after_quotes(t_header *head, char **cmt_cmd,
 
 	*pos++ = '\0';
 	x = skip_spaces(pos) + 1;
-	if (x < ft_strlen(pos) && pos[x] != ';')
+	if (x < ft_strlen(pos) && (pos[x] != ';' || pos[x] != '#'))
 	{
 		head->error_string = ft_strdup(pos + x);
 		error_message_type(SYNTAX_ERROR, head, x, LBL_INSTR);
@@ -85,7 +85,7 @@ int					save_command(t_header *head, char **cmt_cmd,
 	return (0);
 }
 
-int					check_comment_name(t_header *head, char *read, int fd)
+int					check_name_and_comment(t_header *head, char *read, int fd)
 {
 	int				x;
 

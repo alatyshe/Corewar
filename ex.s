@@ -1,19 +1,8 @@
-		# 0100 0000 01
-.name "asd
+.name "zork"
+.comment "just a basic living prog"
 
+5live_adwawd:	live	%4294967295		
 
-awdaw
-
-
-"
-
-
-.comment "asdwad
-
-asdwad
-
-asdwad
-"
-
-libe:
-live %200
+live:	
+		live	%4294967295
+		zjmp	%:live

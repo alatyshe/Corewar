@@ -19,7 +19,6 @@
 # include "func.h"
 # include "op.h"
 
-t_label				*create_t_label();
 t_function			*create_t_function();
 t_arg				*create_t_arg();
 t_header			*create_t_header();
@@ -31,5 +30,8 @@ int					find_chars_in_str(char *str, char *find);
 int 				cmp_char_with_str(char c, char *find);
 int 				check_new_line_at_the_end(int fd, int *x);
 void				concat_and_free(char **cmt_cmd, char *read);
+t_function			*get_last_function(t_header *head);
+int					ft_str_find_char(char *str, int (*f)(int));
+void				print_functions(t_header *head);
 
 #endif

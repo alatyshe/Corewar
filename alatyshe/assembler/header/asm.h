@@ -22,6 +22,7 @@
 # define RESET		"\x1b[0m"
 
 # define SAME		0
+# define AVAILABLE_CHARS				"abcdefghijklmnopqrstuvwxyz_0123456789:#%\n\t\v\r\f "
 
 # include "../../libft/header/libft.h"
 # include "../../libft/header/ft_printf.h"
@@ -29,25 +30,30 @@
 # include <stdlib.h>
 # include <stdio.h>
 
-typedef struct	s_label
-{
-	char				*label_name;
-	int					label_size;
-	struct s_function	*functions;
-	struct s_label		*prev;	
-	struct s_label		*next;
-}				t_label;
+// typedef struct	s_label
+// {
+// 	char				*label_name;
+// 	int					label_size;
+// 	struct s_function	*functions;
+// 	struct s_label		*prev;
+// 	struct s_label		*next;
+// }				t_label;
 
 typedef struct	s_function
 {
+	char				*label;
 	char				*name;
+	short				func_size;
+	
 	char				func_in_hex;
 	char				arg_types;
+	
 	union u_arg			*arg_1;
 	union u_arg			*arg_2;
 	union u_arg			*arg_3;
-	struct s_function	*prev_func;
-	struct s_function	*next_func;
+
+	struct s_function	*prev;
+	struct s_function	*next;
 }				t_function;
 
 typedef union	u_arg {
@@ -68,7 +74,7 @@ typedef struct	s_header
 	int					line;
 	char				*error_string;
 
-	t_label				*labels;
+	t_function			*functions;
 }				t_header;
 
 # include "asm.h"

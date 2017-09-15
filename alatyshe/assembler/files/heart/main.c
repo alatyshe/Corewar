@@ -21,9 +21,11 @@ int						reading_file(t_header *head, int fd)
 	while (get_next_line(fd, &read))
 	{
 		if (head->prog_name == NULL || head->prog_comment == NULL)
-			x = check_comment_name(head, read, fd);
+			x = check_name_and_comment(head, read, fd);
 		else if (head->prog_name != NULL && head->prog_comment != NULL)
-			;
+			x = check_label_and_func(head, read, fd);
+
+
 		if (head->error > 0)
 		{
 			if (head->error_string == NULL)
@@ -36,12 +38,14 @@ int						reading_file(t_header *head, int fd)
 		read = NULL;
 		head->line++;
 	}
+
 	if (!check_new_line_at_the_end(fd, &x))
 	{
 		ft_putstr_fd("Syntax error - unexpected end of input", 2);
 		ft_putstr_fd("(Perhaps you forgot to end with a newline ?)\n", 2);
 	}
 	// check_info()
+	// print_functions(head);
 	return (1);
 }
 
@@ -68,5 +72,6 @@ int						main(int argc, char **argv)
 	}
 	else
 		ft_printf("usage: ./asm file.s\n");
+
 	return (0);
 }

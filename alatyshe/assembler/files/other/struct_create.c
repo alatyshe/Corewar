@@ -12,32 +12,39 @@
 
 #include "../../header/other.h"
 
-t_label				*create_t_label(void)
-{
-	t_label			*label;
+// t_label				*create_t_label(void)
+// {
+// 	t_label			*label;
 
-	label = (t_label *)malloc(sizeof(t_label));
-	label->label_name = NULL;
-	label->label_size = 0;
-	label->functions = NULL;
-	label->prev = NULL;
-	label->next = NULL;
-	return (label);
-}
+// 	label = (t_label *)malloc(sizeof(t_label));
+// 	label->label_name = NULL;
+// 	label->label_size = 0;
+// 	label->functions = NULL;
+// 	label->prev = NULL;
+// 	label->next = NULL;
+// 	return (label);
+// }
 
 t_function			*create_t_function(void)
 {
 	t_function		*function;
 
 	function = (t_function *)malloc(sizeof(t_function));
+	//имя лейблы если есть
+	function->label = NULL;
+	//имя функции и полный размер выделяемой памяти
 	function->name = NULL;
+	function->func_size = 0;
+	//кодировка функции и кодировка аргументов
 	function->func_in_hex = 0;
 	function->arg_types = 0;
-	function->arg_1 = NULL;
-	function->arg_2 = NULL;
-	function->arg_3 = NULL;
-	function->prev_func = NULL;
-	function->next_func = NULL;
+
+	function->arg_1 = create_t_arg();
+	function->arg_2 = create_t_arg();
+	function->arg_3 = create_t_arg();
+
+	function->prev = NULL;
+	function->next = NULL;
 	return (function);
 }
 
@@ -57,12 +64,13 @@ t_header			*create_t_header(void)
 	header = (t_header *)malloc(sizeof(t_header));
 	header->file_name = NULL;
 	header->magic = COREWAR_EXEC_MAGIC;
-	header->prog_size = 0;
-	header->labels = NULL;
 	header->prog_name = NULL;
+	header->prog_size = 0;
 	header->prog_comment = NULL;
-	header->line = 1;
+	
 	header->error = 0;
+	header->line = 1;
 	header->error_string = NULL;
+	header->functions = NULL;
 	return (header);
 }

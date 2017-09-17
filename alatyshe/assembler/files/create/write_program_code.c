@@ -12,15 +12,29 @@
 
 #include "../../header/create.h"
 
+int 	write_arg(int fd,t_header *header, t_function *function)
+{
+	return (0);
+}
+
+int		write_function(int fd,t_header *header, t_function *function)
+{
+	write(fd, &function->func_in_hex, 1);
+	write(fd, &function->arg_types, 1);
+	write_arg(fd, header, function);
+	return (0);
+}
+
 int 	write_program(int fd, t_header *header)
 {
-	t_label		*label;
 	t_function	*function;
 
-
-	label = header->labels;
-	function = label->functions;
-	write(fd, &function->func_in_hex, 1);
+	function = header->functions;
+	while (function)
+	{
+		write_function(fd, header, function);
+		function = function->next;
+	}
 
 	return (0);
 }

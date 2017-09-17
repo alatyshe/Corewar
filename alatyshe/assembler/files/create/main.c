@@ -15,7 +15,6 @@
 int main()
 {
 	t_header	*header;
-	t_label		*label1;
 	t_function	*function1;
 
 	header = (t_header *)malloc(sizeof(t_header));
@@ -26,17 +25,13 @@ int main()
 	header->error = 0;
 	header->file_name = "some_file.cor";
 
-	label1 = (t_label *)malloc(sizeof(t_label));
-	header->labels = label1;
-	label1->label_size = 12;
-	label1->label_name = "some label";
-	label1->next = NULL;
-	label1->prev = NULL;
 
 	function1 = (t_function *)malloc(sizeof(t_function));
-	label1->functions = function1;
+	header->functions = function1;
 	function1->name = "live";
 	function1->func_in_hex = 0x01;
+	function1->label = "some label";
+	function1->arg_types = 0xD8;
 
 	ft_printf("%s", "hello main\n");
 

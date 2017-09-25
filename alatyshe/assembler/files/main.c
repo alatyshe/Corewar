@@ -10,48 +10,43 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../header/asm.h"
+#include "../header/asm.h"
 
 int						reading_file(t_header *head, int fd)
 {
 	char				*read;
-	int					x;
 
-	x = 0;
 	while (get_next_line(fd, &read))
 	{
+		head->x = 0;
 		if (head->prog_name == NULL || head->prog_comment == NULL)
-			x = check_name_and_comment(head, read, fd);
+			header(head, read, fd);
 		else if (head->prog_name != NULL && head->prog_comment != NULL)
-			x = check_label_and_func(head, read, fd);
-
+			label_command(head, read, fd);
 
 		if (head->error > 0)
 		{
-			if (head->error_string == NULL)
-				head->error_string = read;
-			else
-				free(read);
-			return (error_message_y_x(head, head->line, x, head->error_string));
+			if (head->error_str == NULL)
+				head->error_str = ft_strdup(read + head->x);
+			free(read);
+			return (error_line_char(head, head->error_str));
 		}
 		free(read);
 		read = NULL;
 		head->line++;
 	}
 
-	if (!check_new_line_at_the_end(fd, &x))
+	//	фикс!! не учитывает комментарий в последней строке
+	if (!check_new_line_at_the_end(fd, &head->x))
 	{
 		ft_putstr_fd("Syntax error - unexpected end of input", 2);
 		ft_putstr_fd("(Perhaps you forgot to end with a newline ?)\n", 2);
 	}
+	else
+		fill_arguments(head, head->commands);
 	// check_info()
-	// print_functions(head);
+	print_commands(head);
 	return (1);
-}
-
-void					valid_name(t_header *head, char *str)
-{
-	printf("%s\n", str);
 }
 
 int						main(int argc, char **argv)
@@ -72,6 +67,6 @@ int						main(int argc, char **argv)
 	}
 	else
 		ft_printf("usage: ./asm file.s\n");
-
+	// while (1);
 	return (0);
 }

@@ -10,56 +10,18 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../header/other.h"
-
-int					skip_spaces_before_after_cmd(char *str)
-{
-	int				i;
-
-	i = 0;
-	if (ft_isblank(str[i]))
-		while (ft_isblank(str[i]))
-			i++;
-	if (ft_isalpha(str[i]))
-		while (ft_isalpha(str[i]))
-			i++;
-	if (ft_isblank(str[i]))
-		while (ft_isblank(str[i]))
-			i++;
-	return (i);
-}
-
-int					skip_numbers(char *str)
-{
-	int				i;
-
-	i = 0;
-	while (str[i] && ft_isdigit(str[i]))
-		i++;
-	return (i);
-}
-
-int					skip_spaces(char *str)
-{
-	int				i;
-
-	i = 0;
-	if (ft_isblank(str[i]))
-		while (ft_isblank(str[i]))
-			i++;
-	return (i);
-}
+#include "../../header/asm.h"
 
 int					ft_str_find_char(char *str, int (*f)(int))
 {
-	int 			i;
+	int				i;
 
 	i = 0;
 	if (str && f)
 		while (str[i])
 		{
 			if (!f(str[i]))
-				break;
+				break ;
 			i++;
 		}
 	return (i);
@@ -115,7 +77,7 @@ int					check_new_line_at_the_end(int fd, int *x)
 	read(fd, buff, 1);
 	if (buff[0] == '\n')
 	{
-		(*x) = 1;
+		(*x) = 0;
 		return (1);
 	}
 	return (0);
@@ -128,21 +90,4 @@ void				concat_and_free(char **cmt_cmd, char *read)
 	buff = *cmt_cmd;
 	*cmt_cmd = ft_strjoin(*cmt_cmd, read);
 	free(buff);
-}
-
-
-t_function			*get_last_function(t_header *head)
-{
-	t_function		*copy;
-
-	if (head->functions)
-	{
-		copy = head->functions;
-		while(copy->next)
-			copy = copy->next;
-		return (copy);
-	}
-	else
-		head->functions = create_t_function();
-	return (head->functions);
 }

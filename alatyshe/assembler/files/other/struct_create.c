@@ -10,42 +10,25 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../header/other.h"
+#include "../../header/asm.h"
 
-// t_label				*create_t_label(void)
-// {
-// 	t_label			*label;
-
-// 	label = (t_label *)malloc(sizeof(t_label));
-// 	label->label_name = NULL;
-// 	label->label_size = 0;
-// 	label->functions = NULL;
-// 	label->prev = NULL;
-// 	label->next = NULL;
-// 	return (label);
-// }
-
-t_function			*create_t_function(void)
+t_cmd				*create_t_cmd(void)
 {
-	t_function		*function;
+	t_cmd			*cmd;
 
-	function = (t_function *)malloc(sizeof(t_function));
-	//имя лейблы если есть
-	function->label = NULL;
-	//имя функции и полный размер выделяемой памяти
-	function->name = NULL;
-	function->func_size = 0;
-	//кодировка функции и кодировка аргументов
-	function->func_in_hex = 0;
-	function->arg_types = 0;
-
-	function->arg_1 = create_t_arg();
-	function->arg_2 = create_t_arg();
-	function->arg_3 = create_t_arg();
-
-	function->prev = NULL;
-	function->next = NULL;
-	return (function);
+	cmd = (t_cmd *)malloc(sizeof(t_cmd));
+	cmd->label = NULL;
+	cmd->line = 0;
+	cmd->str = NULL;
+	cmd->cmd_size = 0;
+	cmd->cmd_in_hex = -1;
+	cmd->arg_types = 0;
+	cmd->arg = (t_arg **)malloc(sizeof(t_arg *) * 3);
+	cmd->arg[0] = create_t_arg();
+	cmd->arg[1] = create_t_arg();
+	cmd->arg[2] = create_t_arg();
+	cmd->next = NULL;
+	return (cmd);
 }
 
 t_arg				*create_t_arg(void)
@@ -67,10 +50,10 @@ t_header			*create_t_header(void)
 	header->prog_name = NULL;
 	header->prog_size = 0;
 	header->prog_comment = NULL;
-	
 	header->error = 0;
+	header->error_str = NULL;
 	header->line = 1;
-	header->error_string = NULL;
-	header->functions = NULL;
+	header->x = 0;
+	header->commands = NULL;
 	return (header);
 }

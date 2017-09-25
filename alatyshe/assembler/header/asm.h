@@ -12,75 +12,105 @@
 
 #ifndef ASM_H
 # define ASM_H
-# define RED		"\x1b[31m"
-# define GREEN		"\x1b[32m"
-# define YELLOW		"\x1b[33m"
-# define BLUE		"\x1b[34m"
-# define MAGENTA	"\x1b[35m"
-# define CYAN		"\x1b[36m"
-# define BLACK		"\x1b[37m"
-# define RESET		"\x1b[0m"
+# define RED			"\x1b[31m"
+# define GREEN			"\x1b[32m"
+# define YELLOW			"\x1b[33m"
+# define BLUE			"\x1b[34m"
+# define MAGENTA		"\x1b[35m"
+# define CYAN			"\x1b[36m"
+# define BLACK			"\x1b[37m"
+# define RESET			"\x1b[0m"
 
-# define SAME		0
-# define AVAILABLE_CHARS				"abcdefghijklmnopqrstuvwxyz_0123456789:#%\n\t\v\r\f "
+# define SAME			0
 
-# include "../../libft/header/libft.h"
-# include "../../libft/header/ft_printf.h"
+# define SYNTAX_ERROR	1
+# define LEXICAL_ERROR	2
+# define INVALID_INSTR	3
+# define INVALID_PAR	4
+# define NO_LABEL		5
+
+# define LBL_INSTR		1
+# define END			2
+# define STRING_AFTER	3
+# define ENDLINE		4
+# define DIRECT			5
+# define DIRECT_LABEL	6		
+# define INSTRUCTION	7
+# define REGISTER		8
+# define INDIRECT		9
+# define EMPTY			10
 
 # include <stdlib.h>
 # include <stdio.h>
 
-// typedef struct	s_label
-// {
-// 	char				*label_name;
-// 	int					label_size;
-// 	struct s_function	*functions;
-// 	struct s_label		*prev;
-// 	struct s_label		*next;
-// }				t_label;
+# include "op.h"
+# include "asm.h"
 
-typedef struct	s_function
+# include "../../libft/header/libft.h"
+# include "../../libft/header/ft_printf.h"
+
+typedef struct		s_cmd
 {
 	char				*label;
-	char				*name;
-	short				func_size;
-	
-	char				func_in_hex;
-	char				arg_types;
-	
-	union u_arg			*arg_1;
-	union u_arg			*arg_2;
-	union u_arg			*arg_3;
+	int					line;
+	char				*str;
+	short				cmd_size;
+	char				cmd_in_hex;
+	unsigned char		arg_types;
+	union u_arg			**arg;
+	struct s_cmd		*next;
+}					t_cmd;
 
-	struct s_function	*prev;
-	struct s_function	*next;
-}				t_function;
-
-typedef union	u_arg {
-	long int			num;
+typedef union		u_arg
+{
+	int					num;
 	short				shrt;
 	unsigned char		chr;
-}				t_arg;
+}					t_arg;
 
-typedef struct	s_header
+typedef struct		s_header
 {
 	char				*file_name;
 	unsigned int		magic;
-	char 				*prog_name;
-	unsigned int 		prog_size;
-	char 				*prog_comment;
+	char				*prog_name;
+	unsigned int		prog_size;
+	char				*prog_comment;
 	
 	char				error;
+	char				*error_str;
 	int					line;
-	char				*error_string;
+	int					x;
+	t_cmd				*commands;
+}					t_header;
 
-	t_function			*functions;
-}				t_header;
+t_cmd				*create_t_cmd();
+t_arg				*create_t_arg();
+t_header			*create_t_header();
 
-# include "asm.h"
-# include "op.h"
-# include "func.h"
-# include "other.h"
-# include "validation.h"
+
+int					header(t_header *head, char *read, int fd);
+int					label_command(t_header *head, char *read, int fd);
+
+int					find_chars_in_str(char *str, char *find);
+int					cmp_char_with_str(char c, char *find);
+int					check_new_line_at_the_end(int fd, int *x);
+void				concat_and_free(char **cmt_cmd, char *read);
+t_cmd				*get_last_cmd(t_header *head);
+int					ft_str_find_char(char *str, int (*f)(int));
+void				print_commands(t_header *head);
+int					fill_cmd_arg(t_header *head, t_cmd *cmd,
+	char *str, int arg_num);
+void				fill_arguments(t_header *head, t_cmd *cmd);
+int					fill_cmd_size(t_header *head, t_cmd *command,
+	char *read, int type_args);
+int					error_type(t_header *head, int type, int error);
+int					error_line_char(t_header *head, char *str);
+int					error_arguments(t_header *head, char *read, int x);
+
+
+int					check_label(t_header *head, t_cmd *command,
+	char *read, int fd);
+int					get_command(t_header *head, t_cmd *command,
+	char *read, int fd);
 
 #endif

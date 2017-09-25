@@ -19,43 +19,42 @@ HEAD = header/asm.h header/other.h header/func.h
 
 # FLAGS = -Wall -Wextra -Werror
 
-
 #------ path -------
-HEART_PATH		= ./files/heart
+FILES_PATH		= ./files
 OTHER_PATH		= ./files/other
-FUNC_PATH		= ./files/func
-VALIDATION_PATH = ./files/validation
+FILL_PATH		= ./files/fill
+VALIDATE_PATH	= ./files/validate
 OBJECTS_PATH	= ./objects
 
 
 #------ files ------
-HEART_FILES		= main
-OTHER_FILES		= struct_create other print_func
-FUNC_FILES		= add aff and fork ld ldi lfor live lld lldi or st sti sub xor zjmp
-VALIDATION_FILES= validate_arg error_message validate_cmt_cmd validate_label validate_functions
+FILES_FILES		= main
+OTHER_FILES		= struct_create other print_commands print_error
+FILL_FILES		= fill_arguments commands
+VALIDATE_FILES	= label_command header
 
 #------ other ------
-HEART_OBJ 		= $(addprefix $(OBJECTS_PATH)/, $(addsuffix .o, $(HEART_FILES)))
+FILES_OBJ 		= $(addprefix $(OBJECTS_PATH)/, $(addsuffix .o, $(FILES_FILES)))
 OTHER_OBG 		= $(addprefix $(OBJECTS_PATH)/, $(addsuffix .o, $(OTHER_FILES)))
-FUNC_OBG 		= $(addprefix $(OBJECTS_PATH)/, $(addsuffix .o, $(FUNC_FILES)))
-VALIDATION_OBJ	= $(addprefix $(OBJECTS_PATH)/, $(addsuffix .o, $(VALIDATION_FILES)))
+FILL_OBG		= $(addprefix $(OBJECTS_PATH)/, $(addsuffix .o, $(FILL_FILES)))
+VALIDATE_OBJ	= $(addprefix $(OBJECTS_PATH)/, $(addsuffix .o, $(VALIDATE_FILES)))
 
 #------ make ------
 all: $(NAME)
 
-$(NAME): $(HEART_OBJ) $(OTHER_OBG) $(FUNC_OBG) $(VALIDATION_OBJ)
+$(NAME): $(FILES_OBJ) $(OTHER_OBG) $(FILL_OBG) $(VALIDATE_OBJ)
 	@echo "\n"
 	@make -C ../libft/
 	@echo $(CYAN) "\tCompiling $@"$(RESET)
 	@gcc $(FLAGS) -o $@ $^ ../libft/libft.a
 	@echo $(GREEN) "\tasm\t\t- has been made\n"$(RESET)
 
-$(OBJECTS_PATH)/%.o: $(VALIDATION_PATH)/%.c
+$(OBJECTS_PATH)/%.o: $(VALIDATE_PATH)/%.c
 	@echo $(PURPLE) "\tCompiling $<"$(RESET)
 	@mkdir $(OBJECTS_PATH) 2> /dev/null || true
 	@gcc $(FLAGS) -o $@ -c $<
 
-$(OBJECTS_PATH)/%.o: $(HEART_PATH)/%.c
+$(OBJECTS_PATH)/%.o: $(FILES_PATH)/%.c
 	@echo $(PURPLE) "\tCompiling $<"$(RESET)
 	@mkdir $(OBJECTS_PATH) 2> /dev/null || true
 	@gcc $(FLAGS) -o $@ -c $<
@@ -65,7 +64,7 @@ $(OBJECTS_PATH)/%.o: $(OTHER_PATH)/%.c
 	@mkdir $(OBJECTS_PATH) 2> /dev/null || true
 	@gcc $(FLAGS) -o $@ -c $<
 
-$(OBJECTS_PATH)/%.o: $(FUNC_PATH)/%.c
+$(OBJECTS_PATH)/%.o: $(FILL_PATH)/%.c
 	@echo $(PURPLE) "\tCompiling $<"$(RESET)
 	@mkdir $(OBJECTS_PATH) 2> /dev/null || true
 	@gcc $(FLAGS) -o $@ -c $<

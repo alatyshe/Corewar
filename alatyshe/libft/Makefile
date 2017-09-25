@@ -47,7 +47,7 @@ LFT_OTHER_FILES		= ft_bzero ft_memalloc ft_memccpy ft_memchr ft_memcmp ft_memcpy
 LFT_STRING_FILES	= ft_putstr ft_strchr ft_strcpy ft_strequ ft_strjoin ft_strmap ft_strncmp ft_strnequ ft_strrchr\
 		ft_strsub isdigit_str  ft_putstr_fd ft_strclr ft_strdel ft_striter ft_strlcat ft_strmapi ft_strncpy\
 		ft_strnew ft_strsplit ft_strtrim skip_spaces  ft_strcat ft_strcmp ft_strdup ft_striteri ft_strlen\
-		ft_strncat ft_strndup ft_strnstr ft_strstr isalpha_str 
+		ft_strncat ft_strndup ft_strnstr ft_strstr isalpha_str skip_spaces_before_after_str skip_spaces
 
 
 PF_SRC 				= ft_check_flags ft_for_decimal ft_for_lists ft_for_octals\

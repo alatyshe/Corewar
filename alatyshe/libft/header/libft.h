@@ -94,4 +94,6 @@ int				ft_toupper(int c);
 int				isdigit_str(char *str);
 int				isalpha_str(char *str);
 int				skip_spaces(char *str);
+int				skip_numbers(char *str);
+int				skip_spaces_before_after_str(char *str);
 #endif

@@ -44,8 +44,11 @@ int						reading_file(t_header *head, int fd)
 	}
 	else
 		fill_arguments(head, head->commands);
-	// check_info()
-	print_commands(head);
+	if (head->error == 0)
+	{
+		;// save in file
+		print_commands(head);
+	}
 	return (1);
 }
 

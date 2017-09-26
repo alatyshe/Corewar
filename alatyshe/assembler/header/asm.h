@@ -12,33 +12,37 @@
 
 #ifndef ASM_H
 # define ASM_H
-# define RED			"\x1b[31m"
-# define GREEN			"\x1b[32m"
-# define YELLOW			"\x1b[33m"
-# define BLUE			"\x1b[34m"
-# define MAGENTA		"\x1b[35m"
-# define CYAN			"\x1b[36m"
-# define BLACK			"\x1b[37m"
-# define RESET			"\x1b[0m"
+# define RED				"\x1b[31m"
+# define GREEN				"\x1b[32m"
+# define YELLOW				"\x1b[33m"
+# define BLUE				"\x1b[34m"
+# define MAGENTA			"\x1b[35m"
+# define CYAN				"\x1b[36m"
+# define BLACK				"\x1b[37m"
+# define RESET				"\x1b[0m"
 
-# define SAME			0
+# define SAME				0
 
-# define SYNTAX_ERROR	1
-# define LEXICAL_ERROR	2
-# define INVALID_INSTR	3
-# define INVALID_PAR	4
-# define NO_LABEL		5
+# define SYNTAX_ERROR		1
+# define LEXICAL_ERROR		2
+# define INVALID_INSTR		3
+# define INVALID_PAR		4
+# define NO_LABEL			5
 
-# define LBL_INSTR		1
-# define END			2
-# define STRING_AFTER	3
-# define ENDLINE		4
-# define DIRECT			5
-# define DIRECT_LABEL	6		
-# define INSTRUCTION	7
-# define REGISTER		8
-# define INDIRECT		9
-# define EMPTY			10
+# define LBL_INSTR			1
+# define END				2
+# define STRING_AFTER		3
+# define ENDLINE			4
+# define DIRECT				5
+# define DIRECT_LABEL		6		
+# define INSTRUCTION		7
+# define REGISTER			8
+# define INDIRECT			9
+# define EMPTY				10
+# define COUNT				11
+# define TO_MANY_ARGS		12
+# define COMMAND_NAME		13
+# define COMMAND_COMMENT	14
 
 # include <stdlib.h>
 # include <stdio.h>
@@ -88,8 +92,7 @@ t_arg				*create_t_arg();
 t_header			*create_t_header();
 
 
-int					header(t_header *head, char *read, int fd);
-int					label_command(t_header *head, char *read, int fd);
+
 
 int					find_chars_in_str(char *str, char *find);
 int					cmp_char_with_str(char c, char *find);
@@ -101,16 +104,19 @@ void				print_commands(t_header *head);
 int					fill_cmd_arg(t_header *head, t_cmd *cmd,
 	char *str, int arg_num);
 void				fill_arguments(t_header *head, t_cmd *cmd);
-int					fill_cmd_size(t_header *head, t_cmd *command,
-	char *read, int type_args);
+
 int					error_type(t_header *head, int type, int error);
 int					error_line_char(t_header *head, char *str);
 int					error_arguments(t_header *head, char *read, int x);
 
+void				header(t_header *head, char *read, int fd);
+void				label_command(t_header *head, char *read, int fd);
 
-int					check_label(t_header *head, t_cmd *command,
+void				label(t_header *head, t_cmd *command,
 	char *read, int fd);
-int					get_command(t_header *head, t_cmd *command,
-	char *read, int fd);
+void				command(t_header *head, t_cmd *cmd, char *read);
 
+
+void				check_symbols_after_cmd(t_header *head, char *read);
+int					check_syntax(t_header *head, char *read, char *str);
 #endif

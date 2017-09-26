@@ -52,7 +52,7 @@ int					fill_label_distance(t_header *head, char *to_find, t_cmd *position)
 	if (find == -1 || find == 1)
 		return (summ * find);
 	// лейбл не найден
-	printf("fill_label_distance : HERRRROR\n");
+	error_type(head, NO_LABEL, EMPTY);
 	return (0);
 }
 
@@ -97,13 +97,23 @@ void				fill_arguments(t_header *head, t_cmd *cmd)
 	copy = cmd;
 	while (copy->next)
 	{
-		arg = 0;
-		x = skip_spaces(copy->str);
-		head->prog_size += copy->cmd_size;
-		while (arg < g_tab[copy->cmd_in_hex - 1].count_arg)
+		if (copy->str != NULL)
 		{
-			x += fill_cmd_arg(head, copy, copy->str + x, arg);
-			arg++;
+			arg = 0;
+			x = skip_spaces(copy->str);
+			head->prog_size += copy->cmd_size;
+			while (arg < g_tab[copy->cmd_in_hex - 1].count_arg)
+			{
+				x += fill_cmd_arg(head, copy, copy->str + x, arg);
+				if (head->error > 0)
+				{
+					head->line = copy->line;
+					printf("%s\n", copy->str);
+					error_line_char(head, copy->str);
+					return ;
+				}
+				arg++;
+			}
 		}
 		copy = copy->next;
 	}

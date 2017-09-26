@@ -12,7 +12,7 @@
 
 #include "../../header/asm.h"
 
-void				fill_coding_byte(t_cmd *cmd, char code, int arg_num)
+static void			fill_coding_byte(t_cmd *cmd, char code, int arg_num)
 {
 	if (arg_num == 0)
 		cmd->arg_types = ((cmd->arg_types >> 6) | code) << 6;
@@ -24,7 +24,7 @@ void				fill_coding_byte(t_cmd *cmd, char code, int arg_num)
 		cmd->arg_types = (cmd->arg_types | code);
 }
 
-int					fill_cmd_size(t_header *head, t_cmd *cmd,
+static int				fill_cmd_size(t_header *head, t_cmd *cmd,
 	char *read, int arg_num)
 {
 	int				x;
@@ -52,14 +52,14 @@ int					fill_cmd_size(t_header *head, t_cmd *cmd,
 		fill_coding_byte(cmd, IND_CODE, arg_num);
 	}
 	else
-		printf("ERROR\n");
+		error_type(head, SYNTAX_ERROR, ENDLINE);
 	while (read[x] && read[x] != ',' && !ft_isblank(read[x]))
 		x++;
 	x += skip_spaces(read + x);
 	return (x);
 }
 
-int					fill_command(t_header *head, t_cmd *cmd, char *read, int id)
+static int			fill_arguments_type(t_header *head, t_cmd *cmd, char *read, int id)
 {
 	int				x;
 	int				total_arg;
@@ -76,54 +76,42 @@ int					fill_command(t_header *head, t_cmd *cmd, char *read, int id)
 			if (read[x] == ',')
 				x++;
 			else
+			{
+				head->x += x;
 				return (error_arguments(head, read, x));
+			}
 		}
 	}
 	return (x);
 }
 
-int					check_command(t_header *head, t_cmd *cmd, char *read)
+void				command(t_header *head, t_cmd *cmd, char *read)
 {
-	int				i;
+	int				id;
 	int				name_len;
+	int				x;
 
+	x = 0;
 	if (read && read[0] != '\0')
 	{
 		if (read[0] == '#')
-			return (1);
-		i = 15;
-		while (i >= 0)
+			return ;
+		id = 15;
+		while (id >= 0)
 		{
-			name_len = ft_strlen(g_tab[i].name);
-			if (ft_strncmp(read, g_tab[i].name, name_len) == SAME)
+			name_len = ft_strlen(g_tab[id].name);
+			if (ft_strncmp(read, g_tab[id].name, name_len) == SAME)
 			{
+				x += name_len;
 				cmd->str = ft_strdup(read + name_len);
 				cmd->line = head->line;
-				return (fill_command(head, cmd, read + name_len, i) + name_len);
+				x += fill_arguments_type(head, cmd, read + name_len, id);
+				if (head->error == 0)
+					check_symbols_after_cmd(head, read + x);
+				head->x += x;
+				return ;
 			}
-			i--;
+			id--;
 		}
 	}
-	return (-1);
-}
-
-int					get_command(t_header *head, t_cmd *cmd,
-	char *read, int fd)
-{
-	char			*str;
-	int				x;
-	int				i;
-
-	if (!read[0])
-	{
-		while (get_next_line(fd, &str))
-		{
-			x = skip_spaces(str);
-			if ((i = check_command(head, cmd, str + x)) > 0)
-				return (x + i);
-		}
-	}
-	else
-		return (check_command(head, cmd, read));
-	return (1);
 }

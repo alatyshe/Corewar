@@ -29,9 +29,9 @@ OBJECTS_PATH	= ./objects
 
 #------ files ------
 FILES_FILES		= main
-OTHER_FILES		= struct_create other print_commands print_error
+OTHER_FILES		= struct_create other print_error
 FILL_FILES		= fill_arguments commands
-VALIDATE_FILES	= label_command header
+VALIDATE_FILES	= label_command header check
 
 #------ other ------
 FILES_OBJ 		= $(addprefix $(OBJECTS_PATH)/, $(addsuffix .o, $(FILES_FILES)))

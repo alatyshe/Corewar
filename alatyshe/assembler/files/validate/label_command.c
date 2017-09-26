@@ -12,18 +12,6 @@
 
 #include "../../header/asm.h"
 
-static int			check_syntax(t_header *head, char *read)
-{
-	while (read[head->x] && read[head->x] != '#')
-	{
-		if (!cmp_char_with_str(read[head->x], AVAILABLE_CHARS))
-			return (error_type(head, LEXICAL_ERROR, EMPTY));
-		head->x++;
-	}
-	head->x = skip_spaces(read);
-	return (0);
-}
-
 t_cmd				*get_last_cmd(t_header *head)
 {
 	t_cmd			*cmd;
@@ -40,53 +28,55 @@ t_cmd				*get_last_cmd(t_header *head)
 	return (head->commands);
 }
 
-int					check_label(t_header *head, t_cmd *command,
+void				label(t_header *head, t_cmd *command,
 	char *read, int fd)
 {
 	int				error;
 	int				i;
+	int				x;
 
-	while (read[head->x] && read[head->x] != ':'
-		&& read[head->x] != '#' && !ft_isblank(read[head->x]))
-		head->x++;
-	if (read[head->x] == ':')
+	i = 0;
+	x = 0;
+	while (read[i] && read[i] != ':'
+		&& read[i] != '#' && !ft_isblank(read[i]))
+		i++;
+	if (read[i] == ':')
 	{
-		read[head->x++] = '\0';
-		i = 0;
-		while (read[i])
-		{
-			if (!cmp_char_with_str(read[i], LABEL_CHARS))
-				return (error_type(head, LEXICAL_ERROR, EMPTY));
-			i++;
-		}
+		read[i++] = '\0';
+		x = check_syntax(head, read, LABEL_CHARS);
+		if (head->error > 0)
+			return ;
+		x++;
 		command->label = ft_strdup(read);
 	}
-	else if (read[head->x] == '#')
+	else if (read[i] == '#')
 	{
-		printf("%s\n", read);
+		head->x += ft_strlen(read);
 		error_type(head, SYNTAX_ERROR, ENDLINE);
+		return ;
 	}
-	return (0);
+	head->x += x;
 }
 
-int					label_command(t_header *head, char *read, int fd)
+void				label_command(t_header *head, char *read, int fd)
 {
 	t_cmd			*cmd;
 	int				i;
 
-	check_syntax(head, read);
+	head->x = skip_spaces(read);
+	check_syntax(head, read, AVAILABLE_CHARS);
 	if (head->error == 0 && read[head->x])
 	{
 		if (read[head->x] == '#')
-			return (0);
+			return ;
 		cmd = get_last_cmd(head);
-		check_label(head, cmd, read, fd);
+		label(head, cmd, read + head->x, fd);
 		if (head->error > 0)
-			return (head->x);
+			return ;
 		head->x += skip_spaces(read + head->x);
-		head->x += get_command(head, cmd, read + head->x, fd);
-		if (head->error == 0)
-			cmd->next = create_t_cmd();
+		command(head, cmd, read + head->x);
+		if (head->error > 0 || (cmd->label == NULL && cmd->str == NULL))
+			return ;
+		cmd->next = create_t_cmd();
 	}
-	return (0);
 }

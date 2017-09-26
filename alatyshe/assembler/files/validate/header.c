@@ -49,7 +49,7 @@ static int			read_name_comment(t_header *head, char **record,
 	return (-1);
 }
 
-int					save_header(t_header *head, char **record,
+static int			save_header(t_header *head, char **record,
 	char *read, int fd)
 {
 	char			*find_error;
@@ -78,31 +78,47 @@ int					save_header(t_header *head, char **record,
 	return (0);
 }
 
-int					header(t_header *head, char *read, int fd)
+int					fill_name_comment(t_header *head,
+	char **save_in, char *read, int fd)
+{
+	head->x = skip_spaces_before_after_str(read + head->x + 1) + 1;
+	if (read[head->x] != '"')
+	{
+		if (read[head->x] == '.')
+			return (error_type(head, SYNTAX_ERROR, EMPTY));
+		else if (read[head->x])
+			return (error_type(head, SYNTAX_ERROR, LBL_INSTR));
+		return (error_type(head, SYNTAX_ERROR, ENDLINE));
+	}
+	head->x++;
+	return (save_header(head, save_in, read, fd));
+}
+
+void				header(t_header *head, char *read, int fd)
 {
 	head->x += skip_spaces(read);
 	if (read[head->x])
 	{
 		if (read[head->x] == '#')
-			return (0);
-		else if (read[head->x] == '.' && ft_strncmp(".name", read + head->x, 5) == SAME)
+			return ;
+		else if (read[head->x] == '.'
+			&& ft_strncmp(".name", read + head->x, 5) == SAME)
 		{
-			head->x += skip_spaces_before_after_str(read + head->x + 1) + 1;
-			if (read[head->x] != '"')
-				return (error_type(head, SYNTAX_ERROR, ENDLINE));
-			head->x++;
-			return (save_header(head, &head->prog_name, read, fd));
+			if (head->prog_name == NULL)
+				fill_name_comment(head, &head->prog_name, read + head->x, fd);
+			else
+				error_type(head, SYNTAX_ERROR, COMMAND_NAME);
 		}
-		else if (read[head->x] == '.' && ft_strncmp(".comment", read + head->x, 7) == SAME)
+		else if (read[head->x] == '.'
+			&& ft_strncmp(".comment", read + head->x, 7) == SAME)
 		{
-			head->x = skip_spaces_before_after_str(read + head->x + 1) + 1;
-			if (read[head->x] != '"')
-				return (error_type(head, SYNTAX_ERROR, ENDLINE));
-			head->x++;
-			return (save_header(head, &head->prog_comment, read, fd));
+			if (head->prog_comment == NULL)
+				fill_name_comment(head, &head->prog_comment,
+					read + head->x, fd);
+			else
+				error_type(head, SYNTAX_ERROR, COMMAND_COMMENT);
 		}
 		else
-			return (error_type(head, SYNTAX_ERROR, LBL_INSTR));
+			error_type(head, SYNTAX_ERROR, LBL_INSTR);
 	}
-	return (0);
 }

@@ -41,7 +41,8 @@
 # define SEPARATOR_CHAR			','
 
 # define LABEL_CHARS			"abcdefghijklmnopqrstuvwxyz_0123456789"
-# define AVAILABLE_CHARS		"abcdefghijklmnopqrstuvwxyz_0123456789:#;,-+%\n\t\v\r\f "
+# define AVAILABLE_CHARS		"abcdefghijklmnopqrstuvwxyz_0123456789:#;,-%\n\t\v\r\f "
+# define INVALID_INSTRUCTION	"abcdefghijklmnopqrstuvwxyz_0123456789:;,-%"
 
 # define NAME_CMD_STRING		".name"
 # define COMMENT_CMD_STRING		".comment"

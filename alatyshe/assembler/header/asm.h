@@ -57,6 +57,7 @@ typedef struct		s_cmd
 {
 	char				*label;
 	int					line;
+	int					x;
 	char				*str;
 	short				cmd_size;
 	char				cmd_in_hex;
@@ -107,9 +108,8 @@ void				fill_arguments(t_header *head, t_cmd *cmd);
 
 int					error_type(t_header *head, int type, int error);
 int					error_line_char(t_header *head, char *str);
-int					error_arguments(t_header *head, char *read, int x);
 
-void				header(t_header *head, char *read, int fd);
+int					header(t_header *head, char *read, int fd);
 void				label_command(t_header *head, char *read, int fd);
 
 void				label(t_header *head, t_cmd *command,
@@ -117,6 +117,13 @@ void				label(t_header *head, t_cmd *command,
 void				command(t_header *head, t_cmd *cmd, char *read);
 
 
-void				check_symbols_after_cmd(t_header *head, char *read);
+int					check_symbols_after_cmd(t_header *head, t_cmd *cmd, char *read);
 int					check_syntax(t_header *head, char *read, char *str);
+int					check_number(t_header *head, char *read);
+
+
+int					error_command(t_header *head, int type, int error);
+int					error_label(t_header *head, int type, int error);
+int					error_arguments(t_cmd *cmd, int type, int argc, char *type_arg);
+
 #endif

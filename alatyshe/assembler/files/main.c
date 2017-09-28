@@ -19,7 +19,8 @@ int						reading_file(t_header *head, int fd)
 	while (get_next_line(fd, &read))
 	{
 		head->x = 0;
-		if (head->prog_name == NULL || head->prog_comment == NULL)
+		if (head->prog_name == NULL || head->prog_comment == NULL
+			|| read[skip_spaces(read)] == '.')
 			header(head, read, fd);
 		else if (head->prog_name != NULL && head->prog_comment != NULL)
 			label_command(head, read, fd);
@@ -29,13 +30,13 @@ int						reading_file(t_header *head, int fd)
 			if (head->error_str == NULL)
 				head->error_str = ft_strdup(read + head->x);
 			free(read);
+			while (1);
 			return (error_line_char(head, head->error_str));
 		}
 		free(read);
 		read = NULL;
 		head->line++;
 	}
-
 	//	фикс!! не учитывает комментарий в последней строке
 	if (!check_new_line_at_the_end(fd, &head->x))
 	{
@@ -44,10 +45,11 @@ int						reading_file(t_header *head, int fd)
 	}
 	else
 		fill_arguments(head, head->commands);
+	while(1);
 	if (head->error == 0)
 	{
 		;// save in file
-		print_commands(head);
+		// print_commands(head);
 	}
 	return (1);
 }

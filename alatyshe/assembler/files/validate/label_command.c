@@ -37,10 +37,10 @@ void				label(t_header *head, t_cmd *command,
 
 	i = 0;
 	x = 0;
-	while (read[i] && read[i] != ':'
-		&& read[i] != '#' && !ft_isblank(read[i]))
+	while (read[i] && read[i] != LABEL_CHAR
+		&& read[i] != COMMENT_CHAR && !ft_isblank(read[i]))
 		i++;
-	if (read[i] == ':')
+	if (read[i] == LABEL_CHAR)
 	{
 		read[i++] = '\0';
 		x = check_syntax(head, read, LABEL_CHARS);
@@ -49,7 +49,7 @@ void				label(t_header *head, t_cmd *command,
 		x++;
 		command->label = ft_strdup(read);
 	}
-	else if (read[i] == '#')
+	else if (read[i] == COMMENT_CHAR)
 	{
 		head->x += ft_strlen(read);
 		error_type(head, SYNTAX_ERROR, ENDLINE);
@@ -67,7 +67,7 @@ void				label_command(t_header *head, char *read, int fd)
 	check_syntax(head, read, AVAILABLE_CHARS);
 	if (head->error == 0 && read[head->x])
 	{
-		if (read[head->x] == '#')
+		if (read[head->x] == COMMENT_CHAR)
 			return ;
 		cmd = get_last_cmd(head);
 		label(head, cmd, read + head->x, fd);

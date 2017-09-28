@@ -12,6 +12,24 @@
 
 #include "../../header/asm.h"
 
+int					error_arguments(t_cmd *cmd, int type, int argc, char *type_arg)
+{
+	if (type == INVALID_PAR)
+	{
+		ft_printf("Invalid parameter %d type %s for instruction ", argc, type_arg);
+		ft_printf("%s [TOKKEN]", g_tab[cmd->cmd_in_hex - 1].name);
+	}
+	return (0);
+}
+
+int					error_command(t_header *head, int type, int error)
+{
+	head->error = error;
+
+
+	return (0);
+}
+
 int					error_type(t_header *head, int type, int error)
 {
 	head->error = error;
@@ -24,7 +42,7 @@ int					error_type(t_header *head, int type, int error)
 	if (type == INVALID_PAR)
 		ft_putstr_fd("Invalid parameter ", 2);
 	if (type == NO_LABEL)
-		ft_putstr_fd("No such label ", 2);
+		ft_putstr_fd("No such label while attempting to dereference token [TOKKEN]", 2);
 	return (0);
 }
 
@@ -33,57 +51,41 @@ int					error_line_char(t_header *head, char *str)
 	int				end;
 	int				start;
 
+
 	start = skip_spaces(str);
 	end = find_chars_in_str(str + start, "\n\t\r\f\v ,\"");
-	if (head->error == COUNT)
-		ft_printf("[count] for instruction at line %d", head->line);
-	else {
-		if (end != -1)
-			str[end] = '\0';
-		ft_printf("[%03d:%03d] ", head->line, head->x + 1);
-		if (head->error == LBL_INSTR)
-		{
-			if (find_chars_in_str(str, ":") < 0)
-				ft_printf("INSTRUCTION \"%s\"", str + start);
-			else
-				ft_printf("LABEL \"%s\"", str + start);
-		}
-		else if (head->error == END)
-			ft_printf("END \"(null)\"", str);
-		else if (head->error == STRING_AFTER)
-			ft_printf("STRING AFTER \"%s\"", str);
-		else if (head->error == ENDLINE)
-			ft_printf("ENDLINE");
-		else if (head->error == DIRECT)
-			ft_printf("DIRECT \"%s\"", str + start);
-		else if (head->error == DIRECT_LABEL)
-			ft_printf("DIRECT_LABEL \"%s\"", str + start);
-		else if (head->error == INSTRUCTION)
+	if (end != -1)
+		str[end + start] = '\0';
+	ft_printf("[%03d:%03d] ", head->line, head->x + 1);
+	if (head->error == LBL_INSTR)
+	{
+		if (find_chars_in_str(str, ":") < 0)
 			ft_printf("INSTRUCTION \"%s\"", str + start);
-		else if (head->error == REGISTER)
-			ft_printf("REGISTER \"%s\"", str + start);
-		else if (head->error == INDIRECT)
-			ft_printf("INDIRECT \"%s\"", str + start);
-		else if (head->error == COMMAND_NAME)
-			ft_printf("COMMAND_NAME \".name\"");
-		else if (head->error == COMMAND_COMMENT)
-			ft_printf("COMMAND_COMMENT \".comment\"");
+		else
+			ft_printf("LABEL \"%s\"", str + start);
 	}
+	else if (head->error == END)
+		ft_printf("END \"(null)\"", str);
+	else if (head->error == STRING_AFTER)
+		ft_printf("STRING AFTER \"%s\"", str);
+	else if (head->error == ENDLINE)
+		ft_printf("ENDLINE");
+	else if (head->error == DIRECT)
+		ft_printf("DIRECT \"%s\"", str + start);
+	else if (head->error == DIRECT_LABEL)
+		ft_printf("DIRECT_LABEL \"%s\"", str + start);
+	else if (head->error == INSTRUCTION)
+		ft_printf("INSTRUCTION \"%s\"", str + start);
+	else if (head->error == REGISTER)
+		ft_printf("REGISTER \"%s\"", str + start);
+	else if (head->error == INDIRECT)
+		ft_printf("INDIRECT \"%s\"", str + start);
+	else if (head->error == COMMAND_NAME)
+		ft_printf("COMMAND_NAME \".name\"");
+	else if (head->error == COMMAND_COMMENT)
+		ft_printf("COMMAND_COMMENT \".comment\"");
 	ft_putchar_fd('\n', 2);
 	return (0);
-}
-
-int					error_arguments(t_header *head, char *read, int x)
-{
-	x += skip_spaces(read + x);
-	if (read[x] == 'r')
-		return (error_type(head, INVALID_PAR, REGISTER));
-	else if (read[x] == '%')
-		return (error_type(head, INVALID_PAR, DIRECT));
-	else if (ft_isdigit(read[x]))
-		return (error_type(head, INVALID_PAR, INDIRECT));
-	else
-		return (error_type(head, INVALID_PAR, COUNT));
 }
 
 void				print_commands(t_header *head)

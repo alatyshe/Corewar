@@ -24,25 +24,41 @@ static void			fill_coding_byte(t_cmd *cmd, char code, int arg_num)
 		cmd->arg_types = (cmd->arg_types | code);
 }
 
-static int				fill_cmd_size(t_header *head, t_cmd *cmd,
+
+static void			invalid_argument(t_header *head, t_cmd *cmd, char *read, int arg_num)
+{
+	head->error = EMPTY;
+	if (read[0] == DIRECT_CHAR)
+		error_arguments(cmd, INVALID_PAR, arg_num, "direct");
+	else if (read[0] == REGISTER_CHAR)
+		error_arguments(cmd, INVALID_PAR, arg_num, "register");
+	else if (ft_isdigit(read[0]))
+		error_arguments(cmd, INVALID_PAR, arg_num, "indirect");
+	else
+		error_type(head, SYNTAX_ERROR, LBL_INSTR);
+}
+
+static int			get_argument_size(t_header *head, t_cmd *cmd,
 	char *read, int arg_num)
 {
 	int				x;
 
 	x = skip_spaces(read);
 	if ((g_tab[cmd->cmd_in_hex - 1].arg[arg_num] & T_DIR)
-		&& read[x] == '%')
+		&& read[x] == DIRECT_CHAR)
 	{
 		if (g_tab[cmd->cmd_in_hex - 1].flag_direct_size == 1)
 			cmd->cmd_size += 2;
 		else
 			cmd->cmd_size += 4;
+		x++;
 		fill_coding_byte(cmd, DIR_CODE, arg_num);
 	}
 	else if ((g_tab[cmd->cmd_in_hex - 1].arg[arg_num] & T_REG)
-		&& read[x] == 'r')
+		&& read[x] == REGISTER_CHAR)
 	{
 		cmd->cmd_size += 1;
+		x++;
 		fill_coding_byte(cmd, REG_CODE, arg_num);
 	}
 	else if ((g_tab[cmd->cmd_in_hex - 1].arg[arg_num] & T_IND)
@@ -52,10 +68,11 @@ static int				fill_cmd_size(t_header *head, t_cmd *cmd,
 		fill_coding_byte(cmd, IND_CODE, arg_num);
 	}
 	else
-		error_type(head, SYNTAX_ERROR, ENDLINE);
-	while (read[x] && read[x] != ',' && !ft_isblank(read[x]))
-		x++;
-	x += skip_spaces(read + x);
+	{
+		invalid_argument(head, cmd, read + x, arg_num);
+		return (x);
+	}
+	x += check_number(head, read + x);
 	return (x);
 }
 
@@ -66,52 +83,55 @@ static int			fill_arguments_type(t_header *head, t_cmd *cmd, char *read, int id)
 
 	total_arg = 0;
 	x = skip_spaces(read);
+	
 	cmd->cmd_in_hex = g_tab[id].op_code;
 	cmd->cmd_size += 1 + g_tab[id].coding_byte;
+
 	while (total_arg < g_tab[id].count_arg)
 	{
-		x += fill_cmd_size(head, cmd, read + x, total_arg++);
+		x += get_argument_size(head, cmd, read + x, total_arg++);
+		if (head->error != 0)
+			return (x);
 		if (total_arg < g_tab[id].count_arg)
 		{
-			if (read[x] == ',')
+			if (read[x] == SEPARATOR_CHAR)
 				x++;
 			else
 			{
-				head->x += x;
-				return (error_arguments(head, read, x));
+				error_type(head, SYNTAX_ERROR, LBL_INSTR);
+				return (x);
 			}
 		}
 	}
+	if (head->error == 0)
+			x += check_symbols_after_cmd(head, cmd, read + x);
 	return (x);
 }
 
 void				command(t_header *head, t_cmd *cmd, char *read)
 {
 	int				id;
-	int				name_len;
 	int				x;
 
-	x = 0;
 	if (read && read[0] != '\0')
 	{
-		if (read[0] == '#')
+		if (read[0] == COMMENT_CHAR)
 			return ;
 		id = 15;
 		while (id >= 0)
 		{
-			name_len = ft_strlen(g_tab[id].name);
-			if (ft_strncmp(read, g_tab[id].name, name_len) == SAME)
+			x = ft_strlen(g_tab[id].name);
+			if (ft_strncmp(read, g_tab[id].name, x) == SAME)
 			{
-				x += name_len;
-				cmd->str = ft_strdup(read + name_len);
+				cmd->str = ft_strdup(read + x);
 				cmd->line = head->line;
-				x += fill_arguments_type(head, cmd, read + name_len, id);
-				if (head->error == 0)
-					check_symbols_after_cmd(head, read + x);
-				head->x += x;
+				x += fill_arguments_type(head, cmd, read + x, id);
+				cmd->x = head->x + x;
+				head->x = cmd->x;
 				return ;
 			}
 			id--;
 		}
+		error_type(head, SYNTAX_ERROR, LBL_INSTR);
 	}
 }

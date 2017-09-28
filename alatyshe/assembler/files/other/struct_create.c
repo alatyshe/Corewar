@@ -19,6 +19,7 @@ t_cmd				*create_t_cmd(void)
 	cmd = (t_cmd *)malloc(sizeof(t_cmd));
 	cmd->label = NULL;
 	cmd->line = 0;
+	cmd->x = 0;
 	cmd->str = NULL;
 	cmd->cmd_size = 0;
 	cmd->cmd_in_hex = -1;

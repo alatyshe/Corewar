@@ -94,31 +94,31 @@ int					fill_name_comment(t_header *head,
 	return (save_header(head, save_in, read, fd));
 }
 
-void				header(t_header *head, char *read, int fd)
+int					header(t_header *head, char *read, int fd)
 {
 	head->x += skip_spaces(read);
 	if (read[head->x])
 	{
-		if (read[head->x] == '#')
-			return ;
-		else if (read[head->x] == '.'
-			&& ft_strncmp(".name", read + head->x, 5) == SAME)
+		if (read[head->x] == COMMENT_CHAR)
+			return (0);
+		else if (ft_strncmp(NAME_CMD_STRING, read + head->x, 5) == SAME)
 		{
-			if (head->prog_name == NULL)
-				fill_name_comment(head, &head->prog_name, read + head->x, fd);
-			else
-				error_type(head, SYNTAX_ERROR, COMMAND_NAME);
+			if (head->prog_name != NULL)
+				return (error_type(head, SYNTAX_ERROR, COMMAND_NAME));
+			fill_name_comment(head, &head->prog_name, read + head->x, fd);
 		}
-		else if (read[head->x] == '.'
-			&& ft_strncmp(".comment", read + head->x, 7) == SAME)
+		else if (ft_strncmp(COMMENT_CMD_STRING, read + head->x, 7) == SAME)
 		{
-			if (head->prog_comment == NULL)
-				fill_name_comment(head, &head->prog_comment,
-					read + head->x, fd);
-			else
-				error_type(head, SYNTAX_ERROR, COMMAND_COMMENT);
+			if (head->prog_comment != NULL)
+				return (error_type(head, SYNTAX_ERROR, COMMAND_COMMENT));
+			fill_name_comment(head, &head->prog_comment, read + head->x, fd);
 		}
 		else
-			error_type(head, SYNTAX_ERROR, LBL_INSTR);
+		{
+			check_syntax(head, read, AVAILABLE_CHARS);
+			if (head->error == 0)
+				return (error_type(head, SYNTAX_ERROR, LBL_INSTR));
+		}
 	}
+	return (0);
 }

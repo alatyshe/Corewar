@@ -1,6 +1,6 @@
-VM_NAME = vm
+VM_NAME = corewar
 
-LIBRARY = libft/libft.a
+LIBRARY = ../libft/libft.a
 
 VM_C = vm create_struct print_file read_file
 
@@ -14,7 +14,7 @@ OBJ_VM = $(addprefix $(VM_DIR),$(addsuffix .o,$(VM_C)))
 all: lib vm
 
 lib:
-	@make -C ./libft
+	@make -C ../libft/
 
 vm: $(OBJ_VM)
 	@gcc -o $(VM_NAME) $(FLAGS) $(OBJ_VM) $(LIBRARY) 

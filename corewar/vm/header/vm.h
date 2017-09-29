@@ -23,8 +23,8 @@
 # include "../header/op.h"
 # include <stdio.h>
 // # include "../libft/libft.h"
-# include "../../alatyshe/libft/header/libft.h"
-# include "../../alatyshe/libft/header/ft_printf.h"
+# include "../../libft/header/libft.h"
+# include "../../libft/header/ft_printf.h"
 # include <stdlib.h>
 
 // typedef struct			s_info

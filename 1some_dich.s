@@ -69,3 +69,25 @@ l2:		sti	r1,%1,%4294967295
 .comment "just a basic living prog"
 		
 ld			%300000000,r1
+
+============================================================
+.name "HAHAHA"
+.comment "HAHAHA"
+		# 0100 0000 01
+
+
+
+libe: live r10
+
+libe:
+
+============================================================
+.name "HAA"
+.comment "HAHAHAaaa"
+		# 0100 0000 01
+
+
+
+a live %10
+
+libe:

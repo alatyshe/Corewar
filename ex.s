@@ -1,7 +1,13 @@
-.name "zork"
-.comment "just a basic living prog"
+.name "HAA"
+.comment "HAHAHAaaa"
+		# 0100 0000 01
 
-5l:#ive_adwaw:	live	%4294967295		
 
-live:	live	%4294967295
-		zjmp	%:live
+
+ld	%0,r10 				awda
+libe: live  %10
+libe: live  %10
+libe: live  %10
+
+# ld	%a1111,r10
+# 0b 00 00 12 aa

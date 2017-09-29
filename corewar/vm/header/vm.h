@@ -35,6 +35,53 @@
 // 	char				commrnt[COMMENT_LENGTH + 1];
 
 // }						t_info;
+
+
+
+typedef struct			s_map
+{
+	char				map[MEM_SIZE + 1];
+	unsigned int		cycle;
+	unsigned int		cycle_to_die;
+	unsigned int		cycle_delta;
+	unsigned int		processes;
+
+	unsigned int		lives[MAX_PLAYERS];
+	unsigned int		last_live[MAX_PLAYERS];
+	struct s_player		*players;
+	struct s_ps			*ps;
+}						t_map;
+
+typedef struct			s_ps
+{
+	t_map				*map;
+	int					reg[16];
+	char				player;
+	char				carry;
+	int					pc;
+	int					pid;
+	int					counter_cycles;
+	int					p_size;
+	struct s_ps			*next;
+}						t_ps;
+
+typedef struct			s_player
+{
+	char				*name;
+	char				player;
+	unsigned int		last_live[MAX_PLAYERS];
+	unsigned int		lives[MAX_PLAYERS];
+	struct s_player		 *next;
+}						t_player;
+
+
+
+
+
+
+
+
+
 typedef struct		s_cmd
 {
 	char				*cmd_name;

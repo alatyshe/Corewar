@@ -2,7 +2,7 @@ VM_NAME = corewar
 
 LIBRARY = ../libft/libft.a
 
-VM_C = vm create_struct print_file read_file
+VM_C = vm create_struct print_file read_file memory_map
 
 VM_DIR = src/
 

@@ -30,7 +30,7 @@ int						reading_file(t_header *head, int fd)
 			if (head->error_str == NULL)
 				head->error_str = ft_strdup(read + head->x);
 			free(read);
-			while (1);
+			//while (1);
 			return (error_line_char(head, head->error_str));
 		}
 		free(read);
@@ -45,12 +45,13 @@ int						reading_file(t_header *head, int fd)
 	}
 	else
 		fill_arguments(head, head->commands);
-	while(1);
 	if (head->error == 0)
 	{
 		;// save in file
 		// print_commands(head);
+		create_file(head);
 	}
+	//while(1);
 	return (1);
 }
 
@@ -68,6 +69,7 @@ int						main(int argc, char **argv)
 			perror("Error");
 			exit(0);
 		}
+		head->file_name = ft_strdup(argv[1]);
 		reading_file(head, fd);
 	}
 	else

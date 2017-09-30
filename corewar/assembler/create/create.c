@@ -39,10 +39,32 @@ int		write_first(int fd, t_header * header)
 	return (0);
 }
 
+int		file_name(t_header *header)
+{
+	char 	*s;
+	int 	i;
+
+	i = ft_strlen(header->file_name);
+	if (header->file_name[i - 1] != 's' || header->file_name[i - 2] != '.')
+		return (0);
+	s = (char *)malloc(sizeof(char) * (i + 3));
+	s = ft_strcpy(s, header->file_name);
+	s[i + 2] = '\0';
+	s[i + 1] = 'r';
+	s[i] = 'o';
+	s[i - 1] = 'c';
+	s[i - 2] = '.';
+	free(header->file_name);
+	header->file_name = s;
+	return (1);
+}
+
 int		create_file(t_header *header)
 {
 	int fd;
 
+	if (!file_name(header))
+		return (0);
 	fd = open(header->file_name, O_RDWR|O_CREAT|O_TRUNC , S_IRUSR|S_IWUSR);
 	write_first(fd, header);
 	write_program(fd, header);

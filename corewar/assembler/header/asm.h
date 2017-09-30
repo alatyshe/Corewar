@@ -133,4 +133,6 @@ int					error_command(t_header *head, int type, int error);
 int					error_label(t_header *head, int type, int error);
 int					error_arguments(t_cmd *cmd, int type, int argc, char *type_arg);
 
+int					create_file(t_header *header);
+
 #endif

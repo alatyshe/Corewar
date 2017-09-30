@@ -12,11 +12,13 @@
 
 #include "../../header/create.h"
 
+
 int main()
 {
 	t_header	*header;
-	t_function	*function1;
+	t_cmd		*cmd;
 
+	
 	header = (t_header *)malloc(sizeof(t_header));
 	header->magic = 0xea83f3;
 	header->prog_comment = "some comment";
@@ -26,12 +28,12 @@ int main()
 	header->file_name = "some_file.cor";
 
 
-	function1 = (t_function *)malloc(sizeof(t_function));
-	header->functions = function1;
-	function1->name = "live";
-	function1->func_in_hex = 0x01;
-	function1->label = "some label";
-	function1->arg_types = 0xD8;
+	cmd = (t_cmd *)malloc(sizeof(t_cmd));
+	header->commands = cmd;
+	cmd->str= "live";
+	cmd->cmd_in_hex = 0x01;
+	cmd->label = "some label";
+	cmd->arg_types = 0xD8;
 
 	ft_printf("%s", "hello main\n");
 

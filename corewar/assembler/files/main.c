@@ -46,12 +46,12 @@ int						reading_file(t_header *head, int fd)
 	}
 	else
 		fill_command_arguments(head);
-
 	if (head->error > 0)
 		return (0);
 	crop_name_comment(head);
 	if (head->error == 0)
 		;// print_commands(head);
+
 	return (1);
 }
 
@@ -69,6 +69,7 @@ int						main(int argc, char **argv)
 			perror("Error");
 			exit(0);
 		}
+		head->file_name = ft_strdup(argv[1]);
 		reading_file(head, fd);
 	}
 	else

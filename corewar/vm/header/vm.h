@@ -40,14 +40,11 @@
 
 typedef struct			s_map
 {
-	char				map[MEM_SIZE + 1];
+	short				map[MEM_SIZE + 1];
 	unsigned int		cycle;
 	unsigned int		cycle_to_die;
 	unsigned int		cycle_delta;
 	unsigned int		processes;
-
-	unsigned int		lives[MAX_PLAYERS];
-	unsigned int		last_live[MAX_PLAYERS];
 	struct s_player		*players;
 	struct s_ps			*ps;
 }						t_map;
@@ -68,9 +65,10 @@ typedef struct			s_ps
 typedef struct			s_player
 {
 	char				*name;
-	char				player;
-	unsigned int		last_live[MAX_PLAYERS];
-	unsigned int		lives[MAX_PLAYERS];
+	char				player;			//don't use it?
+	int					player_num;
+	unsigned int		last_live;
+	unsigned int		lives;
 	struct s_player		 *next;
 }						t_player;
 
@@ -88,8 +86,7 @@ typedef struct		s_cmd
 	short				cmd_size;
 	char				cmd_in_hex;
 	char				codage_byte;
-
-	char				*arg_types; // t_dir t_reg, t_ind
+	char				*arg_types;
 	union u_arg			**arg;
 	struct s_cmd		*next;
 }					t_cmd;
@@ -123,10 +120,19 @@ char			*comment_reading(void *buf, t_info *info);
 void			reading(char *file, t_info *info);
 void			print_buf(void *buffer, int buffer_size);
 void			print_info(t_info *info);
+
+
+// ===================== create struct ========================
+
 t_info			*create_info(void);
 t_cmd			*create_cmd(int	args);
+t_map			*create_map(void);
+t_player		*create_player(void);
+
+
 unsigned int 	get_value(void *buf, int len);
 void			analyzing_buf(void *buf, int buf_size, t_info *info, char *file);
 void			print_cmd(t_cmd *cmd);
+void			filling_map(t_info *info, t_player *player, int processes);
 
 #endif

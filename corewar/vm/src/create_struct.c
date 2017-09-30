@@ -34,7 +34,7 @@ t_cmd			*create_cmd(int	args)
 
 t_info			*create_info(void)
 {
-	t_info	*new;
+	t_info		*new;
 
 	new = (t_info *)malloc(sizeof(t_info));
 	new->file_name = NULL;
@@ -44,5 +44,32 @@ t_info			*create_info(void)
 	new->prog_comment = NULL;
 	new->error = 0;
 	new->commands = NULL;
+	return (new);
+}
+
+t_map			*create_map(void)
+{
+	t_map		*new;
+
+	new = (t_map *)malloc(sizeof(t_map));
+	new->cycle = 0;
+	new->cycle_to_die = CYCLE_TO_DIE;
+	new->cycle_delta = CYCLE_DELTA;
+	new->processes = 0;
+	new->players = NULL;
+	new->ps = NULL;
+	return (new);
+}
+
+t_player		*create_player(void)
+{
+	t_player	*new;
+
+	new = (t_player *)malloc(sizeof(t_player));
+	new->name = NULL;
+	new->player = 0;
+	new->player_num = 0;
+	new->lives = 0;
+	new->last_live = 0;
 	return (new);
 }

@@ -140,7 +140,6 @@ t_cmd			*cmd_reading(void *buf, t_cmd *cmd, int pos_buf)
 		}
 		print_cmd(cmd);
 		cmd_reading(buf, cmd->next, pos_buf);
-		
 	}
 	return (0);
 }
@@ -167,20 +166,30 @@ void			analyzing_buf(void *buf, int buf_size, t_info *info, char *file)
 
 int				main(int argc, char **argv)
 {
-	int		i;
-	t_info	*info;
-	t_info	*begin;
+	int			i;
+	t_info		*info;
+	t_info		*begin;
+	t_player	*player;
+	t_player	*first_player;
 
 	i = 1;
 	info = create_info();
+	player = create_player();
+	first_player = player;
 	begin = info;
 	while (i < argc)
 	{
 		if (info == NULL)
 			info = create_info();
+		if (player == NULL)
+			player = create_player();
 		reading(argv[i], info);
+		player->player_num = i;
+		player->name = ft_strdup(info->prog_name);
+		player = player->next;
 		info = info->next;
 		i++;
 	}
+	filling_map(begin, first_player, i - 1);
 	return (0);
 }

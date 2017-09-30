@@ -12,19 +12,6 @@
 
 #include "../../header/asm.h"
 
-static void			invalid_argument(t_header *head, t_cmd *cmd, char *read, int arg_num)
-{
-	head->error = EMPTY;
-	if (read[0] == DIRECT_CHAR)
-		error_arguments(cmd, INVALID_PAR, arg_num, "direct");
-	else if (read[0] == REGISTER_CHAR)
-		error_arguments(cmd, INVALID_PAR, arg_num, "register");
-	else if (ft_isdigit(read[0]))
-		error_arguments(cmd, INVALID_PAR, arg_num, "indirect");
-	else
-		error_type(head, SYNTAX_ERROR, LBL_INSTR);
-}
-
 static void			fill_coding_byte(t_cmd *cmd, char code, int arg_num)
 {
 	if (arg_num == 0)
@@ -44,45 +31,42 @@ static int			get_argument_size(t_header *head, t_cmd *cmd,
 
 	x = skip_spaces(read);
 	if ((g_tab[cmd->cmd_in_hex - 1].arg[arg_num] & T_DIR)
-		&& read[x] == DIRECT_CHAR)
+		&& read[x] == DIRECT_CHAR && (++x))
 	{
-		if (g_tab[cmd->cmd_in_hex - 1].flag_direct_size == 1)
+		cmd->cmd_size += 2;
+		if (g_tab[cmd->cmd_in_hex - 1].flag_direct_size != 1)
 			cmd->cmd_size += 2;
-		else
-			cmd->cmd_size += 4;
-		x++;
 		fill_coding_byte(cmd, DIR_CODE, arg_num);
 	}
 	else if ((g_tab[cmd->cmd_in_hex - 1].arg[arg_num] & T_REG)
-		&& read[x] == REGISTER_CHAR)
+		&& read[x] == REGISTER_CHAR && (++x))
 	{
 		cmd->cmd_size += 1;
-		x++;
 		fill_coding_byte(cmd, REG_CODE, arg_num);
 	}
 	else if ((g_tab[cmd->cmd_in_hex - 1].arg[arg_num] & T_IND)
-		&& ft_isdigit(read[x]))
+		&& (ft_isdigit(read[x]) || read[x] == LABEL_CHAR || read[x] == '-'))
 	{
 		cmd->cmd_size += 2;
 		fill_coding_byte(cmd, IND_CODE, arg_num);
 	}
 	else
 	{
-		invalid_argument(head, cmd, read + x, arg_num);
+		error_invalid_argument(head, cmd, read + x, arg_num);
 		return (x);
 	}
 	x += check_number(head, read + x);
 	return (x);
 }
 
-static int			fill_arguments_type(t_header *head, t_cmd *cmd, char *read, int id)
+static int			fill_arguments_type(t_header *head, t_cmd *cmd,
+	char *read, int id)
 {
 	int				x;
 	int				total_arg;
 
 	total_arg = 0;
 	x = skip_spaces(read);
-	cmd->cmd_in_hex = g_tab[id].op_code;
 	cmd->cmd_size += 1 + g_tab[id].coding_byte;
 	while (total_arg < g_tab[id].count_arg)
 	{
@@ -101,7 +85,7 @@ static int			fill_arguments_type(t_header *head, t_cmd *cmd, char *read, int id)
 		}
 	}
 	if (head->error == 0)
-			x += check_symbols_after_cmd(head, cmd, read + x);
+		x += check_symbols_after_cmd(head, cmd, read + x);
 	return (x);
 }
 
@@ -121,6 +105,7 @@ void				command(t_header *head, t_cmd *cmd, char *read)
 			if (ft_strncmp(read, g_tab[id].name, x) == SAME)
 			{
 				cmd->str = ft_strdup(read + x);
+				cmd->cmd_in_hex = g_tab[id].op_code;
 				x += fill_arguments_type(head, cmd, read + x, id);
 				cmd->x = head->x + x;
 				head->x = cmd->x;

@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   crop_name_comment.c                                :+:      :+:    :+:   */
+/*   crop_name_and_comment.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alatyshe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,7 +12,7 @@
 
 #include "../../header/asm.h"
 
-int					crop_name_comment(t_header *head)
+int					crop_name_and_comment(t_header *head)
 {
 	char			*first;
 	char			*second;

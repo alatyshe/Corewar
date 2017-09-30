@@ -12,18 +12,11 @@
 
 #include "../../header/asm.h"
 
-int					error_arguments(t_cmd *cmd, int type, int argc, char *type_arg)
+void				error_last_line(t_header *head)
 {
-	if (type == INVALID_PAR)
-	{
-		ft_printf("Invalid parameter %d type %s for instruction ", argc, type_arg);
-		ft_printf("%s [TOKKEN]", g_tab[cmd->cmd_in_hex - 1].name);
-	}
-	if (type == PROG_NAME_LENGTH)
-		ft_printf("Champion name too long (Max length 128)\n");
-	if (type == COMMENT_LENGTH)
-		ft_printf("Champion comment too long (Max length 2048)\n");
-	return (0);
+	head->error = EMPTY;
+	ft_putstr_fd("Syntax error - unexpected end of input", 2);
+	ft_putstr_fd("(Perhaps you forgot to end with a newline ?)\n", 2);
 }
 
 int					error_type(t_header *head, int type, int error)
@@ -41,6 +34,36 @@ int					error_type(t_header *head, int type, int error)
 		ft_putstr_fd("No such label while attempting to dereference token [TOKKEN]", 2);
 	return (0);
 }
+
+void				error_invalid_argument(t_header *head, t_cmd *cmd,
+	char *read, int arg_num)
+{
+	head->error = EMPTY;
+	if (read[0] == DIRECT_CHAR)
+		error_arguments(cmd, INVALID_PAR, arg_num, "direct");
+	else if (read[0] == REGISTER_CHAR)
+		error_arguments(cmd, INVALID_PAR, arg_num, "register");
+	else if (ft_isdigit(read[0]))
+		error_arguments(cmd, INVALID_PAR, arg_num, "indirect");
+	else
+		error_type(head, SYNTAX_ERROR, LBL_INSTR);
+}
+
+int					error_arguments(t_cmd *cmd, int type,
+	int argc, char *type_arg)
+{
+	if (type == INVALID_PAR)
+	{
+		ft_printf("Invalid parameter %d type %s for instruction ", argc, type_arg);
+		ft_printf("%s [TOKKEN]", g_tab[cmd->cmd_in_hex - 1].name);
+	}
+	if (type == PROG_NAME_LENGTH)
+		ft_printf("Champion name too long (Max length 128)\n");
+	if (type == COMMENT_LENGTH)
+		ft_printf("Champion comment too long (Max length 2048)\n");
+	return (0);
+}
+
 
 int					error_line_char(t_header *head, char *str)
 {

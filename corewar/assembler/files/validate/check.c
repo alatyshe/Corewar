@@ -108,6 +108,16 @@ int					check_number(t_header *head, char *read)
 		}
 		x++;
 	}
+	if (x == 0)
+	{
+		error_type(head, SYNTAX_ERROR, LBL_INSTR);
+		return (-1);
+	}
+	else if (x == 1 && read[0] == '-')
+	{
+		error_type(head, LEXICAL_ERROR, EMPTY);
+		return (0);
+	}
 	x += skip_spaces(read + x);
 	return (x);
 }

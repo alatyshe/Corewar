@@ -12,6 +12,49 @@
 
 #include "../../header/asm.h"
 
+int					get_label_distance(t_header *head, char *to_find, t_cmd *position)
+{
+	t_cmd			*copy;
+	int				find;
+	int				summ;
+
+	copy = head->commands;
+	summ = 0;
+	find = 0;
+	while (copy->next)
+	{
+		if (find == 0 && copy->label != NULL
+			&& ft_strncmp(copy->label, to_find, find_chars_in_str(to_find, " \n\t\v\r\f,")) == SAME)
+			find = -2;
+		if (find == 0 && position == copy)
+			find = 2;
+		if (find == -2)
+		{
+			if (position == copy)
+			{
+				find = -1;
+				break ;
+			}
+			summ += copy->cmd_size;
+		}
+		if (find == 2)
+		{
+			if (copy->label != NULL
+				&& ft_strncmp(copy->label, to_find, find_chars_in_str(to_find, " \n\t\v\r\f,")) == SAME)
+			{
+				find = 1;
+				break ;
+			}
+			summ += copy->cmd_size;
+		}
+		copy = copy->next;
+	}
+	if (find == -1 || find == 1)
+		return (summ * find);
+	error_type(head, NO_LABEL, DIRECT_LABEL);
+	return (0);
+}
+
 t_cmd				*get_last_cmd(t_header *head)
 {
 	t_cmd			*cmd;
@@ -79,8 +122,6 @@ void				label_command(t_header *head, char *read, int fd)
 		command(head, cmd, read + head->x);
 		if (head->error > 0 || (cmd->label == NULL && cmd->str == NULL))
 			return ;
-
-		
 		cmd->next = create_t_cmd();
 	}
 }

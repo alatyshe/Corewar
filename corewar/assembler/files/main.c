@@ -12,7 +12,7 @@
 
 #include "../header/asm.h"
 
-int						reading_file(t_header *head, int fd)
+static int				reading_file(t_header *head, int fd)
 {
 	char				*read;
 
@@ -38,21 +38,28 @@ int						reading_file(t_header *head, int fd)
 		read = NULL;
 		head->line++;
 	}
-	if (head->last_cmd_line + 1 == head->line && !check_new_line_at_the_end(fd, &head->x))
-	{
-		ft_putstr_fd("Syntax error - unexpected end of input", 2);
-		ft_putstr_fd("(Perhaps you forgot to end with a newline ?)\n", 2);
-		return (0);
-	}
-	else
-		fill_command_arguments(head);
-	if (head->error > 0)
-		return (0);
-	crop_name_comment(head);
-	if (head->error == 0)
-		;// print_commands(head);
-
 	return (1);
+}
+
+static void				file_manipulaton(t_header *head, int fd)
+{
+	reading_file(head, fd);
+	if (head->error == 0)
+	{
+		if (head->last_cmd_line + 1 == head->line
+			&& !check_new_line_at_the_end(fd, &head->x))
+			error_last_line(head);
+		else
+			fill_command_arguments(head);
+		if (head->error > 0)
+			return ;
+		crop_name_and_comment(head);
+		if (head->error == 0)
+		{
+			//пихать запись в файл сюда
+			print_commands(head);
+		}
+	}
 }
 
 int						main(int argc, char **argv)
@@ -70,7 +77,7 @@ int						main(int argc, char **argv)
 			exit(0);
 		}
 		head->file_name = ft_strdup(argv[1]);
-		reading_file(head, fd);
+		file_manipulaton(head, fd);
 	}
 	else
 		ft_printf("usage: ./asm file.s\n");

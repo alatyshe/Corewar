@@ -19,14 +19,10 @@ int					error_arguments(t_cmd *cmd, int type, int argc, char *type_arg)
 		ft_printf("Invalid parameter %d type %s for instruction ", argc, type_arg);
 		ft_printf("%s [TOKKEN]", g_tab[cmd->cmd_in_hex - 1].name);
 	}
-	return (0);
-}
-
-int					error_command(t_header *head, int type, int error)
-{
-	head->error = error;
-
-
+	if (type == PROG_NAME_LENGTH)
+		ft_printf("Champion name too long (Max length 128)\n");
+	if (type == COMMENT_LENGTH)
+		ft_printf("Champion comment too long (Max length 2048)\n");
 	return (0);
 }
 
@@ -51,11 +47,13 @@ int					error_line_char(t_header *head, char *str)
 	int				end;
 	int				start;
 
-
 	start = skip_spaces(str);
-	end = find_chars_in_str(str + start, "\n\t\r\f\v ,\"");
-	if (end != -1)
-		str[end + start] = '\0';
+	if (str != NULL)
+	{
+		end = find_chars_in_str(str + start, "\n\t\r\f\v ,\"");
+		if (end != -1)
+			str[end + start] = '\0';
+	}
 	ft_printf("[%03d:%03d] ", head->line, head->x + 1);
 	if (head->error == LBL_INSTR)
 	{
@@ -65,9 +63,9 @@ int					error_line_char(t_header *head, char *str)
 			ft_printf("LABEL \"%s\"", str + start);
 	}
 	else if (head->error == END)
-		ft_printf("END \"(null)\"", str);
+		ft_printf("END \"(null)\"");
 	else if (head->error == STRING_AFTER)
-		ft_printf("STRING AFTER \"%s\"", str);
+		ft_printf("STRING AFTER \"\"\"", str);
 	else if (head->error == ENDLINE)
 		ft_printf("ENDLINE");
 	else if (head->error == DIRECT)
@@ -88,6 +86,28 @@ int					error_line_char(t_header *head, char *str)
 	return (0);
 }
 
+void				print_command(t_cmd *cmd)
+{
+	printf("%s===================================%s\n", GREEN, RESET);
+	printf("cmd->label\t: |%s|\n", cmd->label);
+	printf("NAME\t\t: %s\n", g_tab[cmd->cmd_in_hex - 1].name);
+	printf("cmd->str\t: |%s|\n", cmd->str);
+	printf("cmd->line\t: %d\n", cmd->line);
+	printf("cmd->x\t\t: %d\n", cmd->x);
+	printf("%s++++++++++++++++++++++++++++++++++++%s\n", MAGENTA, RESET);
+	printf("cmd->cmd_size :\t|%d|\n", cmd->cmd_size);
+	printf("\n");
+	printf("%02x", cmd->cmd_in_hex);
+	if (g_tab[cmd->cmd_in_hex - 1].coding_byte == 1)
+		printf("%x", cmd->arg_types);
+	printf("|%02x|", cmd->arg[0]->num);
+	if (g_tab[cmd->cmd_in_hex - 1].count_arg > 1)
+		printf("|%02x|", cmd->arg[1]->num);
+	if (g_tab[cmd->cmd_in_hex - 1].count_arg > 2)
+		printf("|%02x|", cmd->arg[2]->num);
+	printf("\n%s===================================%s\n\n", RED, RESET);
+}
+
 void				print_commands(t_header *head)
 {
 	t_cmd			*cmd;
@@ -97,21 +117,7 @@ void				print_commands(t_header *head)
 	if (cmd)
 		while (cmd->next)
 		{
-			printf("%s=====================================%s\n", GREEN, RESET);
-			printf("cmd->label :\t|%s|\n", cmd->label);
-			// printf("cmd->line :\t|%d|\n", cmd->line);
-			printf("cmd->cmd_size :\t|%d|\n", cmd->cmd_size);
-			printf("cmd->str :\t|%s|\n", cmd->str);
-			printf("\n");
-			printf("%02x", cmd->cmd_in_hex);
-			if (g_tab[cmd->cmd_in_hex - 1].coding_byte == 1)
-				printf("%x", cmd->arg_types);
-			printf("|%02x|", cmd->arg[0]->num);
-			if (g_tab[cmd->cmd_in_hex - 1].count_arg > 1)
-				printf("|%02x|", cmd->arg[1]->num);
-			if (g_tab[cmd->cmd_in_hex - 1].count_arg > 2)
-				printf("|%02x|", cmd->arg[2]->num);
-			printf("\n%s===================================%s\n\n", RED, RESET);
+			print_command(cmd);
 			cmd = cmd->next;
 		}
 }

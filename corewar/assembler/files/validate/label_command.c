@@ -65,11 +65,13 @@ void				label_command(t_header *head, char *read, int fd)
 
 	head->x = skip_spaces(read);
 	check_syntax(head, read, AVAILABLE_CHARS);
-	if (head->error == 0 && read[head->x])
+	if (head->error == 0 && read)
 	{
 		if (read[head->x] == COMMENT_CHAR)
 			return ;
 		cmd = get_last_cmd(head);
+		cmd->line = head->line;
+		head->last_cmd_line = cmd->line;
 		label(head, cmd, read + head->x, fd);
 		if (head->error > 0)
 			return ;
@@ -77,6 +79,8 @@ void				label_command(t_header *head, char *read, int fd)
 		command(head, cmd, read + head->x);
 		if (head->error > 0 || (cmd->label == NULL && cmd->str == NULL))
 			return ;
+
+		
 		cmd->next = create_t_cmd();
 	}
 }

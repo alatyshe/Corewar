@@ -12,19 +12,6 @@
 
 #include "../../header/asm.h"
 
-static void			fill_coding_byte(t_cmd *cmd, char code, int arg_num)
-{
-	if (arg_num == 0)
-		cmd->arg_types = ((cmd->arg_types >> 6) | code) << 6;
-	else if (arg_num == 1)
-		cmd->arg_types = ((cmd->arg_types >> 4) | code) << 4;
-	else if (arg_num == 2)
-		cmd->arg_types = ((cmd->arg_types >> 2) | code) << 2;
-	else if (arg_num == 3)
-		cmd->arg_types = (cmd->arg_types | code);
-}
-
-
 static void			invalid_argument(t_header *head, t_cmd *cmd, char *read, int arg_num)
 {
 	head->error = EMPTY;
@@ -36,6 +23,18 @@ static void			invalid_argument(t_header *head, t_cmd *cmd, char *read, int arg_n
 		error_arguments(cmd, INVALID_PAR, arg_num, "indirect");
 	else
 		error_type(head, SYNTAX_ERROR, LBL_INSTR);
+}
+
+static void			fill_coding_byte(t_cmd *cmd, char code, int arg_num)
+{
+	if (arg_num == 0)
+		cmd->arg_types = ((cmd->arg_types >> 6) | code) << 6;
+	else if (arg_num == 1)
+		cmd->arg_types = ((cmd->arg_types >> 4) | code) << 4;
+	else if (arg_num == 2)
+		cmd->arg_types = ((cmd->arg_types >> 2) | code) << 2;
+	else if (arg_num == 3)
+		cmd->arg_types = (cmd->arg_types | code);
 }
 
 static int			get_argument_size(t_header *head, t_cmd *cmd,
@@ -83,10 +82,8 @@ static int			fill_arguments_type(t_header *head, t_cmd *cmd, char *read, int id)
 
 	total_arg = 0;
 	x = skip_spaces(read);
-	
 	cmd->cmd_in_hex = g_tab[id].op_code;
 	cmd->cmd_size += 1 + g_tab[id].coding_byte;
-
 	while (total_arg < g_tab[id].count_arg)
 	{
 		x += get_argument_size(head, cmd, read + x, total_arg++);
@@ -124,10 +121,10 @@ void				command(t_header *head, t_cmd *cmd, char *read)
 			if (ft_strncmp(read, g_tab[id].name, x) == SAME)
 			{
 				cmd->str = ft_strdup(read + x);
-				cmd->line = head->line;
 				x += fill_arguments_type(head, cmd, read + x, id);
 				cmd->x = head->x + x;
 				head->x = cmd->x;
+				cmd->x = ft_strlen(g_tab[id].name);
 				return ;
 			}
 			id--;

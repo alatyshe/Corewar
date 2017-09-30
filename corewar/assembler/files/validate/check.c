@@ -36,7 +36,8 @@ static int			check_digits(char *read)
 	x = 0;
 	if (read[x] == '-')
 		x++;
-	while (read[x] && (read[x] != SEPARATOR_CHAR && !ft_isblank(read[x])))
+	while (read[x] && read[x] != SEPARATOR_CHAR
+		&& !ft_isblank(read[x]) && read[x] != ';')
 	{
 		if (!ft_isdigit(read[x]))
 			return (-1);
@@ -88,12 +89,18 @@ int					check_number(t_header *head, char *read)
 
 	x = 0;
 	indicator = 0;
+	if (read[x] == LABEL_CHAR)
+		indicator = 1;
+	if (ft_isblank(read[x]))
+	{
+		error_type(head, LEXICAL_ERROR, EMPTY);
+		return (x);
+	}
 	if (read[x] == '-')
 		x++;
-	while (read[x] && (read[x] != SEPARATOR_CHAR && !ft_isblank(read[x])))
+	while (read[x] && read[x] != SEPARATOR_CHAR
+		&& !ft_isblank(read[x]) && read[x] != ';')
 	{
-		if (read[x] == LABEL_CHAR)
-			indicator = 1;
 		if (!ft_isdigit(read[x]) && indicator == 0)
 		{
 			error_type(head, SYNTAX_ERROR, LBL_INSTR);

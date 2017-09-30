@@ -21,7 +21,6 @@ int					fill_label_distance(t_header *head, char *to_find, t_cmd *position)
 	copy = head->commands;
 	summ = 0;
 	find = 0;
-	printf("%sfill_label_distance%s\n", GREEN,RESET);
 	while (copy->next)
 	{
 		if (find == 0 && copy->label != NULL
@@ -52,8 +51,6 @@ int					fill_label_distance(t_header *head, char *to_find, t_cmd *position)
 	}
 	if (find == -1 || find == 1)
 		return (summ * find);
-	// лейбл не найден
-	printf("\n%sfill_label_distance%s\n", RED, RESET);
 	error_type(head, NO_LABEL, DIRECT_LABEL);
 	return (0);
 }
@@ -63,7 +60,8 @@ int					fill_cmd_arg(t_header *head, t_cmd *cmd, char *str, int arg_num)
 	int				x;
 
 	x = skip_spaces(str);
-	printf("%sfill_cmd_arg%s\n", GREEN,RESET);
+	if (str[x] == SEPARATOR_CHAR)
+		x++;
 	if (str[x] == DIRECT_CHAR)
 	{
 		x++;
@@ -76,9 +74,19 @@ int					fill_cmd_arg(t_header *head, t_cmd *cmd, char *str, int arg_num)
 	{
 		x++;
 		if (str[x] == LABEL_CHAR)
-			cmd->arg[arg_num]->num = fill_label_distance(head, str + x + 1, cmd);
+		{
+			x--;
+			head->error_str = str + x;
+			error_type(head, SYNTAX_ERROR, LBL_INSTR);
+		}
 		else
 			cmd->arg[arg_num]->num = ft_atoi(str + x);
+		if (cmd->arg[arg_num]->num > 16)
+		{
+			head->error_str = str + 1;
+			x--;
+			error_type(head, SYNTAX_ERROR, LBL_INSTR);
+		}
 	}
 	else
 		cmd->arg[arg_num]->shrt = ft_atoi(str + x);
@@ -89,36 +97,47 @@ int					fill_cmd_arg(t_header *head, t_cmd *cmd, char *str, int arg_num)
 	return (x);
 }
 
-void				fill_arguments(t_header *head, t_cmd *cmd)
+static int			fill_arguments(t_header *head, t_cmd *cmd)
+{
+	int				arg;
+	int				pos;
+
+	pos = 0;
+	arg = 0;
+	head->x = 0;
+	head->prog_size += cmd->cmd_size;
+	while (arg < g_tab[cmd->cmd_in_hex - 1].count_arg)
+	{
+		pos += fill_cmd_arg(head, cmd, cmd->str + pos, arg);
+		if (head->error > 0)
+		{
+			head->line = cmd->line;
+			head->x = cmd->x + pos;
+			error_line_char(head, head->error_str);
+			return (0);
+		}
+		arg++;
+	}
+	return (1);
+}
+
+void				fill_command_arguments(t_header *head)
 {
 	t_cmd			*copy_cmd;
-	int				arg;
-	int				x;
+	int				count;
 
-	copy_cmd = cmd;
-	// printf("%sfill_arguments%s\n", GREEN,RESET);
+	copy_cmd = head->commands;
+	if (!copy_cmd)
+	{
+		error_type(head, SYNTAX_ERROR, END);
+		error_line_char(head, head->error_str);
+		return ;
+	}
 	while (copy_cmd->next)
 	{
 		if (copy_cmd->str != NULL)
-		{
-			arg = 0;
-			x = skip_spaces(copy_cmd->str);
-			head->prog_size += copy_cmd->cmd_size;
-			while (arg < g_tab[copy_cmd->cmd_in_hex - 1].count_arg)
-			{
-				x += fill_cmd_arg(head, copy_cmd, copy_cmd->str + x, arg);
-				if (head->error > 0)
-				{
-					head->line = copy_cmd->line;
-					head->x = copy_cmd->x + x;
-					// printf("\n%s fill_arguments%s\n", RED, RESET);
-					// printf("%s\n", copy_cmd->str);
-					error_line_char(head, copy_cmd->str);
-					return ;
-				}
-				arg++;
-			}
-		}
+			if (!fill_arguments(head, copy_cmd))
+				return ;
 		copy_cmd = copy_cmd->next;
 	}
 }

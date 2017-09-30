@@ -49,6 +49,7 @@ t_header			*create_t_header(void)
 	header->file_name = NULL;
 	header->magic = COREWAR_EXEC_MAGIC;
 	header->prog_name = NULL;
+	header->last_cmd_line = 0;
 	header->prog_size = 0;
 	header->prog_comment = NULL;
 	header->error = 0;

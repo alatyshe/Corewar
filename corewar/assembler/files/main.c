@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../header/asm.h"
+#include "../header/create.h"
 
 int						reading_file(t_header *head, int fd)
 {
@@ -48,8 +49,9 @@ int						reading_file(t_header *head, int fd)
 	while(1);
 	if (head->error == 0)
 	{
-		;// save in file
+		// save in file
 		// print_commands(head);
+		//create_file(head);
 	}
 	return (1);
 }

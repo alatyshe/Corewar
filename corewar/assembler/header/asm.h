@@ -84,7 +84,7 @@ typedef struct		s_header
 	char				*error_str;
 	int					last_cmd_line;
 	int					line;
-	int					x;
+	unsigned int		x;
 	t_cmd				*commands;
 }					t_header;
 
@@ -93,7 +93,7 @@ t_arg				*create_t_arg();
 t_header			*create_t_header();
 int					find_chars_in_str(char *str, char *find);
 int					cmp_char_with_str(char c, char *find);
-int					check_new_line_at_the_end(int fd, int *x);
+int					check_new_line_at_the_end(int fd, unsigned int *x);
 void				concat_and_free(char **cmt_cmd, char *read);
 t_cmd				*get_last_cmd(t_header *head);
 int					ft_str_find_char(char *str, int (*f)(int));
@@ -103,12 +103,10 @@ void				fill_command_arguments(t_header *head);
 int					error_type(t_header *head, int type, int error);
 int					error_line_char(t_header *head, char *str);
 int					header(t_header *head, char *read, int fd);
-void				label_command(t_header *head, char *read, int fd);
-void				label(t_header *head, t_cmd *command,
-	char *read, int fd);
+void				label_command(t_header *head, char *read);
 void				command(t_header *head, t_cmd *cmd, char *read);
 int					crop_name_and_comment(t_header *head,
-	char **save_in, int len);
+	char **save_in, unsigned int len);
 int					check_symbols_after_cmd(t_header *head,
 	t_cmd *cmd, char *read);
 int					check_syntax(t_header *head, char *read, char *str);

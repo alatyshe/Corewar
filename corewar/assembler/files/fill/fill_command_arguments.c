@@ -99,7 +99,6 @@ static int			fill_arguments(t_header *head, t_cmd *cmd)
 void				fill_command_arguments(t_header *head)
 {
 	t_cmd			*copy_cmd;
-	int				count;
 
 	copy_cmd = head->commands;
 	if (!copy_cmd)

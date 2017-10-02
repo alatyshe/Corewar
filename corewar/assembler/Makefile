@@ -17,7 +17,7 @@ LIB = libft.a
 NAME = asm
 HEAD = header/asm.h header/other.h header/func.h
 
-# FLAGS = -Wall -Wextra -Werror
+FLAGS = -Wall -Wextra -Werror
 
 #------ path -------
 FILES_PATH		= ./files
@@ -71,25 +71,29 @@ $(OBJECTS_PATH)/%.o: $(FILL_PATH)/%.c
 
 #------ make clean ------
 cleanlib:
-	# @make clean -C ../libft
+	@make clean -C ../libft
 
 clean: cleanlib
 	@echo $(YELLOW)"\t\t\t\tASSEMBLER"$(RESET)
-	@rm -f $(HEART_OBJ)
+	@rm -f $(FILES_OBJ)
 	@rm -f $(OTHER_OBG)
-	@rm -f $(FUNC_OBG)
+	@rm -f $(FILL_OBG)
+	@rm -f $(VALIDATE_OBJ)
 	@echo $(RED) "\t.o files have been cleaned.\n"$(RESET)
+	@rm -rf $(OBJECTS_PATH)
+	@echo $(RED) "\t./objects path have been cleaned."$(RESET)
 
 #------ make fclean ------
 fcleanlib:
-	# @make fclean -C ../libft
+	@make fclean -C ../libft
 
 fclean: fcleanlib
 	@echo $(YELLOW)"\t\t\t\tASSEMBLER"$(RESET)
-	@rm -f $(HEART_OBJ)
+	@rm -f $(FILES_OBJ)
 	@rm -f $(OTHER_OBG)
-	@rm -f $(FUNC_OBG)
-	@echo $(RED)"\t.o files have been cleaned."$(RESET)
+	@rm -f $(FILL_OBG)
+	@rm -f $(VALIDATE_OBJ)
+	@echo $(RED) "\t.o files have been cleaned.\n"$(RESET)
 	@rm -rf $(OBJECTS_PATH)
 	@echo $(RED) "\t./objects path have been cleaned."$(RESET)
 	@rm -f $(NAME)

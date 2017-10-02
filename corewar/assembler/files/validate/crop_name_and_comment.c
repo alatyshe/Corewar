@@ -13,11 +13,10 @@
 #include "../../header/asm.h"
 
 int					crop_name_and_comment(t_header *head,
-	char **save_in, int len)
+	char **save_in, unsigned int len)
 {
 	char			*first;
 	char			*second;
-	int				indicator;
 
 	first = ft_strchr(*save_in, '\"');
 	*first++ = '\0';

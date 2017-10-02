@@ -33,7 +33,7 @@ static int				reading_file(t_header *head, int fd)
 			|| read[skip_spaces(read)] == '.')
 			header(head, read, fd);
 		else if (head->prog_name != NULL && head->prog_comment != NULL)
-			label_command(head, read, fd);
+			label_command(head, read);
 		if (head->error > 0)
 		{
 			if (head->error_str == NULL && read)

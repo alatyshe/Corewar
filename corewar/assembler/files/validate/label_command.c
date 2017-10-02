@@ -83,10 +83,9 @@ t_cmd				*get_last_cmd(t_header *head)
 	return (head->commands);
 }
 
-void				label(t_header *head, t_cmd *command,
-	char *read, int fd)
+static void			label(t_header *head, t_cmd *command,
+	char *read)
 {
-	int				error;
 	int				i;
 	int				x;
 
@@ -113,10 +112,9 @@ void				label(t_header *head, t_cmd *command,
 	head->x += x;
 }
 
-void				label_command(t_header *head, char *read, int fd)
+void				label_command(t_header *head, char *read)
 {
 	t_cmd			*cmd;
-	int				i;
 
 	head->x = skip_spaces(read);
 	check_syntax(head, read, AVAILABLE_CHARS);
@@ -127,7 +125,7 @@ void				label_command(t_header *head, char *read, int fd)
 		cmd = get_last_cmd(head);
 		cmd->line = head->line;
 		head->last_cmd_line = cmd->line;
-		label(head, cmd, read + head->x, fd);
+		label(head, cmd, read + head->x);
 		if (head->error > 0)
 			return ;
 		head->x += skip_spaces(read + head->x);

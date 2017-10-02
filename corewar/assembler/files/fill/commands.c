@@ -44,7 +44,7 @@ static int			get_argument_size(t_header *head, t_cmd *cmd,
 		error_invalid_argument(head, cmd, read + x, arg_num);
 	if (head->error == 0)
 	{
-		cmd->size += g_sizes[cmd->code][arg_type];
+		cmd->size += g_sizes[(int)cmd->code][arg_type];
 		fill_coding_byte(cmd, arg_type, arg_num);
 		x += check_number(head, read + x);
 	}

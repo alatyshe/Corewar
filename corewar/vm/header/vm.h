@@ -98,7 +98,7 @@ typedef union		u_arg
 	unsigned char		chr;
 }					t_arg;
 
-typedef struct	s_info
+typedef struct		s_info
 {
 	char				*file_name;
 	unsigned int		magic;
@@ -110,18 +110,19 @@ typedef struct	s_info
 
 	t_cmd				*commands;
 	struct	s_info		*next;
-}						t_info;
+}					t_info;
 
+
+// ===================== read ========================
 
 unsigned int	magic_reading(void *buf, t_info *info);
 char			*name_reading(void *buf, t_info *info);
 unsigned int	size_reading(void *buf, t_info *info);
 char			*comment_reading(void *buf, t_info *info);
-void			reading(char *file, t_info *info);
-void			print_buf(void *buffer, int buffer_size);
-void			print_info(t_info *info);
+t_cmd			*cmd_reading(void *buf, t_cmd *cmd, int pos_buf);
 
 
+void			read_file(char *file, t_info *info);
 // ===================== create struct ========================
 
 t_info			*create_info(void);
@@ -134,5 +135,8 @@ unsigned int 	get_value(void *buf, int len);
 void			analyzing_buf(void *buf, int buf_size, t_info *info, char *file);
 void			print_cmd(t_cmd *cmd);
 void			filling_map(t_info *info, t_player *player, int processes);
+
+void			print_buf(void *buffer, int buffer_size);
+void			print_info(t_info *info);
 
 #endif

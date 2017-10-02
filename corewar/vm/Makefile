@@ -1,34 +1,95 @@
-VM_NAME = corewar
+# ----- Colors -----
+BLACK ="\033[1;30m"
+RED ="\033[1;31m"
+GREEN ="\033[1;32m"
+YELLOW = "\x1b[33m"
+BLUE = "\x1b[34m"
+MAGENTA = "\x1b[35m"
+CYAN ="\033[1;35m"
+PURPLE ="\033[1;36m"
+WHITE ="\033[1;37m"
+EOC ="\033[0;0m"
+RESET = "\x1b[0m"
+# ==================
 
 LIBRARY = ../libft/libft.a
 
-VM_C = vm create_struct print_file read_file memory_map
-
-VM_DIR = src/
-
-OBJ_VM = $(addprefix $(VM_DIR),$(addsuffix .o,$(VM_C)))
-
+NAME = corewar
+HEAD = header/vm.h header/op.h
 
 # FLAGS = -Wall -Wextra -Werror
 
-all: lib vm
 
-lib:
+#------ path -------
+FILES_PATH		= ./files
+OTHER_PATH		= ./files/other
+READ_PATH		= ./files/read
+OBJECTS_PATH	= ./objects
+
+#------ files ------
+FILES_FILES		= main memory_map 
+READ_FILES		= read_header read_commands reading
+OTHER_FILES		= struct_create other print
+
+
+#------ other ------
+FILES_OBJ 		= $(addprefix $(OBJECTS_PATH)/, $(addsuffix .o, $(FILES_FILES)))
+READ_OBJ		= $(addprefix $(OBJECTS_PATH)/, $(addsuffix .o, $(READ_FILES)))
+OTHER_OBG 		= $(addprefix $(OBJECTS_PATH)/, $(addsuffix .o, $(OTHER_FILES)))
+
+#------ make ------
+all: $(NAME)
+
+$(NAME): $(FILES_OBJ) $(OTHER_OBG) $(READ_OBJ)
+	@echo "\n"
 	@make -C ../libft/
+	@echo $(CYAN) "\tCompiling $@"$(RESET)
+	@gcc $(FLAGS) -o $@ $^ $(LIBRARY)
+	@echo $(GREEN) "\tcorewar\t\t- has been made\n"$(RESET)
 
-vm: $(OBJ_VM)
-	@gcc -o $(VM_NAME) $(FLAGS) $(OBJ_VM) $(LIBRARY) 
-	@echo "\x1b[32m"virtual machine has been made "\x1b[0m"
+$(OBJECTS_PATH)/%.o: $(FILES_PATH)/%.c
+	@echo $(PURPLE) "\tCompiling $<"$(RESET)
+	@mkdir $(OBJECTS_PATH) 2> /dev/null || true
+	@gcc $(FLAGS) -o $@ -c $<
 
-%.o: %.c
-	@gcc $(FLAGS) -c -o $@ $< 
+$(OBJECTS_PATH)/%.o: $(OTHER_PATH)/%.c
+	@echo $(PURPLE) "\tCompiling $<"$(RESET)
+	@mkdir $(OBJECTS_PATH) 2> /dev/null || true
+	@gcc $(FLAGS) -o $@ -c $<
 
-clean:
-	@find . -name "*.o" -type f -delete
-	@echo "\x1b[31m".o files were deleted "\x1b[0m"
+$(OBJECTS_PATH)/%.o: $(READ_PATH)/%.c
+	@echo $(PURPLE) "\tCompiling $<"$(RESET)
+	@mkdir $(OBJECTS_PATH) 2> /dev/null || true
+	@gcc $(FLAGS) -o $@ -c $<
 
-fclean: clean
-	@rm -f $(VM_NAME) $(LIBRARY)
-	@echo "\x1b[31m"exec files were deleted "\x1b[0m"
 
+#------ make clean ------
+cleanlib:
+	# @make clean -C ../libft
+
+clean: cleanlib
+	@echo $(YELLOW)"\t\t\t\tCOREWAR"$(RESET)
+	@rm -f $(FILES_OBJ)
+	@rm -f $(OTHER_OBG)
+	@echo $(RED) "\t.o files have been cleaned.\n"$(RESET)
+	@rm -rf $(OBJECTS_PATH)
+	@echo $(RED) "\t./objects path have been cleaned."$(RESET)
+
+#------ make fclean ------
+fcleanlib:
+	# @make fclean -C ../libft
+
+fclean: fcleanlib
+	@echo $(YELLOW)"\t\t\t\tCOREWAR"$(RESET)
+	@rm -f $(FILES_OBJ)
+	@rm -f $(OTHER_OBG)
+	@echo $(RED) "\t.o files have been cleaned.\n"$(RESET)
+	@rm -rf $(OBJECTS_PATH)
+	@echo $(RED) "\t./objects path have been cleaned."$(RESET)
+	@rm -f $(NAME)
+	@echo $(RED) "\tcorewar have been cleaned.\n"$(RESET)
+
+#------ make re ------
 re: fclean all
+
+

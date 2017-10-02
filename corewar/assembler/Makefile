@@ -12,12 +12,12 @@ EOC ="\033[0;0m"
 RESET = "\x1b[0m"
 # ==================
 
-LIB = libft.a
+LIBRARY = ../libft/libft.a
 
 NAME = asm
 HEAD = header/asm.h header/other.h header/func.h
 
-# FLAGS = -Wall -Wextra -Werror
+FLAGS = -Wall -Wextra -Werror
 
 #------ path -------
 FILES_PATH		= ./files
@@ -46,7 +46,7 @@ $(NAME): $(FILES_OBJ) $(OTHER_OBG) $(FILL_OBG) $(VALIDATE_OBJ)
 	@echo "\n"
 	@make -C ../libft/
 	@echo $(CYAN) "\tCompiling $@"$(RESET)
-	@gcc $(FLAGS) -o $@ $^ ../libft/libft.a
+	@gcc $(FLAGS) -o $@ $^ $(LIBRARY)
 	@echo $(GREEN) "\tasm\t\t- has been made\n"$(RESET)
 
 $(OBJECTS_PATH)/%.o: $(VALIDATE_PATH)/%.c
@@ -71,7 +71,7 @@ $(OBJECTS_PATH)/%.o: $(FILL_PATH)/%.c
 
 #------ make clean ------
 cleanlib:
-	# @make clean -C ../libft
+	@make clean -C ../libft
 
 clean: cleanlib
 	@echo $(YELLOW)"\t\t\t\tASSEMBLER"$(RESET)
@@ -82,7 +82,7 @@ clean: cleanlib
 
 #------ make fclean ------
 fcleanlib:
-	# @make fclean -C ../libft
+	@make fclean -C ../libft
 
 fclean: fcleanlib
 	@echo $(YELLOW)"\t\t\t\tASSEMBLER"$(RESET)

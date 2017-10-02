@@ -29,9 +29,9 @@ OBJECTS_PATH	= ./objects
 
 #------ files ------
 FILES_FILES		= main
-OTHER_FILES		= struct_create other print_error
-FILL_FILES		= fill_arguments commands
-VALIDATE_FILES	= label_command header check
+OTHER_FILES		= struct_create other print_error_1 print_error_2
+FILL_FILES		= fill_command_arguments commands
+VALIDATE_FILES	= label_command header check crop_name_and_comment check_number
 
 #------ other ------
 FILES_OBJ 		= $(addprefix $(OBJECTS_PATH)/, $(addsuffix .o, $(FILES_FILES)))
@@ -75,10 +75,13 @@ cleanlib:
 
 clean: cleanlib
 	@echo $(YELLOW)"\t\t\t\tASSEMBLER"$(RESET)
-	@rm -f $(HEART_OBJ)
+	@rm -f $(FILES_OBJ)
 	@rm -f $(OTHER_OBG)
-	@rm -f $(FUNC_OBG)
+	@rm -f $(FILL_OBG)
+	@rm -f $(VALIDATE_OBJ)
 	@echo $(RED) "\t.o files have been cleaned.\n"$(RESET)
+	@rm -rf $(OBJECTS_PATH)
+	@echo $(RED) "\t./objects path have been cleaned."$(RESET)
 
 #------ make fclean ------
 fcleanlib:
@@ -86,10 +89,11 @@ fcleanlib:
 
 fclean: fcleanlib
 	@echo $(YELLOW)"\t\t\t\tASSEMBLER"$(RESET)
-	@rm -f $(HEART_OBJ)
+	@rm -f $(FILES_OBJ)
 	@rm -f $(OTHER_OBG)
-	@rm -f $(FUNC_OBG)
-	@echo $(RED)"\t.o files have been cleaned."$(RESET)
+	@rm -f $(FILL_OBG)
+	@rm -f $(VALIDATE_OBJ)
+	@echo $(RED) "\t.o files have been cleaned.\n"$(RESET)
 	@rm -rf $(OBJECTS_PATH)
 	@echo $(RED) "\t./objects path have been cleaned."$(RESET)
 	@rm -f $(NAME)

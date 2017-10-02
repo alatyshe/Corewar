@@ -32,8 +32,8 @@ int main()
 	header->commands = cmd;
 	cmd->str= "live";
 	cmd->cmd_in_hex = 0x01;
-	cmd->label = "label";
-	cmd->arg_types = 0x1;
+	cmd->label = "some label";
+	cmd->arg_types = 0xD8;
 
 	ft_printf("%s", "hello main\n");
 

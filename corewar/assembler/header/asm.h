@@ -34,7 +34,7 @@
 # define STRING_AFTER		3
 # define ENDLINE			4
 # define DIRECT				5
-# define DIRECT_LABEL		6		
+# define DIRECT_LABEL		6
 # define INSTRUCTION		7
 # define REGISTER			8
 # define INDIRECT			9
@@ -59,8 +59,8 @@ typedef struct		s_cmd
 	int					line;
 	int					x;
 	char				*str;
-	short				cmd_size;
-	char				cmd_in_hex;
+	short				size;
+	char				code;
 	unsigned char		arg_types;
 	union u_arg			**arg;
 	struct s_cmd		*next;
@@ -80,50 +80,43 @@ typedef struct		s_header
 	char				*prog_name;
 	unsigned int		prog_size;
 	char				*prog_comment;
-	
 	char				error;
 	char				*error_str;
+	int					last_cmd_line;
 	int					line;
-	int					x;
+	unsigned int		x;
 	t_cmd				*commands;
 }					t_header;
 
 t_cmd				*create_t_cmd();
 t_arg				*create_t_arg();
 t_header			*create_t_header();
-
-
-
-
 int					find_chars_in_str(char *str, char *find);
 int					cmp_char_with_str(char c, char *find);
-int					check_new_line_at_the_end(int fd, int *x);
+int					check_new_line_at_the_end(int fd, unsigned int *x);
 void				concat_and_free(char **cmt_cmd, char *read);
 t_cmd				*get_last_cmd(t_header *head);
 int					ft_str_find_char(char *str, int (*f)(int));
 void				print_commands(t_header *head);
-int					fill_cmd_arg(t_header *head, t_cmd *cmd,
-	char *str, int arg_num);
-void				fill_arguments(t_header *head, t_cmd *cmd);
-
+void				print_command(t_cmd *cmd);
+void				fill_command_arguments(t_header *head);
 int					error_type(t_header *head, int type, int error);
 int					error_line_char(t_header *head, char *str);
-
 int					header(t_header *head, char *read, int fd);
-void				label_command(t_header *head, char *read, int fd);
-
-void				label(t_header *head, t_cmd *command,
-	char *read, int fd);
+void				label_command(t_header *head, char *read);
 void				command(t_header *head, t_cmd *cmd, char *read);
-
-
-int					check_symbols_after_cmd(t_header *head, t_cmd *cmd, char *read);
+int					crop_name_and_comment(t_header *head,
+	char **save_in, unsigned int len);
+int					check_symbols_after_cmd(t_header *head,
+	t_cmd *cmd, char *read);
 int					check_syntax(t_header *head, char *read, char *str);
 int					check_number(t_header *head, char *read);
-
-
 int					error_command(t_header *head, int type, int error);
 int					error_label(t_header *head, int type, int error);
-int					error_arguments(t_cmd *cmd, int type, int argc, char *type_arg);
-
+void				error_invalid_argument(t_header *head, t_cmd *cmd,
+	char *read, int arg_num);
+int					error_arg(t_cmd *cmd, int type, int argc, char *type_arg);
+int					create_file(t_header *header);
+int					get_label_distance(t_header *head,
+	char *to_find, t_cmd *position);
 #endif

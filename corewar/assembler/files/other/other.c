@@ -69,7 +69,7 @@ int					cmp_char_with_str(char c, char *find)
 	return (0);
 }
 
-int					check_new_line_at_the_end(int fd, int *x)
+int					check_new_line_at_the_end(int fd, unsigned int *x)
 {
 	char			buff[1];
 

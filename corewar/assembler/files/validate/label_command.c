@@ -12,6 +12,61 @@
 
 #include "../../header/asm.h"
 
+static t_cmd		*first_entrance_cmd(t_header *head,
+	char *to_find, t_cmd *position, int *find)
+{
+	t_cmd			*copy;
+
+	copy = head->commands;
+	while (copy->next)
+	{
+		if (copy->label != NULL && ft_strncmp(copy->label, to_find,
+			find_chars_in_str(to_find, " \n\t\v\r\f,")) == SAME)
+		{
+			*find = -2;
+			return (copy);
+		}
+		if (position == copy)
+		{
+			*find = 2;
+			return (copy);
+		}
+		copy = copy->next;
+	}
+	*find = 0;
+	return (head->commands);
+}
+
+int					get_label_distance(t_header *head,
+	char *to_find, t_cmd *position)
+{
+	t_cmd			*copy;
+	int				find;
+	int				summ;
+
+	summ = 0;
+	copy = first_entrance_cmd(head, to_find, position, &find);
+	while (copy->next)
+	{
+		if (find == -2)
+		{
+			if (position == copy)
+				return (summ * -1);
+		}
+		if (find == 2)
+		{
+			if (copy->label != NULL
+				&& ft_strncmp(copy->label, to_find,
+					find_chars_in_str(to_find, " \n\t\v\r\f,")) == SAME)
+				return (summ);
+		}
+		summ += copy->size;
+		copy = copy->next;
+	}
+	error_type(head, NO_LABEL, DIRECT_LABEL);
+	return (0);
+}
+
 t_cmd				*get_last_cmd(t_header *head)
 {
 	t_cmd			*cmd;
@@ -28,10 +83,9 @@ t_cmd				*get_last_cmd(t_header *head)
 	return (head->commands);
 }
 
-void				label(t_header *head, t_cmd *command,
-	char *read, int fd)
+static void			label(t_header *head, t_cmd *command,
+	char *read)
 {
-	int				error;
 	int				i;
 	int				x;
 
@@ -58,19 +112,20 @@ void				label(t_header *head, t_cmd *command,
 	head->x += x;
 }
 
-void				label_command(t_header *head, char *read, int fd)
+void				label_command(t_header *head, char *read)
 {
 	t_cmd			*cmd;
-	int				i;
 
 	head->x = skip_spaces(read);
 	check_syntax(head, read, AVAILABLE_CHARS);
-	if (head->error == 0 && read[head->x])
+	if (head->error == 0 && read)
 	{
 		if (read[head->x] == COMMENT_CHAR)
 			return ;
 		cmd = get_last_cmd(head);
-		label(head, cmd, read + head->x, fd);
+		cmd->line = head->line;
+		head->last_cmd_line = cmd->line;
+		label(head, cmd, read + head->x);
 		if (head->error > 0)
 			return ;
 		head->x += skip_spaces(read + head->x);

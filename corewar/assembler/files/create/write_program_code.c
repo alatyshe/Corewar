@@ -12,28 +12,28 @@
 
 #include "../../header/create.h"
 
-int 	write_arg(int fd,t_header *header, t_function *function)
+int 	write_arg(int fd, t_header *header, t_cmd *cmd)
 {
 	return (0);
 }
 
-int		write_function(int fd,t_header *header, t_function *function)
+int		write_cmd(int fd,t_header *header, t_cmd *cmd)
 {
-	write(fd, &function->func_in_hex, 1);
-	write(fd, &function->arg_types, 1);
-	write_arg(fd, header, function);
+	write(fd, &cmd->cmd_in_hex, 1);
+	write(fd, &cmd->arg_types, 1);
+	write_arg(fd, header, cmd);
 	return (0);
 }
 
 int 	write_program(int fd, t_header *header)
 {
-	t_function	*function;
+	t_cmd	*cmd;
 
-	function = header->functions;
-	while (function)
+	cmd = header->commands;
+	while (cmd)
 	{
-		write_function(fd, header, function);
-		function = function->next;
+		write_cmd(fd, header, cmd);
+		cmd = cmd->next;
 	}
 
 	return (0);

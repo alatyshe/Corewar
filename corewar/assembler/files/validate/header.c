@@ -12,8 +12,7 @@
 
 #include "../../header/asm.h"
 
-static int			check_symbols_after_quotes(t_header *head,
-	char **record, char *read)
+static int			check_symbols_after_quotes(t_header *head, char *read)
 {
 	char			*second_quote;
 
@@ -35,12 +34,10 @@ static int			check_symbols_after_quotes(t_header *head,
 static int			read_name_comment(t_header *head, char **record,
 	char *read)
 {
-	char			*buff;
-
 	head->line++;
 	if (ft_strchr(read, '"') != NULL)
 	{
-		check_symbols_after_quotes(head, record, read);
+		check_symbols_after_quotes(head, read);
 		concat_and_free(record, read);
 		return (0);
 	}
@@ -52,8 +49,6 @@ static int			read_name_comment(t_header *head, char **record,
 static int			save_header(t_header *head, char **record,
 	char *read, int fd)
 {
-	char			*find_error;
-	int				x;
 	int				succes;
 
 	if (ft_strchr(read + head->x, '"') == NULL)
@@ -73,7 +68,7 @@ static int			save_header(t_header *head, char **record,
 		head->line += check_new_line_at_the_end(fd, &head->x);
 		return (error_type(head, SYNTAX_ERROR, END));
 	}
-	check_symbols_after_quotes(head, record, read);
+	check_symbols_after_quotes(head, read);
 	*record = ft_strdup(read);
 	return (0);
 }

@@ -36,7 +36,8 @@ static int			check_digits(char *read)
 	x = 0;
 	if (read[x] == '-')
 		x++;
-	while (read[x] && (read[x] != SEPARATOR_CHAR && !ft_isblank(read[x])))
+	while (read[x] && read[x] != SEPARATOR_CHAR
+		&& !ft_isblank(read[x]) && read[x] != ';')
 	{
 		if (!ft_isdigit(read[x]))
 			return (-1);
@@ -45,7 +46,22 @@ static int			check_digits(char *read)
 	return (x);
 }
 
-int					check_symbols_after_cmd(t_header *head, t_cmd *cmd, char *read)
+static void			separator_char_error(t_header *head, t_cmd *cmd, char *read)
+{
+	if (ft_isdigit(read[0]) && check_digits(read) > 0)
+		error_arg(cmd, INVALID_PAR, g_tab[cmd->code - 1].count_arg, "indirect");
+	else if (read[0] == REGISTER_CHAR && check_digits(read + 2) > 0)
+		error_arg(cmd, INVALID_PAR, g_tab[cmd->code - 1].count_arg, "register");
+	else if (read[0] == DIRECT_CHAR && check_digits(read + 2) > 0)
+		error_arg(cmd, INVALID_PAR, g_tab[cmd->code - 1].count_arg, "direct");
+	else if (ft_isdigit(read[0]) && check_digits(read + 2) == 0)
+		error_type(head, LEXICAL_ERROR, EMPTY);
+	else
+		error_type(head, SYNTAX_ERROR, LBL_INSTR);
+}
+
+int					check_symbols_after_cmd(t_header *head,
+	t_cmd *cmd, char *read)
 {
 	int				i;
 
@@ -53,20 +69,8 @@ int					check_symbols_after_cmd(t_header *head, t_cmd *cmd, char *read)
 	if (read[i] && read[i] != COMMENT_CHAR && read[i] != ';')
 	{
 		head->error = EMPTY;
-		if (read[i] == SEPARATOR_CHAR)
-		{
-			i++;
-			if (ft_isdigit(read[i]) && check_digits(read + i) > 0)
-				error_arguments(cmd, INVALID_PAR, g_tab[cmd->cmd_in_hex - 1].count_arg, "indirect");
-			else if (read[i] == REGISTER_CHAR && check_digits(read + 2) > 0)
-				error_arguments(cmd, INVALID_PAR, g_tab[cmd->cmd_in_hex - 1].count_arg, "register");
-			else if (read[i] == DIRECT_CHAR && check_digits(read + 2) > 0)
-				error_arguments(cmd, INVALID_PAR, g_tab[cmd->cmd_in_hex - 1].count_arg, "direct");
-			else if (ft_isdigit(read[i]) && check_digits(read + 2) == 0)
-				error_type(head, LEXICAL_ERROR, EMPTY);
-			else
-				error_type(head, SYNTAX_ERROR, LBL_INSTR);
-		}
+		if (read[i] == SEPARATOR_CHAR && (++i))
+			separator_char_error(head, cmd, read + i);
 		else if (read[i] == DIRECT_CHAR && check_digits(read + 1) > 0)
 			error_type(head, SYNTAX_ERROR, DIRECT);
 		else if (read[i] == REGISTER_CHAR && check_digits(read + 1) > 0)
@@ -79,28 +83,4 @@ int					check_symbols_after_cmd(t_header *head, t_cmd *cmd, char *read)
 			error_type(head, SYNTAX_ERROR, LBL_INSTR);
 	}
 	return (i);
-}
-
-int					check_number(t_header *head, char *read)
-{
-	int				x;
-	int				indicator;
-
-	x = 0;
-	indicator = 0;
-	if (read[x] == '-')
-		x++;
-	while (read[x] && (read[x] != SEPARATOR_CHAR && !ft_isblank(read[x])))
-	{
-		if (read[x] == LABEL_CHAR)
-			indicator = 1;
-		if (!ft_isdigit(read[x]) && indicator == 0)
-		{
-			error_type(head, SYNTAX_ERROR, LBL_INSTR);
-			return (x);
-		}
-		x++;
-	}
-	x += skip_spaces(read + x);
-	return (x);
 }

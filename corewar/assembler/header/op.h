@@ -105,7 +105,7 @@ static	t_op		g_tab[17] =
 	{0, 0, {0}, 0, 0, 0, 0, 0}
 };
 
-static int			g_sizes[17][4] = 
+static int			g_sizes[17][4] =
 {
 	{0, 1, 4, 2},
 	{1, 1, 4, 2},

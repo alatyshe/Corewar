@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   crop_name_and_comment.c                            :+:      :+:    :+:   */
+/*   check_number.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alatyshe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,27 +12,47 @@
 
 #include "../../header/asm.h"
 
-int					crop_name_and_comment(t_header *head,
-	char **save_in, int len)
+static int			check_empty(t_header *head, char *read, int x)
 {
-	char			*first;
-	char			*second;
+	if (x == 0)
+	{
+		error_type(head, SYNTAX_ERROR, LBL_INSTR);
+		return (-1);
+	}
+	else if (x == 1 && read[0] == '-')
+	{
+		error_type(head, LEXICAL_ERROR, EMPTY);
+		return (0);
+	}
+	x += skip_spaces(read + x);
+	return (x);
+}
+
+int					check_number(t_header *head, char *read)
+{
+	int				x;
 	int				indicator;
 
-	first = ft_strchr(*save_in, '\"');
-	*first++ = '\0';
-	second = ft_strchr(first, '\"');
-	*second = '\0';
-	second = *save_in;
-	*save_in = ft_strdup(first);
-	free(second);
-	if (ft_strlen(*save_in) > len)
+	x = 0;
+	indicator = 0;
+	if (read[x] == LABEL_CHAR)
+		indicator = 1;
+	if (ft_isblank(read[x]))
 	{
-		head->error = EMPTY;
-		if (len == PROG_NAME_LENGTH)
-			return (error_arg(NULL, PROG_NAME_LENGTH, 0, NULL));
-		if (len == COMMENT_LENGTH)
-			return (error_arg(NULL, COMMENT_LENGTH, 0, NULL));
+		error_type(head, LEXICAL_ERROR, EMPTY);
+		return (x);
 	}
-	return (0);
+	if (read[x] == '-')
+		x++;
+	while (read[x] && read[x] != SEPARATOR_CHAR
+		&& !ft_isblank(read[x]) && read[x] != ';')
+	{
+		if (!ft_isdigit(read[x]) && indicator == 0)
+		{
+			error_type(head, SYNTAX_ERROR, LBL_INSTR);
+			return (x);
+		}
+		x++;
+	}
+	return (check_empty(head, read, x));
 }

@@ -12,45 +12,57 @@
 
 #include "../../header/asm.h"
 
-int					get_label_distance(t_header *head, char *to_find, t_cmd *position)
+static t_cmd		*first_entrance_cmd(t_header *head,
+	char *to_find, t_cmd *position, int *find)
+{
+	t_cmd			*copy;
+
+	copy = head->commands;
+	while (copy->next)
+	{
+		if (copy->label != NULL && ft_strncmp(copy->label, to_find,
+			find_chars_in_str(to_find, " \n\t\v\r\f,")) == SAME)
+		{
+			*find = -2;
+			return (copy);
+		}
+		if (position == copy)
+		{
+			*find = 2;
+			return (copy);
+		}
+		copy = copy->next;
+	}
+	*find = 0;
+	return (head->commands);
+}
+
+int					get_label_distance(t_header *head,
+	char *to_find, t_cmd *position)
 {
 	t_cmd			*copy;
 	int				find;
 	int				summ;
 
-	copy = head->commands;
 	summ = 0;
-	find = 0;
+	copy = first_entrance_cmd(head, to_find, position, &find);
 	while (copy->next)
 	{
-		if (find == 0 && copy->label != NULL
-			&& ft_strncmp(copy->label, to_find, find_chars_in_str(to_find, " \n\t\v\r\f,")) == SAME)
-			find = -2;
-		if (find == 0 && position == copy)
-			find = 2;
 		if (find == -2)
 		{
 			if (position == copy)
-			{
-				find = -1;
-				break ;
-			}
-			summ += copy->size;
+				return (summ * -1);
 		}
 		if (find == 2)
 		{
 			if (copy->label != NULL
-				&& ft_strncmp(copy->label, to_find, find_chars_in_str(to_find, " \n\t\v\r\f,")) == SAME)
-			{
-				find = 1;
-				break ;
-			}
-			summ += copy->size;
+				&& ft_strncmp(copy->label, to_find,
+					find_chars_in_str(to_find, " \n\t\v\r\f,")) == SAME)
+				return (summ);
 		}
+		summ += copy->size;
 		copy = copy->next;
 	}
-	if (find == -1 || find == 1)
-		return (summ * find);
 	error_type(head, NO_LABEL, DIRECT_LABEL);
 	return (0);
 }

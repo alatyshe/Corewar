@@ -35,7 +35,7 @@ int					get_label_distance(t_header *head, char *to_find, t_cmd *position)
 				find = -1;
 				break ;
 			}
-			summ += copy->cmd_size;
+			summ += copy->size;
 		}
 		if (find == 2)
 		{
@@ -45,7 +45,7 @@ int					get_label_distance(t_header *head, char *to_find, t_cmd *position)
 				find = 1;
 				break ;
 			}
-			summ += copy->cmd_size;
+			summ += copy->size;
 		}
 		copy = copy->next;
 	}

@@ -40,22 +40,22 @@ void				error_invalid_argument(t_header *head, t_cmd *cmd,
 {
 	head->error = EMPTY;
 	if (read[0] == DIRECT_CHAR)
-		error_arguments(cmd, INVALID_PAR, arg_num, "direct");
+		error_arg(cmd, INVALID_PAR, arg_num, "direct");
 	else if (read[0] == REGISTER_CHAR)
-		error_arguments(cmd, INVALID_PAR, arg_num, "register");
+		error_arg(cmd, INVALID_PAR, arg_num, "register");
 	else if (ft_isdigit(read[0]))
-		error_arguments(cmd, INVALID_PAR, arg_num, "indirect");
+		error_arg(cmd, INVALID_PAR, arg_num, "indirect");
 	else
 		error_type(head, SYNTAX_ERROR, LBL_INSTR);
 }
 
-int					error_arguments(t_cmd *cmd, int type,
+int					error_arg(t_cmd *cmd, int type,
 	int argc, char *type_arg)
 {
 	if (type == INVALID_PAR)
 	{
 		ft_printf("Invalid parameter %d type %s for instruction ", argc, type_arg);
-		ft_printf("%s [TOKKEN]", g_tab[cmd->cmd_in_hex - 1].name);
+		ft_printf("%s [TOKKEN]", g_tab[cmd->code - 1].name);
 	}
 	if (type == PROG_NAME_LENGTH)
 		ft_printf("Champion name too long (Max length 128)\n");
@@ -107,40 +107,4 @@ int					error_line_char(t_header *head, char *str)
 		ft_printf("COMMAND_COMMENT \".comment\"");
 	ft_putchar_fd('\n', 2);
 	return (0);
-}
-
-void				print_command(t_cmd *cmd)
-{
-	printf("%s===================================%s\n", GREEN, RESET);
-	printf("cmd->label\t: |%s|\n", cmd->label);
-	printf("NAME\t\t: %s\n", g_tab[cmd->cmd_in_hex - 1].name);
-	printf("cmd->str\t: |%s|\n", cmd->str);
-	printf("cmd->line\t: %d\n", cmd->line);
-	printf("cmd->x\t\t: %d\n", cmd->x);
-	printf("%s++++++++++++++++++++++++++++++++++++%s\n", MAGENTA, RESET);
-	printf("cmd->cmd_size :\t|%d|\n", cmd->cmd_size);
-	printf("\n");
-	printf("%02x", cmd->cmd_in_hex);
-	if (g_tab[cmd->cmd_in_hex - 1].coding_byte == 1)
-		printf("%x", cmd->arg_types);
-	printf("|%02x|", cmd->arg[0]->num);
-	if (g_tab[cmd->cmd_in_hex - 1].count_arg > 1)
-		printf("|%02x|", cmd->arg[1]->num);
-	if (g_tab[cmd->cmd_in_hex - 1].count_arg > 2)
-		printf("|%02x|", cmd->arg[2]->num);
-	printf("\n%s===================================%s\n\n", RED, RESET);
-}
-
-void				print_commands(t_header *head)
-{
-	t_cmd			*cmd;
-
-	cmd = head->commands;
-	printf("head->prog_size : %x\n", head->prog_size);
-	if (cmd)
-		while (cmd->next)
-		{
-			print_command(cmd);
-			cmd = cmd->next;
-		}
 }

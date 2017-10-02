@@ -31,7 +31,7 @@ OBJECTS_PATH	= ./objects
 FILES_FILES		= main
 OTHER_FILES		= struct_create other print_error
 FILL_FILES		= fill_command_arguments commands
-VALIDATE_FILES	= label_command header check crop_name_comment
+VALIDATE_FILES	= label_command header check crop_name_and_comment
 
 #------ other ------
 FILES_OBJ 		= $(addprefix $(OBJECTS_PATH)/, $(addsuffix .o, $(FILES_FILES)))

@@ -59,8 +59,8 @@ typedef struct		s_cmd
 	int					line;
 	int					x;
 	char				*str;
-	short				cmd_size;
-	char				cmd_in_hex;
+	short				size;
+	char				code;
 	unsigned char		arg_types;
 	union u_arg			**arg;
 	struct s_cmd		*next;
@@ -108,8 +108,6 @@ void				print_commands(t_header *head);
 void				print_command(t_cmd *cmd);
 
 
-int					fill_cmd_arg(t_header *head, t_cmd *cmd,
-	char *str, int arg_num);
 void				fill_command_arguments(t_header *head);
 
 int					error_type(t_header *head, int type, int error);
@@ -122,17 +120,20 @@ void				label(t_header *head, t_cmd *command,
 	char *read, int fd);
 void				command(t_header *head, t_cmd *cmd, char *read);
 
-int					crop_name_comment(t_header *head);
+int					crop_name_and_comment(t_header *head);
 
 int					check_symbols_after_cmd(t_header *head, t_cmd *cmd, char *read);
 int					check_syntax(t_header *head, char *read, char *str);
 int					check_number(t_header *head, char *read);
 
-
+void				error_last_line(t_header *head);
 int					error_command(t_header *head, int type, int error);
 int					error_label(t_header *head, int type, int error);
-int					error_arguments(t_cmd *cmd, int type, int argc, char *type_arg);
+void				error_invalid_argument(t_header *head, t_cmd *cmd,
+	char *read, int arg_num);
+int					error_arg(t_cmd *cmd, int type, int argc, char *type_arg);
 
 int					create_file(t_header *header);
 
+int					get_label_distance(t_header *head, char *to_find, t_cmd *position);
 #endif

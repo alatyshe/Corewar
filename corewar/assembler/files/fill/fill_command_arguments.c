@@ -80,8 +80,8 @@ static int			fill_arguments(t_header *head, t_cmd *cmd)
 	pos = 0;
 	arg = 0;
 	head->x = 0;
-	head->prog_size += cmd->cmd_size;
-	while (arg < g_tab[cmd->cmd_in_hex - 1].count_arg)
+	head->prog_size += cmd->size;
+	while (arg < g_tab[cmd->code - 1].count_arg)
 	{
 		pos += detect_arg_type(head, cmd, cmd->str + pos, arg);
 		if (head->error > 0)

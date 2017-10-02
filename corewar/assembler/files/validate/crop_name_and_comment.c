@@ -37,9 +37,9 @@ int					crop_name_and_comment(t_header *head)
 	{
 		head->error = EMPTY;
 		if (indicator == 1)
-			return (error_arguments(NULL, PROG_NAME_LENGTH, 0, NULL));
+			return (error_arg(NULL, PROG_NAME_LENGTH, 0, NULL));
 		if (indicator == 2)
-			return (error_arguments(NULL, COMMENT_LENGTH, 0, NULL));
+			return (error_arg(NULL, COMMENT_LENGTH, 0, NULL));
 	}
 	return (0);
 }

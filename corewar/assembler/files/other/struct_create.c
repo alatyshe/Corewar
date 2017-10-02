@@ -21,8 +21,8 @@ t_cmd				*create_t_cmd(void)
 	cmd->line = 0;
 	cmd->x = 0;
 	cmd->str = NULL;
-	cmd->cmd_size = 0;
-	cmd->cmd_in_hex = -1;
+	cmd->size = 0;
+	cmd->code = -1;
 	cmd->arg_types = 0;
 	cmd->arg = (t_arg **)malloc(sizeof(t_arg *) * 3);
 	cmd->arg[0] = create_t_arg();

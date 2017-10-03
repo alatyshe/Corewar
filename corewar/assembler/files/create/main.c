@@ -31,7 +31,7 @@ int main()
 	cmd = (t_cmd *)malloc(sizeof(t_cmd));
 	header->commands = cmd;
 	cmd->str= "live";
-	cmd->cmd_in_hex = 0x01;
+//	cmd->cmd_in_hex = 0x01;
 	cmd->label = "some label";
 	cmd->arg_types = 0xD8;
 

@@ -65,7 +65,9 @@ static void				file_manipulaton(t_header *head, int fd)
 		crop_name_and_comment(head, &head->prog_comment, COMMENT_LENGTH);
 		if (head->error == 0)
 		{
-			;
+			//пихать запись в файл сюда
+			print_commands(head);
+			create_file(head);
 		}
 	}
 }

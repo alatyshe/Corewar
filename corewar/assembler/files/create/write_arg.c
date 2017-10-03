@@ -6,7 +6,7 @@
 /*   By: coleksii <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/12 16:01:24 by coleksii          #+#    #+#             */
-/*   Updated: 2017/10/03 19:46:02 by coleksii         ###   ########.fr       */
+/*   Updated: 2017/10/03 19:51:38 by coleksii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,6 @@ int		first_arg(t_cmd *cmd, int fd)
 			write_rev_short(fd, cmd->arg[0]->num);
 		else if (g_sizes[cmd->code][2] == 4)
 			write_revers_bytes(fd, cmd->arg[0]->num);
-		else
-			write(2, "some wrong with size_dir", 24);
 	}
 	else if (ar == 3)
 		write_rev_short(fd, cmd->arg[0]->chr);
@@ -59,8 +57,6 @@ int		second_arg(t_cmd *cmd, int fd)
 			write_rev_short(fd, cmd->arg[1]->num);
 		else if (g_sizes[cmd->code][2] == 4)
 			write_revers_bytes(fd, cmd->arg[1]->num);
-		else
-			write(2, "some wrong with size_dir", 24);
 	}
 	else if (ar == 3)
 		write_rev_short(fd, cmd->arg[1]->chr);
@@ -81,8 +77,6 @@ int		third_arg(t_cmd *cmd, int fd)
 			write_rev_short(fd, cmd->arg[2]->num);
 		else if (g_sizes[cmd->code][2] == 4)
 			write_revers_bytes(fd, cmd->arg[2]->num);
-		else
-			write(2, "some wrong with size_dir", 24);
 	}
 	else if (ar == 3)
 		write_rev_short(fd, cmd->arg[2]->chr);

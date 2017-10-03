@@ -50,7 +50,7 @@ int		file_name(t_header *header)
 	s = (char *)malloc(sizeof(char) * (i + 3));
 	s = ft_strcpy(s, header->file_name);
 	s[i + 2] = '\0';
-	s[i + 1] = 'r';
+	s[i + 1] = 'm';
 	s[i] = 'o';
 	s[i - 1] = 'c';
 	s[i - 2] = '.';

@@ -1,8 +1,18 @@
-
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   create.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: coleksii <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/10/03 19:46:26 by coleksii          #+#    #+#             */
+/*   Updated: 2017/10/03 19:48:54 by coleksii         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../../header/create.h"
 
-int 	write_revers_bytes(int fd, int byte)
+int		write_revers_bytes(int fd, int byte)
 {
 	int a;
 
@@ -15,8 +25,7 @@ int 	write_revers_bytes(int fd, int byte)
 	return (0);
 }
 
-
-int		write_first(int fd, t_header * header)
+int		write_first(int fd, t_header *header)
 {
 	int a;
 	int len;
@@ -41,8 +50,8 @@ int		write_first(int fd, t_header * header)
 
 int		file_name(t_header *header)
 {
-	char 	*s;
-	int 	i;
+	char	*s;
+	int		i;
 
 	i = ft_strlen(header->file_name);
 	if (header->file_name[i - 1] != 's' || header->file_name[i - 2] != '.')
@@ -65,7 +74,7 @@ int		create_file(t_header *header)
 
 	if (!file_name(header))
 		return (0);
-	fd = open(header->file_name, O_RDWR|O_CREAT|O_TRUNC , S_IRUSR|S_IWUSR);
+	fd = open(header->file_name, O_RDWR | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR);
 	write_first(fd, header);
 	write_program(fd, header);
 	return (0);

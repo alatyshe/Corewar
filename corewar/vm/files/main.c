@@ -12,32 +12,57 @@
 
 #include "../header/vm.h"
 
+void				mem_copy(short *str1, unsigned char *str2, int len, short mask_col)
+{
+	while (len)
+	{
+		*str1 = *str2;
+		*str1 = *str1 | mask_col;
+		*str1++;
+		*str2++;
+		len--;
+	}
+}
+
+void				memory_map(t_info *info, int total_players)
+{
+	t_map			*map;
+	int				pos;
+	int				distance;
+	short			mask;
+
+	map = create_map();
+	pos = 0;
+	mask = 1;
+	mask = mask << 8;
+	distance = MEM_SIZE / total_players;
+	while(info)
+	{
+		mem_copy(map->map + pos, info->read, info->prog_size, mask);
+		mask = mask << 1;
+		printf("%d\n", mask);
+		pos += distance;
+		info = info->next;
+	}
+	print_map(map->map);
+}
+
 int				main(int argc, char **argv)
 {
-	int			i;
-	t_info		*info;
-	t_info		*begin;
-	t_player	*player;
-	t_player	*first_player;
+	t_info		*files;
+	t_info		*copy_files;
+	int			count_players;
 
-	i = 1;
-	info = create_info();
-	player = create_player();
-	first_player = player;
-	begin = info;
-	while (i < argc)
+	files = NULL;
+	files = read_arguments(argc, argv);
+	count_players = 0;
+	copy_files = files;
+	while (copy_files)
 	{
-		if (info == NULL)
-			info = create_info();
-		if (player == NULL)
-			player = create_player();
-		read_file(argv[i], info);
-		player->player_num = i;
-		player->name = ft_strdup(info->prog_name);
-		player = player->next;
-		info = info->next;
-		i++;
+		// mprint_info(copy_files);
+		copy_files = copy_files->next;
+		count_players++;
 	}
-	filling_map(begin, first_player, i - 1);
+	memory_map(files, count_players);
 	return (0);
 }

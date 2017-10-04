@@ -18,26 +18,26 @@ static int		get_type(t_cmd *cmd, char type, int argc)
 	{
 		cmd->arg_types[argc] = T_REG;
 		if (cmd->arg_types[argc] & g_tab[cmd->cmd_in_hex - 1].arg[argc])
-			return (1);
-		printf("ERROR TYPE ARGUMENT REG_CODE get_type func\n");
+			return (g_sizes[cmd->cmd_in_hex][REG_CODE]);
+		ft_putstr_fd("ERROR TYPE ARGUMENT T_REG get_type func\n", 2);
 	}
 	else if (type == DIR_CODE)
 	{
 		cmd->arg_types[argc] = T_DIR;
 		if (cmd->arg_types[argc] & g_tab[cmd->cmd_in_hex - 1].arg[argc])
-			return ((g_tab[cmd->cmd_in_hex - 1].flag_direct_size == 1) ? 2 : 4);
-		printf("ERROR TYPE ARGUMENT T_DIR get_type func\n");
+			return (g_sizes[cmd->cmd_in_hex][DIR_CODE]);
+		ft_putstr_fd("ERROR TYPE ARGUMENT T_DIR get_type func\n", 2);
 	}
 	else if (type == IND_CODE)
 	{
 		cmd->arg_types[argc] = T_IND;
 		if (cmd->arg_types[argc] & g_tab[cmd->cmd_in_hex - 1].arg[argc])
-			return (2);
-		printf("ERROR TYPE ARGUMENT T_IND get_type func\n");
+			return (g_sizes[cmd->cmd_in_hex][IND_CODE]);
+		ft_putstr_fd("ERROR TYPE ARGUMENT T_IND get_type func\n", 2);
 	}
 	else
-		printf("ERROR get_type func\n");
-	return (0);
+		ft_putstr_fd("ERROR get_type func\n", 2);
+	exit(0);
 }
 
 static int		get_length_arg(t_cmd *cmd, int argc)
@@ -49,51 +49,36 @@ static int		get_length_arg(t_cmd *cmd, int argc)
 	len = 0;
 	mask = 3;
 	if (argc == 0)
-	{
 		type = ((cmd->codage_byte >> 6) & mask);
-		len = get_type(cmd, type, argc);
-	}
 	else if (argc == 1)
-	{
 		type = ((cmd->codage_byte >> 4) & mask);
-		len = get_type(cmd, type, argc);
-	}
 	else if (argc == 2)
-	{
 		type = ((cmd->codage_byte >> 2) & mask);
-		len = get_type(cmd, type, argc);
-	}
+	len = get_type(cmd, type, argc);
 	return (len);
 }
 
-static int		fill_args(void *buf, t_cmd *cmd, int pos_buf, int argc)
+static int		fill_args(unsigned char *buf, t_cmd *cmd, int pos_buf, int argc)
 {
-	int			i;
 	int			len;
 
-	i = 0;
+	len = 0;
 	if (g_tab[cmd->cmd_in_hex - 1].coding_byte == 1)
-	{
 		len = get_length_arg(cmd, argc);
-		cmd->arg[argc]->num = get_value(buf + pos_buf, len);
-		i += len;
-	}
 	else
-	{
-		len = (g_tab[cmd->cmd_in_hex - 1].flag_direct_size == 1) ? 2 : 4;
-		cmd->arg[0]->num = get_value(buf + pos_buf, len);
-		i += len;
-	}
-	cmd->cmd_size += i;
-	return (i);
+		len = g_sizes[cmd->cmd_in_hex][DIR_CODE];
+	cmd->arg[argc] = get_value(buf + pos_buf, len);
+	cmd->cmd_size += len;
+	return (len);
 }
 
-t_cmd			*cmd_reading(void *buf, t_cmd *cmd, int pos_buf)
+int				read_commands(unsigned char *buf, t_cmd *cmd, int pos_buf, int file_len)
 {
 	int			argc;
 
 	argc = 0;
-	if (((char*)buf)[pos_buf] >= 1 && ((char*)buf)[pos_buf] <= 16)
+	if (pos_buf < file_len
+		&& ((char*)buf)[pos_buf] >= 1 && ((char*)buf)[pos_buf] <= 16)
 	{
 		if (cmd == NULL)
 			cmd = create_cmd(g_tab[(((char*)buf)[pos_buf] - 1)].count_arg);
@@ -110,8 +95,8 @@ t_cmd			*cmd_reading(void *buf, t_cmd *cmd, int pos_buf)
 			pos_buf += fill_args(buf, cmd, pos_buf, argc);
 			argc++;
 		}
-		print_cmd(cmd);
-		cmd_reading(buf, cmd->next, pos_buf);
+		// print_cmd(cmd);
+		return (read_commands(buf, cmd->next, pos_buf, file_len));
 	}
-	return (0);
+	return (pos_buf);
 }

@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   memory_map.c                                       :+:      :+:    :+:   */
+/*   read_arguments.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dvynokur <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,38 +10,35 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../header/vm.h"
+#include "../../header/vm.h"
 
-void			print_map(short *map)
+t_info			*read_arguments(int argc, char **argv)
 {
 	int			i;
-	short		mask;
-	int			green_mask;
-	int			red_mask;
-	int			blue_mask;
-	int			cyan_mask;
+	t_info		*info;
+	t_info		*start;
+	int			counter_players;
+	t_info		*copy;
 
-
-	mask = 255;
-	green_mask = 256;
-	red_mask = 512;
-	blue_mask = 1024;
-	cyan_mask = 2056;
-	i = 0;
-	while (i < MEM_SIZE)
+	i = 1;
+	start = NULL;
+	counter_players = 0;
+	while (i < argc)
 	{
-		if (map[i] & green_mask)
-			printf("%s", GREEN);
-		else if (map[i] & red_mask)
-			printf("%s", RED);
-		else if (map[i] & blue_mask)
-			printf("%s", BLUE);
-		else if (map[i] & cyan_mask)
-			printf("%s", CYAN);
-		printf("%02x ", (map[i] & mask));
-		printf("%s", RESET);
-		if ((i + 1) % 64 == 0)
-			printf("\n");
+		if (start == NULL)
+		{
+			info = create_info();
+			start = info;
+			counter_players++;
+		}
+		else
+		{
+			info->next = create_info();
+			info = info->next;
+			counter_players++;
+		}
+		read_file(argv[i], info, counter_players);
 		i++;
 	}
+	return (start);
 }

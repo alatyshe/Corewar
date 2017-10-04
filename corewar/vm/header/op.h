@@ -39,7 +39,7 @@
 
 # define LABEL_CHARS			"abcdefghijklmnopqrstuvwxyz_0123456789"
 
-# define NAME_CMD_STRING			".name"
+# define NAME_CMD_STRING		".name"
 # define COMMENT_CMD_STRING		".comment"
 
 # define REG_NUMBER				16
@@ -91,6 +91,27 @@ static	t_op		g_tab[17] =
 	{"lfork", 1, {T_DIR}, 15, 1000, "long fork", 0, 1},
 	{"aff", 1, {T_REG}, 16, 2, "aff", 1, 0},
 	{0, 0, {0}, 0, 0, 0, 0, 0}
+};
+
+static int			g_sizes[17][4] =
+{
+	{0, 1, 4, 2},
+	{1, 1, 4, 2},
+	{2, 1, 4, 2},
+	{3, 1, 4, 2},
+	{4, 1, 4, 2},
+	{5, 1, 4, 2},
+	{6, 1, 4, 2},
+	{7, 1, 4, 2},
+	{8, 1, 4, 2},
+	{9, 1, 2, 2},
+	{10, 1, 2, 2},
+	{11, 1, 2, 2},
+	{12, 1, 2, 2},
+	{13, 1, 4, 2},
+	{14, 1, 2, 2},
+	{15, 1, 2, 2},
+	{16, 1, 4, 2}
 };
 
 #endif

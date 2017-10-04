@@ -27,52 +27,40 @@
 # include "../../libft/header/ft_printf.h"
 # include <stdlib.h>
 
-// typedef struct			s_info
-// {
-// 	unsigned int		magic;
-// 	char				prog_name[PROG_NAME_LENGTH + 1];
-// 	unsigned int		prog_size;
-// 	char				commrnt[COMMENT_LENGTH + 1];
-
-// }						t_info;
-
-
-
-typedef struct			s_map
+typedef struct		s_map
 {
 	short				map[MEM_SIZE + 1];
-	unsigned int		cycle;
-	unsigned int		cycle_to_die;
+	unsigned int		cycle;			//	текущий цикл
+	unsigned int		cycle_to_die;	//	цикл смерти
 	unsigned int		cycle_delta;
-	unsigned int		processes;
-	struct s_player		*players;
+	unsigned int		processes;		//	количество процессов
+	struct s_player		*players;		//	игроки
 	struct s_ps			*ps;
-}						t_map;
+}					t_map;
 
-typedef struct			s_ps
+typedef struct		s_ps
 {
 	t_map				*map;
-	int					reg[16];
-	char				player;
-	char				carry;
-	int					pc;
-	int					pid;
-	int					counter_cycles;
-	int					p_size;
+	int					pc;			//	позиция процесса на карте
+	int					reg[16];	//	его регистры
+	char				player;		//	номер игрока 1 2 4 8
+	char				carry;		//	возможен ли перенос
+	
+	int					pid;		//	номер процесса
+	int					cycles_to_die;	//	текущее количесвто циклов процесса
+	int					cycles_to_cmd;	//	текущее количесвто циклов до запуска процесса
+	int					p_size;		//	длинна исполняемой команды при исполнении
 	struct s_ps			*next;
-}						t_ps;
+}					t_ps;
 
-typedef struct			s_player
+typedef struct		s_player
 {
-	char				*name;
-	char				player;			//don't use it?
-	int					player_num;
-	unsigned int		last_live;
-	unsigned int		lives;
+	char				*name;			//	имя игрока
+	int					player_num;		//	номер игрока
+	unsigned int		last_live;		//	последний крик live (номер цикла)
+	unsigned int		lives;			//	количество криков live
 	struct s_player		 *next;
-}						t_player;
-
-
+}					t_player;
 
 
 
@@ -87,16 +75,9 @@ typedef struct		s_cmd
 	char				cmd_in_hex;
 	char				codage_byte;
 	char				*arg_types;
-	union u_arg			**arg;
+	int					*arg;
 	struct s_cmd		*next;
 }					t_cmd;
-
-typedef union		u_arg
-{
-	int					num;
-	short				shrt;
-	unsigned char		chr;
-}					t_arg;
 
 typedef struct		s_info
 {
@@ -106,8 +87,8 @@ typedef struct		s_info
 	unsigned int 		prog_size;
 	char 				*prog_comment;
 	
-	char				error;
-
+	int					player_num;
+	unsigned char		*read;
 	t_cmd				*commands;
 	struct	s_info		*next;
 }					t_info;
@@ -115,14 +96,14 @@ typedef struct		s_info
 
 // ===================== read ========================
 
-unsigned int	magic_reading(void *buf, t_info *info);
-char			*name_reading(void *buf, t_info *info);
-unsigned int	size_reading(void *buf, t_info *info);
-char			*comment_reading(void *buf, t_info *info);
-t_cmd			*cmd_reading(void *buf, t_cmd *cmd, int pos_buf);
+unsigned int	magic_reading(unsigned char *buf, t_info *info);
+char			*name_reading(unsigned char *buf, t_info *info);
+unsigned int	size_reading(unsigned char *buf, t_info *info);
+char			*comment_reading(unsigned char *buf, t_info *info);
+int				read_commands(unsigned char *buf, t_cmd *cmd, int pos_buf, int len_file);
+t_info			*read_arguments(int argc, char **argv);
 
-
-void			read_file(char *file, t_info *info);
+void			read_file(char *file, t_info *info, int player_num);
 // ===================== create struct ========================
 
 t_info			*create_info(void);
@@ -133,10 +114,11 @@ t_player		*create_player(void);
 
 unsigned int 	get_value(void *buf, int len);
 void			analyzing_buf(void *buf, int buf_size, t_info *info, char *file);
-void			print_cmd(t_cmd *cmd);
 void			filling_map(t_info *info, t_player *player, int processes);
 
-void			print_buf(void *buffer, int buffer_size);
+void			print_buf(unsigned char *buffer, int buffer_size);
 void			print_info(t_info *info);
+void			print_cmd(t_cmd *cmd);
+void			print_map(short *map);
 
 #endif

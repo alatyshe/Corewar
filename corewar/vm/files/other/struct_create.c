@@ -14,62 +14,61 @@
 
 t_cmd			*create_cmd(int args)
 {
-	t_cmd		*new;
+	t_cmd		*cmd;
 	int			i;
 
 	i = 0;
-	new = (t_cmd *)malloc(sizeof(t_cmd));
-	new->cmd_name = NULL;
-	new->cmd_size = 0;
-	new->cmd_in_hex = 0;
-	new->codage_byte = 0;
-	new->arg_types = (char *)malloc(sizeof(char) * args);
-	new->arg = (t_arg **)malloc(sizeof(t_arg *) * args);
-	new->arg = (t_arg **)malloc(sizeof(t_arg *) * args);
-	while (i < args)
-		new->arg[i++] = (t_arg *)malloc(sizeof(t_arg));
-	new->next = NULL;
-	return (new);
+	cmd = (t_cmd *)malloc(sizeof(t_cmd));
+	cmd->cmd_name = NULL;
+	cmd->cmd_size = 0;
+	cmd->cmd_in_hex = 0;
+	cmd->codage_byte = 0;
+	cmd->arg_types = (char *)malloc(sizeof(char) * args);
+	cmd->arg = (int *)malloc(sizeof(int) * args);
+	cmd->next = NULL;
+	return (cmd);
 }
 
 t_info			*create_info(void)
 {
-	t_info		*new;
+	t_info		*info;
 
-	new = (t_info *)malloc(sizeof(t_info));
-	new->file_name = NULL;
-	new->magic = 0;
-	new->prog_name = NULL;
-	new->prog_size = 0;
-	new->prog_comment = NULL;
-	new->error = 0;
-	new->commands = NULL;
-	return (new);
+	info = malloc(sizeof(t_info));
+	info->file_name = NULL;
+	info->magic = 0;
+	info->prog_name = NULL;
+	info->prog_size = 0;
+	info->prog_comment = NULL;
+	info->player_num = 0;
+	info->read = NULL;
+	info->commands = NULL;
+	info->next = NULL;
+	return (info);
 }
 
 t_map			*create_map(void)
 {
-	t_map		*new;
+	t_map		*map;
 
-	new = (t_map *)malloc(sizeof(t_map));
-	new->cycle = 0;
-	new->cycle_to_die = CYCLE_TO_DIE;
-	new->cycle_delta = CYCLE_DELTA;
-	new->processes = 0;
-	new->players = NULL;
-	new->ps = NULL;
-	return (new);
+	map = (t_map *)malloc(sizeof(t_map));
+	ft_bzero(map->map, MEM_SIZE + 1);
+	map->cycle = 0;
+	map->cycle_to_die = CYCLE_TO_DIE;
+	map->cycle_delta = CYCLE_DELTA;
+	map->processes = 0;
+	map->players = NULL;
+	map->ps = NULL;
+	return (map);
 }
 
 t_player		*create_player(void)
 {
-	t_player	*new;
+	t_player	*player;
 
-	new = (t_player *)malloc(sizeof(t_player));
-	new->name = NULL;
-	new->player = 0;
-	new->player_num = 0;
-	new->lives = 0;
-	new->last_live = 0;
-	return (new);
+	player = (t_player *)malloc(sizeof(t_player));
+	player->name = NULL;
+	player->player_num = 0;
+	player->lives = 0;
+	player->last_live = 0;
+	return (player);
 }

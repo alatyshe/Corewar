@@ -1,4 +1,4 @@
-# ----- Colors -----
+#----- Colors -----
 BLACK ="\033[1;30m"
 RED ="\033[1;31m"
 GREEN ="\033[1;32m"
@@ -10,7 +10,7 @@ PURPLE ="\033[1;36m"
 WHITE ="\033[1;37m"
 EOC ="\033[0;0m"
 RESET = "\x1b[0m"
-# ==================
+#==================
 
 LIBRARY = ../libft/libft.a
 
@@ -26,9 +26,10 @@ OTHER_PATH		= ./files/other
 READ_PATH		= ./files/read
 OBJECTS_PATH	= ./objects
 
+
 #------ files ------
 FILES_FILES		= main memory_map 
-READ_FILES		= read_header read_commands reading
+READ_FILES		= read_arguments read_header read_commands read_file 
 OTHER_FILES		= struct_create other print
 
 
@@ -36,6 +37,7 @@ OTHER_FILES		= struct_create other print
 FILES_OBJ 		= $(addprefix $(OBJECTS_PATH)/, $(addsuffix .o, $(FILES_FILES)))
 READ_OBJ		= $(addprefix $(OBJECTS_PATH)/, $(addsuffix .o, $(READ_FILES)))
 OTHER_OBG 		= $(addprefix $(OBJECTS_PATH)/, $(addsuffix .o, $(OTHER_FILES)))
+
 
 #------ make ------
 all: $(NAME)

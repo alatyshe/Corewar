@@ -19,6 +19,6 @@ int		create_file(t_header *header);
 int 	write_program(int fd, t_header *header);
 int 	write_arg(int fd, t_header *header, t_cmd *cmd);
 int 	write_revers_bytes(int fd, int byte);
-int		write_rev_char(int fd, char arg);
+int		write_rev_short(int fd, short arg);
 
 #endif

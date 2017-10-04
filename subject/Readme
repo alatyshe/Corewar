@@ -2,4 +2,4 @@ first
 ./asm champs/ex.s
 
 than
-./corewar -n -d -s -v champs/42.cor champs/toto.cor
+./corewar champs/ex.cor champs/toto.cor -n 

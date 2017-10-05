@@ -63,3 +63,34 @@ void			print_cmd(t_cmd *cmd)
 	}
 	printf("%s===============================%s\n", RED, RESET);
 }
+
+void			print_players(t_player *player)
+{
+	while (player)
+	{
+		printf("player_num: %d\n", player->player_num);
+		printf("pc: %d\n", player->ps->pc);
+		printf("r1: %x\n", player->ps->reg[0]);
+		printf("\n");
+		player = player->next;
+	}
+}
+
+void			print_map(t_map *map)
+{
+	int		i;
+	short	mask;
+
+	mask = 255;
+	i = 0;
+	while (i < MEM_SIZE)
+	{
+		printf("%02x ", map->map[i] & mask);
+		if ((i + 1) % 64 == 0)
+			printf("\n");
+		i++;
+	}
+}
+
+
+

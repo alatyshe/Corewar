@@ -22,14 +22,13 @@
 # define RESET   "\x1b[0m"
 # include "../header/op.h"
 # include <stdio.h>
-// # include "../libft/libft.h"
 # include "../../libft/header/libft.h"
 # include "../../libft/header/ft_printf.h"
 # include <stdlib.h>
 
 typedef struct		s_map
 {
-	short				map[MEM_SIZE + 1];
+	char				map[MEM_SIZE];
 	unsigned int		cycle;			//	текущий цикл
 	unsigned int		cycle_to_die;	//	цикл смерти
 	unsigned int		cycle_delta;
@@ -57,8 +56,10 @@ typedef struct		s_player
 {
 	char				*name;			//	имя игрока
 	int					player_num;		//	номер игрока
+	// short				mask_col;		//	маска цвета
 	unsigned int		last_live;		//	последний крик live (номер цикла)
 	unsigned int		lives;			//	количество криков live
+	struct s_ps			*ps;
 	struct s_player		 *next;
 }					t_player;
 
@@ -119,6 +120,13 @@ void			filling_map(t_info *info, t_player *player, int processes);
 void			print_buf(unsigned char *buffer, int buffer_size);
 void			print_info(t_info *info);
 void			print_cmd(t_cmd *cmd);
-void			print_map(short *map);
+// void			print_map(short *map);
+// void			print_wb_map(short *map);
+void			print_players(t_player *player);
+void			print_map(t_map *map);
+
+
+void			fill_players(int pos, int num, t_map *map);
+
 
 #endif

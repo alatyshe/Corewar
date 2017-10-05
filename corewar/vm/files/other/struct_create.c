@@ -61,6 +61,30 @@ t_map			*create_map(void)
 	return (map);
 }
 
+t_ps			*create_ps(void)
+{
+	t_ps		*ps;
+	int			i;
+
+	i = 1;
+	ps = (t_ps *)malloc(sizeof(t_ps));
+	ps->map = NULL;
+	ps->pc = 0;
+	while (i <= REG_NUMBER)
+	{
+		ps->reg[i - 1] = 0;
+		i++;
+	}
+	ps->player = 0;
+	ps->carry = 0;
+	ps->pid = 0;
+	ps->cycles_to_die = 0;
+	ps->cycles_to_cmd = 0;
+	ps->p_size = 0;
+	ps->next = NULL;
+	return (ps);
+}
+
 t_player		*create_player(void)
 {
 	t_player	*player;
@@ -70,5 +94,12 @@ t_player		*create_player(void)
 	player->player_num = 0;
 	player->lives = 0;
 	player->last_live = 0;
+	player->ps = create_ps();
+	player->next = NULL;
 	return (player);
 }
+
+
+
+
+

@@ -57,7 +57,7 @@ t_map			*create_map(void)
 	map->cycle_delta = CYCLE_DELTA;
 	map->processes = 0;
 	map->players = NULL;
-	map->ps = NULL;
+	// map->ps = NULL;
 	return (map);
 }
 
@@ -77,7 +77,7 @@ t_ps			*create_ps(void)
 	}
 	ps->player = 0;
 	ps->carry = 0;
-	ps->pid = 0;
+	// ps->pid = 0;
 	ps->cycles_to_die = 0;
 	ps->cycles_to_cmd = 0;
 	ps->p_size = 0;
@@ -98,8 +98,3 @@ t_player		*create_player(void)
 	player->next = NULL;
 	return (player);
 }
-
-
-
-
-

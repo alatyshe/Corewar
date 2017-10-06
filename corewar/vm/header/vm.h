@@ -20,11 +20,17 @@
 # define CYAN    "\x1b[36m"
 # define BLACK   "\x1b[37m"
 # define RESET   "\x1b[0m"
-# include "../header/op.h"
+
 # include <stdio.h>
+# include <stdlib.h>
+# include <ncurses.h>
+
+# include "../header/op.h"
 # include "../../libft/header/libft.h"
 # include "../../libft/header/ft_printf.h"
-# include <stdlib.h>
+
+
+
 
 typedef struct		s_map
 {
@@ -34,7 +40,7 @@ typedef struct		s_map
 	unsigned int		cycle_delta;
 	unsigned int		processes;		//	количество процессов
 	struct s_player		*players;		//	игроки
-	struct s_ps			*ps;
+	// struct s_ps			*ps;
 }					t_map;
 
 typedef struct		s_ps
@@ -42,10 +48,11 @@ typedef struct		s_ps
 	t_map				*map;
 	int					pc;			//	позиция процесса на карте
 	int					reg[16];	//	его регистры
+	// int					color;
 	char				player;		//	номер игрока 1 2 4 8
 	char				carry;		//	возможен ли перенос
 	
-	int					pid;		//	номер процесса
+	// int					pid;		//	номер процесса
 	int					cycles_to_die;	//	текущее количесвто циклов процесса
 	int					cycles_to_cmd;	//	текущее количесвто циклов до запуска процесса
 	int					p_size;		//	длинна исполняемой команды при исполнении
@@ -56,11 +63,11 @@ typedef struct		s_player
 {
 	char				*name;			//	имя игрока
 	int					player_num;		//	номер игрока
-	// short				mask_col;		//	маска цвета
+	// int				color;			//	маска цвета
 	unsigned int		last_live;		//	последний крик live (номер цикла)
 	unsigned int		lives;			//	количество криков live
 	struct s_ps			*ps;
-	struct s_player		 *next;
+	struct s_player		*next;
 }					t_player;
 
 
@@ -102,7 +109,7 @@ char			*name_reading(unsigned char *buf, t_info *info);
 unsigned int	size_reading(unsigned char *buf, t_info *info);
 char			*comment_reading(unsigned char *buf, t_info *info);
 int				read_commands(unsigned char *buf, t_cmd *cmd, int pos_buf, int len_file);
-t_info			*read_arguments(int argc, char **argv);
+t_info			*read_arguments(int argc, char **argv, int *counter_players);
 
 void			read_file(char *file, t_info *info, int player_num);
 // ===================== create struct ========================
@@ -115,7 +122,7 @@ t_player		*create_player(void);
 
 unsigned int 	get_value(void *buf, int len);
 void			analyzing_buf(void *buf, int buf_size, t_info *info, char *file);
-void			filling_map(t_info *info, t_player *player, int processes);
+void			fill_map(t_info *info, t_map *map, int total_players);
 
 void			print_buf(unsigned char *buffer, int buffer_size);
 void			print_info(t_info *info);
@@ -126,7 +133,6 @@ void			print_players(t_player *player);
 void			print_map(t_map *map);
 
 
-void			fill_players(int pos, int num, t_map *map);
 
 
 #endif

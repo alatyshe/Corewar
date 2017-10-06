@@ -28,7 +28,7 @@ OBJECTS_PATH	= ./objects
 
 
 #------ files ------
-FILES_FILES		= main memory_map 
+FILES_FILES		= main memory_map fill
 READ_FILES		= read_arguments read_header read_commands read_file 
 OTHER_FILES		= struct_create other print
 
@@ -46,7 +46,7 @@ $(NAME): $(FILES_OBJ) $(OTHER_OBG) $(READ_OBJ)
 	@echo "\n"
 	@make -C ../libft/
 	@echo $(CYAN) "\tCompiling $@"$(RESET)
-	@gcc $(FLAGS) -o $@ $^ $(LIBRARY)
+	@gcc $(FLAGS) -o $@ $^ -lncurses $(LIBRARY)
 	@echo $(GREEN) "\tcorewar\t\t- has been made\n"$(RESET)
 
 $(OBJECTS_PATH)/%.o: $(FILES_PATH)/%.c

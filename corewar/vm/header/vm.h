@@ -45,17 +45,17 @@ typedef struct		s_map
 
 typedef struct		s_ps
 {
-	t_map				*map;
 	int					pc;			//	позиция процесса на карте
 	int					reg[16];	//	его регистры
 	// int					color;
+	char				cmd_in_hex;
+	char				codage_byte;
+	int					*arg;
 	char				player;		//	номер игрока 1 2 4 8
 	char				carry;		//	возможен ли перенос
-	
-	// int					pid;		//	номер процесса
-	int					cycles_to_die;	//	текущее количесвто циклов процесса
-	int					cycles_to_cmd;	//	текущее количесвто циклов до запуска процесса
-	int					p_size;		//	длинна исполняемой команды при исполнении
+	int					cycles_to_cmd;	//	текущее количесвто циклов до выполнения комманды
+	int					check_live;		//	исполнил ли процесс функцию live
+	int					p_size;			//	длинна исполняемой команды при исполнении
 	struct s_ps			*next;
 }					t_ps;
 
@@ -63,9 +63,9 @@ typedef struct		s_player
 {
 	char				*name;			//	имя игрока
 	int					player_num;		//	номер игрока
-	// int				color;			//	маска цвета
+	// int				color;			//	цвет
 	unsigned int		last_live;		//	последний крик live (номер цикла)
-	unsigned int		lives;			//	количество криков live
+	unsigned int		total_lives;	//	количество криков live
 	struct s_ps			*ps;
 	struct s_player		*next;
 }					t_player;
@@ -120,6 +120,8 @@ t_map			*create_map(void);
 t_player		*create_player(void);
 
 
+void			move_pc(t_ps *ps, int delta_pos);
+int				exec_arg_value(char *map, t_ps *ps, int len);
 unsigned int 	get_value(void *buf, int len);
 void			analyzing_buf(void *buf, int buf_size, t_info *info, char *file);
 void			fill_map(t_info *info, t_map *map, int total_players);
@@ -127,12 +129,14 @@ void			fill_map(t_info *info, t_map *map, int total_players);
 void			print_buf(unsigned char *buffer, int buffer_size);
 void			print_info(t_info *info);
 void			print_cmd(t_cmd *cmd);
+void			return_color(int n);
 // void			print_map(short *map);
 // void			print_wb_map(short *map);
 void			print_players(t_player *player);
 void			print_map(t_map *map);
 
 
-
-
+//============================FUNC===============================
+void			live(t_map *all_info, t_player *player, t_ps *ps);
+void			ld(t_map *all_info, t_player *player, t_ps *ps);
 #endif

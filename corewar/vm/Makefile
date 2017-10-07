@@ -24,6 +24,7 @@ HEAD = header/vm.h header/op.h
 FILES_PATH		= ./files
 OTHER_PATH		= ./files/other
 READ_PATH		= ./files/read
+FUNC_PATH		= ./files/func
 OBJECTS_PATH	= ./objects
 
 
@@ -31,18 +32,19 @@ OBJECTS_PATH	= ./objects
 FILES_FILES		= main memory_map fill
 READ_FILES		= read_arguments read_header read_commands read_file 
 OTHER_FILES		= struct_create other print
-
+FUNC_FILES		= live ld
 
 #------ other ------
 FILES_OBJ 		= $(addprefix $(OBJECTS_PATH)/, $(addsuffix .o, $(FILES_FILES)))
 READ_OBJ		= $(addprefix $(OBJECTS_PATH)/, $(addsuffix .o, $(READ_FILES)))
+FUNC_OBJ		= $(addprefix $(OBJECTS_PATH)/, $(addsuffix .o, $(FUNC_FILES)))
 OTHER_OBG 		= $(addprefix $(OBJECTS_PATH)/, $(addsuffix .o, $(OTHER_FILES)))
 
 
 #------ make ------
 all: $(NAME)
 
-$(NAME): $(FILES_OBJ) $(OTHER_OBG) $(READ_OBJ)
+$(NAME): $(FILES_OBJ) $(OTHER_OBG) $(READ_OBJ) $(FUNC_OBJ)
 	@echo "\n"
 	@make -C ../libft/
 	@echo $(CYAN) "\tCompiling $@"$(RESET)
@@ -64,6 +66,10 @@ $(OBJECTS_PATH)/%.o: $(READ_PATH)/%.c
 	@mkdir $(OBJECTS_PATH) 2> /dev/null || true
 	@gcc $(FLAGS) -o $@ -c $<
 
+$(OBJECTS_PATH)/%.o: $(FUNC_PATH)/%.c
+	@echo $(PURPLE) "\tCompiling $<"$(RESET)
+	@mkdir $(OBJECTS_PATH) 2> /dev/null || true
+	@gcc $(FLAGS) -o $@ -c $<
 
 #------ make clean ------
 cleanlib:

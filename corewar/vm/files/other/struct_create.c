@@ -57,7 +57,6 @@ t_map			*create_map(void)
 	map->cycle_delta = CYCLE_DELTA;
 	map->processes = 0;
 	map->players = NULL;
-	// map->ps = NULL;
 	return (map);
 }
 
@@ -66,19 +65,24 @@ t_ps			*create_ps(void)
 	t_ps		*ps;
 	int			i;
 
-	i = 1;
+	
 	ps = (t_ps *)malloc(sizeof(t_ps));
-	ps->map = NULL;
+	ps->arg = (int *)malloc(sizeof(int) * MAX_ARGS_NUMBER);
 	ps->pc = 0;
-	while (i <= REG_NUMBER)
+	i = 0;
+	while (i < REG_NUMBER || i < MAX_ARGS_NUMBER)
 	{
-		ps->reg[i - 1] = 0;
+		if (i < REG_NUMBER)
+			ps->reg[i] = 0;
+		if (i < MAX_ARGS_NUMBER)
+			ps->arg[i] = 0;
 		i++;
 	}
+	ps->cmd_in_hex = 0;
+	ps->codage_byte = 0;
 	ps->player = 0;
 	ps->carry = 0;
-	// ps->pid = 0;
-	ps->cycles_to_die = 0;
+	ps->check_live = 0;
 	ps->cycles_to_cmd = 0;
 	ps->p_size = 0;
 	ps->next = NULL;
@@ -92,7 +96,7 @@ t_player		*create_player(void)
 	player = (t_player *)malloc(sizeof(t_player));
 	player->name = NULL;
 	player->player_num = 0;
-	player->lives = 0;
+	player->total_lives = 0;
 	player->last_live = 0;
 	player->ps = create_ps();
 	player->next = NULL;

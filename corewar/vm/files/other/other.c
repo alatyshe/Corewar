@@ -12,6 +12,30 @@
 
 #include "../../header/vm.h"
 
+void				move_pc(t_ps *ps, int delta_pos)
+{
+	if ((ps->pc + delta_pos) < MEM_SIZE)
+		ps->pc += delta_pos;
+	else
+		ps->pc += delta_pos - MEM_SIZE;
+}
+
+int					exec_arg_value(char *map, t_ps *ps, int len)
+{
+	int				value;
+
+	value = 0;
+	while (len)
+	{
+		value = value | map[ps->pc];
+		len--;
+		move_pc(ps, 1);
+		if (len)
+			value = value << 8;
+	}
+	return (value);
+}
+
 unsigned int		get_value(void *buf, int len)
 {
 	int				j;

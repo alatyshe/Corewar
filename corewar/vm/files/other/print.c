@@ -64,17 +64,58 @@ void			print_cmd(t_cmd *cmd)
 	printf("%s===============================%s\n", RED, RESET);
 }
 
-void			print_players(t_player *player)
+void			print_process(t_ps *ps)
 {
-	while (player)
+	t_ps		*copy_ps;
+	int			i;
+
+	i = 0;
+	copy_ps = ps;
+	while (copy_ps)
 	{
-		printf("player_num: %d\n", player->player_num);
-		printf("pc: %d\n", player->ps->pc);
-		printf("r1: %x\n", player->ps->reg[0]);
+		printf("%s==============================================%s\n", YELLOW, RESET);
+		printf("PS->ProgramCounter:\t%d\n", ps->pc);
+		printf("\t\tREGISTERS\n");
+		while (i < 16)
+		{
+			printf("%05d ", i + 1);
+			i++;
+		}
 		printf("\n");
-		player = player->next;
+		i = 0;
+		while (i < 16)
+		{
+			printf("%05d ", ps->reg[i]);
+			i++;
+		}
+		printf("\n");
+		printf("ps->player:\t\t%d\n", ps->player);
+		printf("ps->carry:\t\t%d\n", ps->carry);
+		printf("ps->cycles_to_cmd:\t%d\n", ps->cycles_to_cmd);
+		printf("ps->check_live:\t\t%d\n", ps->check_live);
+		printf("ps->p_size:\t\t%d\n", ps->p_size);
+		printf("%s==============================================%s\n\n", YELLOW, RESET);
+		copy_ps = copy_ps->next;
 	}
 }
+
+void			print_players(t_player *player)
+{
+	
+	while (player)
+	{
+		printf("%sPLAYER START PLAYER START PLAYER START PLAYER START%s\n", MAGENTA, RESET);
+		printf("%sPLAYER->NAME:%s\t\t%s\n", GREEN, RESET, player->name);
+		printf("%sPLAYER->PLAYER_NUM:%s\t%d\n", GREEN, RESET, player->player_num);
+		printf("%sPLAYER->LAST_LIVE:%s\t%d\n", GREEN, RESET, player->last_live);
+		printf("%sPLAYER->TOTAL_LIVES:%s\t%d\n", GREEN, RESET, player->total_lives);
+		printf("\n");
+		printf("%sPROCESS PROCESS PROCESS PROCESS PROCESS PROCESS PROCESS%s\n", CYAN, RESET);
+		print_process(player->ps);
+		printf("%sPLAYER END PLAYER END PLAYER END PLAYER END PLAYER END PLAYER END PLAYER END PLAYER END%s\n\n\n", MAGENTA, RESET);
+		player = player->next;
+	}
+}	
 
 void			print_map(t_map *map)
 {
@@ -90,6 +131,25 @@ void			print_map(t_map *map)
 			printf("\n");
 		i++;
 	}
+}
+
+void				return_color(int n)
+{
+	if (n == 1)
+		printf("%s", RED);
+	else if (n == 2)
+		printf("%s", GREEN);
+	else if (n == 3)
+		printf("%s", YELLOW);
+	else if (n == 4)
+		printf("%s", BLUE);
+	else if (n == 5)
+		printf("%s", MAGENTA);
+	else if (n == 6)
+		printf("%s", CYAN);
+	else
+		printf("%s", BLACK);
+
 }
 
 

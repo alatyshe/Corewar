@@ -16,15 +16,12 @@ static void			copy_players_commands_on_map(char *str1, unsigned char *str2, int 
 {
 	while (len)
 	{
-		*str1 = *str2;
-		*str1 = *str1;
-		*str1++;
-		*str2++;
+		*str1++ = *str2++;
 		len--;
 	}
 }
 
-static void			fill_players(int pos, int num, t_map *map)
+static void			fill_players(t_map *map, char *name, int pos, int num)
 {
 	t_player	*player;
 
@@ -41,12 +38,11 @@ static void			fill_players(int pos, int num, t_map *map)
 		player->next = create_player();
 		player = player->next;
 	}
-	player->player_num = num;
-	player->ps->map = map;
+	player->name = ft_strdup(name);
+	player->player_num = num * -1;
 	player->ps->pc = pos;
 	player->ps->reg[0] = num * -1;
-	player->ps->player = num;
-	player->ps->cycles_to_die = map->cycle_to_die;
+	player->ps->player = num * -1;
 }
 
 void				fill_map(t_info *info, t_map *map, int total_players)
@@ -54,16 +50,18 @@ void				fill_map(t_info *info, t_map *map, int total_players)
 	int				pos;
 	int				distance;
 	int				player_num;
+	t_info			*copy_info;
 
 	pos = 0;
 	player_num = 0;
+	copy_info = info;
 	distance = MEM_SIZE / total_players;
-	while(info)
+	while(copy_info)
 	{
 		player_num++;
-		copy_players_commands_on_map(map->map + pos, info->read, info->prog_size);
-		fill_players(pos, player_num, map);
+		copy_players_commands_on_map(map->map + pos, copy_info->read, copy_info->prog_size);
+		fill_players(map, copy_info->prog_name, pos, player_num);
 		pos += distance;
-		info = info->next;
+		copy_info = copy_info->next;
 	}	
 }

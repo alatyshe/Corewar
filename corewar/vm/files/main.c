@@ -12,75 +12,53 @@
 
 #include "../header/vm.h"
 
-void				return_color(int n)
-{
-	if (n == 1)
-		printf("%s", RED);
-	else if (n == 2)
-		printf("%s", GREEN);
-	else if (n == 3)
-		printf("%s", YELLOW);
-	else if (n == 4)
-		printf("%s", BLUE);
-	else if (n == 5)
-		printf("%s", MAGENTA);
-	else if (n == 6)
-		printf("%s", CYAN);
-	else
-		printf("%s", BLACK);
-
-}
-
-int					return_pc(int current_pos, int delta_pos)
-{
-	if ((current_pos + delta_pos) < MEM_SIZE)
-		return (current_pos + delta_pos);
-	else
-		return (current_pos + delta_pos - MEM_SIZE);
-}
-
 int					check_command(t_ps *ps, t_map *map)
 {
-	int		pos_buf;
+	int		mask = 255;
 
-	pos_buf = ps->pc;
-	printf("map[pos_buf]: %x\n", map->map[pos_buf]);
-
-	if (map->map[pos_buf] >= 1 && map->map[pos_buf] <= 16)
-	{
-		printf("!!!!!!!!!!!!!!\n");				//here - detection of functions!
+	printf("map[%04d]: [%02x]\n", ps->pc, map->map[ps->pc] & mask);
+	if (map->map[ps->pc] >= 1 && map->map[ps->pc] <= 16)
+	{		
+		return (1);
 	}
 	return (0);
 }
 
-int					executing_ps(t_ps *ps, t_map *map)
+void				executing_ps(t_map *map, t_player *players, t_ps *ps)
 {
-	int				i;
-
-	i = 0;
-	if (check_command(ps, map))
-		i = return_pc(ps->pc, 1);
-	printf("%x\n", ps->reg[0]);
-	return (i);
+	if (!check_command(ps, map))
+		move_pc(ps, 1);
+	else
+	{
+		if (map->map[ps->pc] == 1)
+			live(map, players, ps);
+		else if (map->map[ps->pc] == 2)
+			ld(map, players, ps);
+		// else if (map->map[ps->pc] == 3)
+		// 	st(map, players, ps);
+		// else if (map->map[ps->pc] == 4)
+		// 	add(map, players, ps);
+		// else if (map->map[ps->pc] == 5)
+		// 	sub(map, players, ps);
+		
+	}
 }
 
 void				start_processes(t_map *map)
 {
-	t_player	*p;
+	t_player	*player;
 	t_ps		*ps;
 
-	p = map->players;
-	while (p)
+	player = map->players;
+	while (player)
 	{
-		ps = p->ps;
-		// return_color(p->player_num);
+		ps = player->ps;
 		while (ps)
 		{
-			ps->pc = executing_ps(ps, map);
+			executing_ps(map, map->players, ps);
 			ps = ps->next;
 		}
-		// printf("%s", RESET);
-		p = p->next;
+		player = player->next;
 	}
 }
 
@@ -96,8 +74,17 @@ void				memory_map(t_info *info, int total_players)
 	
 	print_map(map);
 	print_players(map->players);
+	printf("\n");
+	while (map->cycle < 25)
+	{
+		printf("cycle : %d\n", map->cycle);
+		start_processes(map);
+		map->cycle++;
+		printf("\n");
+	}
+	printf("\n");
+	print_players(map->players);
 
-	start_processes(map);
 }
 
 int				main(int argc, char **argv)

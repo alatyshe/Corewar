@@ -45,23 +45,23 @@ static void			fill_players(t_map *map, char *name, int pos, int num)
 	player->ps->player = num * -1;
 }
 
-void				fill_map(t_info *info, t_map *map, int total_players)
+void				fill_map(t_file *file, t_map *map, int total_players)
 {
 	int				pos;
 	int				distance;
 	int				player_num;
-	t_info			*copy_info;
+	t_file			*copy_file;
 
 	pos = 0;
 	player_num = 0;
-	copy_info = info;
+	copy_file = file;
 	distance = MEM_SIZE / total_players;
-	while(copy_info)
+	while(copy_file)
 	{
 		player_num++;
-		copy_players_commands_on_map(map->map + pos, copy_info->read, copy_info->prog_size);
-		fill_players(map, copy_info->prog_name, pos, player_num);
+		copy_players_commands_on_map(map->map + pos, copy_file->read, copy_file->prog_size);
+		fill_players(map, copy_file->prog_name, pos, player_num);
 		pos += distance;
-		copy_info = copy_info->next;
+		copy_file = copy_file->next;
 	}	
 }

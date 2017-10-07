@@ -12,7 +12,7 @@
 
 #include "../../header/vm.h"
 
-unsigned int		magic_reading(unsigned char *buf, t_info *info)
+unsigned int		magic_reading(unsigned char *buf, t_file *file)
 {
 	unsigned int	res;
 
@@ -20,14 +20,14 @@ unsigned int		magic_reading(unsigned char *buf, t_info *info)
 	if (res != COREWAR_EXEC_MAGIC)
 	{
 		ft_putstr_fd("Error: File ", 2);
-		ft_putstr_fd(info->file_name, 2);
+		ft_putstr_fd(file->file_name, 2);
 		ft_putstr_fd(" has an invalid header\n", 2);
 		exit(0);
 	}
 	return (res);
 }
 
-char				*name_reading(unsigned char *buf, t_info *info)
+char				*name_reading(unsigned char *buf, t_file *file)
 {
 	int				i;
 	int				j;
@@ -45,7 +45,7 @@ char				*name_reading(unsigned char *buf, t_info *info)
 	return (res);
 }
 
-unsigned int		size_reading(unsigned char *buf, t_info *info)
+unsigned int		size_reading(unsigned char *buf, t_file *file)
 {
 	int				i;
 	unsigned int	res;
@@ -65,7 +65,7 @@ unsigned int		size_reading(unsigned char *buf, t_info *info)
 	return (res);
 }
 
-char				*comment_reading(unsigned char *buf, t_info *info)
+char				*comment_reading(unsigned char *buf, t_file *file)
 {
 	char			*res;
 	int				i;

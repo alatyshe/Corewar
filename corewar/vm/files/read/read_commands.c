@@ -49,11 +49,11 @@ static int		get_length_arg(t_cmd *cmd, int argc)
 	len = 0;
 	mask = 3;
 	if (argc == 0)
-		type = ((cmd->codage_byte >> 6) & mask);
+		type = ((cmd->coding_byte >> 6) & mask);
 	else if (argc == 1)
-		type = ((cmd->codage_byte >> 4) & mask);
+		type = ((cmd->coding_byte >> 4) & mask);
 	else if (argc == 2)
-		type = ((cmd->codage_byte >> 2) & mask);
+		type = ((cmd->coding_byte >> 2) & mask);
 	len = get_type(cmd, type, argc);
 	return (len);
 }
@@ -88,7 +88,7 @@ int				read_commands(unsigned char *buf, t_cmd *cmd, int pos_buf, int file_len)
 		if (g_tab[cmd->cmd_in_hex - 1].coding_byte == 1)
 		{
 			cmd->cmd_size++;
-			cmd->codage_byte = ((char*)buf)[pos_buf++];
+			cmd->coding_byte = ((char*)buf)[pos_buf++];
 		}
 		while (argc < g_tab[cmd->cmd_in_hex - 1].count_arg)
 		{

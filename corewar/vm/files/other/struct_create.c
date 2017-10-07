@@ -22,28 +22,28 @@ t_cmd			*create_cmd(int args)
 	cmd->cmd_name = NULL;
 	cmd->cmd_size = 0;
 	cmd->cmd_in_hex = 0;
-	cmd->codage_byte = 0;
+	cmd->coding_byte = 0;
 	cmd->arg_types = (char *)malloc(sizeof(char) * args);
 	cmd->arg = (int *)malloc(sizeof(int) * args);
 	cmd->next = NULL;
 	return (cmd);
 }
 
-t_info			*create_info(void)
+t_file			*create_file(void)
 {
-	t_info		*info;
+	t_file		*file;
 
-	info = malloc(sizeof(t_info));
-	info->file_name = NULL;
-	info->magic = 0;
-	info->prog_name = NULL;
-	info->prog_size = 0;
-	info->prog_comment = NULL;
-	info->player_num = 0;
-	info->read = NULL;
-	info->commands = NULL;
-	info->next = NULL;
-	return (info);
+	file = malloc(sizeof(t_file));
+	file->file_name = NULL;
+	file->magic = 0;
+	file->prog_name = NULL;
+	file->prog_size = 0;
+	file->prog_comment = NULL;
+	file->player_num = 0;
+	file->read = NULL;
+	file->commands = NULL;
+	file->next = NULL;
+	return (file);
 }
 
 t_map			*create_map(void)
@@ -68,6 +68,7 @@ t_ps			*create_ps(void)
 	
 	ps = (t_ps *)malloc(sizeof(t_ps));
 	ps->arg = (int *)malloc(sizeof(int) * MAX_ARGS_NUMBER);
+	ps->arg_types = (int *)malloc(sizeof(int) * MAX_ARGS_NUMBER);
 	ps->pc = 0;
 	i = 0;
 	while (i < REG_NUMBER || i < MAX_ARGS_NUMBER)
@@ -75,11 +76,14 @@ t_ps			*create_ps(void)
 		if (i < REG_NUMBER)
 			ps->reg[i] = 0;
 		if (i < MAX_ARGS_NUMBER)
+		{
 			ps->arg[i] = 0;
+			ps->arg_types[i] = 0;
+		}
 		i++;
 	}
 	ps->cmd_in_hex = 0;
-	ps->codage_byte = 0;
+	ps->coding_byte = 0;
 	ps->player = 0;
 	ps->carry = 0;
 	ps->check_live = 0;

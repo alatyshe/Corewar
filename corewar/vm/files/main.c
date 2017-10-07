@@ -62,7 +62,7 @@ void				start_processes(t_map *map)
 	}
 }
 
-void				memory_map(t_info *info, int total_players)
+void				memory_map(t_file *file, int total_players)
 {
 	t_map			*map;
 	int				pos;
@@ -70,11 +70,11 @@ void				memory_map(t_info *info, int total_players)
 	int				player_num;
 
 	map = create_map();
-	fill_map(info, map, total_players);
+	fill_map(file, map, total_players);
 	
-	print_map(map);
-	print_players(map->players);
-	printf("\n");
+	// print_map(map);
+	// print_players(map->players);
+	// printf("\n");
 	while (map->cycle < 25)
 	{
 		printf("cycle : %d\n", map->cycle);
@@ -82,15 +82,15 @@ void				memory_map(t_info *info, int total_players)
 		map->cycle++;
 		printf("\n");
 	}
-	printf("\n");
-	print_players(map->players);
+	// printf("\n");
+	// print_players(map->players);
 
 }
 
 int				main(int argc, char **argv)
 {
-	t_info		*files;
-	t_info		*copy_files;
+	t_file		*files;
+	t_file		*copy_files;
 	int			count_players;
 
 	files = NULL;

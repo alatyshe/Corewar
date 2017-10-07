@@ -12,12 +12,12 @@
 
 #include "../../header/vm.h"
 
-t_info			*read_arguments(int argc, char **argv, int *counter_players)
+t_file			*read_arguments(int argc, char **argv, int *counter_players)
 {
 	int			i;
-	t_info		*info;
-	t_info		*start;
-	t_info		*copy;
+	t_file		*file;
+	t_file		*start;
+	t_file		*copy;
 
 	i = 1;
 	start = NULL;
@@ -25,17 +25,17 @@ t_info			*read_arguments(int argc, char **argv, int *counter_players)
 	{
 		if (start == NULL)
 		{
-			info = create_info();
-			start = info;
+			file = create_file();
+			start = file;
 			(*counter_players)++;
 		}
 		else
 		{
-			info->next = create_info();
-			info = info->next;
+			file->next = create_file();
+			file = file->next;
 			(*counter_players)++;
 		}
-		read_file(argv[i], info, *counter_players);
+		read_file(argv[i], file, *counter_players);
 		i++;
 	}
 	return (start);

@@ -12,6 +12,15 @@
 
 #include "../../header/vm.h"
 
+int					move_counter(int pos, int delta_pos)
+{
+	if ((pos + delta_pos) < MEM_SIZE)
+		pos += delta_pos;
+	else
+		pos += delta_pos - MEM_SIZE;
+	return (pos);
+}
+
 void				move_pc(t_ps *ps, int delta_pos)
 {
 	if ((ps->pc + delta_pos) < MEM_SIZE)

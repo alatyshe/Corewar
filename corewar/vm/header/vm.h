@@ -32,7 +32,7 @@
 
 
 
-typedef struct		s_map
+typedef struct		t_map
 {
 	char				map[MEM_SIZE];
 	unsigned int		cycle;			//	текущий цикл
@@ -49,7 +49,8 @@ typedef struct		s_ps
 	int					reg[16];	//	его регистры
 	// int					color;
 	char				cmd_in_hex;
-	char				codage_byte;
+	char				coding_byte;
+	int					*arg_types;
 	int					*arg;
 	char				player;		//	номер игрока 1 2 4 8
 	char				carry;		//	возможен ли перенос
@@ -81,13 +82,13 @@ typedef struct		s_cmd
 	char				*cmd_name;
 	short				cmd_size;
 	char				cmd_in_hex;
-	char				codage_byte;
+	char				coding_byte;
 	char				*arg_types;
 	int					*arg;
 	struct s_cmd		*next;
 }					t_cmd;
 
-typedef struct		s_info
+typedef struct		s_file
 {
 	char				*file_name;
 	unsigned int		magic;
@@ -98,45 +99,50 @@ typedef struct		s_info
 	int					player_num;
 	unsigned char		*read;
 	t_cmd				*commands;
-	struct	s_info		*next;
-}					t_info;
+	struct	s_file		*next;
+}					t_file;
 
 
 // ===================== read ========================
 
-unsigned int	magic_reading(unsigned char *buf, t_info *info);
-char			*name_reading(unsigned char *buf, t_info *info);
-unsigned int	size_reading(unsigned char *buf, t_info *info);
-char			*comment_reading(unsigned char *buf, t_info *info);
+unsigned int	magic_reading(unsigned char *buf, t_file *file);
+char			*name_reading(unsigned char *buf, t_file *file);
+unsigned int	size_reading(unsigned char *buf, t_file *file);
+char			*comment_reading(unsigned char *buf, t_file *file);
 int				read_commands(unsigned char *buf, t_cmd *cmd, int pos_buf, int len_file);
-t_info			*read_arguments(int argc, char **argv, int *counter_players);
+t_file			*read_arguments(int argc, char **argv, int *counter_players);
 
-void			read_file(char *file, t_info *info, int player_num);
+void			read_file(char *file_name, t_file *file, int player_num);
 // ===================== create struct ========================
 
-t_info			*create_info(void);
+t_file			*create_file(void);
 t_cmd			*create_cmd(int	args);
 t_map			*create_map(void);
 t_player		*create_player(void);
 
 
 void			move_pc(t_ps *ps, int delta_pos);
+int				move_counter(int pos, int delta_pos);
+int				get_value_from_map_2(t_map *all_info, t_ps *ps, int pos, int len);
+
 int				exec_arg_value(char *map, t_ps *ps, int len);
 unsigned int 	get_value(void *buf, int len);
-void			analyzing_buf(void *buf, int buf_size, t_info *info, char *file);
-void			fill_map(t_info *info, t_map *map, int total_players);
+void			fill_map(t_file *file, t_map *map, int total_players);
 
 void			print_buf(unsigned char *buffer, int buffer_size);
-void			print_info(t_info *info);
+void			print_file(t_file *file);
 void			print_cmd(t_cmd *cmd);
 void			return_color(int n);
 // void			print_map(short *map);
 // void			print_wb_map(short *map);
+void			print_process(t_ps *ps);
 void			print_players(t_player *player);
 void			print_map(t_map *map);
 
 
 //============================FUNC===============================
+void			fill_commands(t_map *all_info, t_ps *ps);
+void			null_commands_variables(t_ps *ps);
 void			live(t_map *all_info, t_player *player, t_ps *ps);
 void			ld(t_map *all_info, t_player *player, t_ps *ps);
 #endif

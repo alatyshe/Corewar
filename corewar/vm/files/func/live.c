@@ -50,5 +50,9 @@ void			live(t_map *all_info, t_player *player, t_ps *ps)
 	move_pc(ps, 1);
 	value = exec_arg_value(all_info->map, ps, 4);
 	check_players(all_info, player, value);
+
+	print_process(ps);
+
+	null_commands_variables(ps);
 	ps->cycles_to_cmd = 0;
 }

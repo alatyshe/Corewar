@@ -12,7 +12,8 @@
 
 #include "../header/vm.h"
 
-static void			copy_players_commands_on_map(char *str1, unsigned char *str2, int len)
+static void			copy_players_commands_on_map(char *str1,
+	unsigned char *str2, int len)
 {
 	while (len)
 	{

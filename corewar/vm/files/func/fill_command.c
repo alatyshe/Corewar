@@ -12,77 +12,26 @@
 
 #include "../../header/vm.h"
 
-int				get_type(t_ps *ps, char type, int argc)
+static int		get_type(t_ps *ps, char type, int argc)
 {
-	if (type == REG_CODE)
-	{
-		if (type & g_tab[ps->cmd_in_hex - 1].arg[argc])
-		{
-			ps->arg_types[argc] = REG_CODE;
-			return (g_sizes[ps->cmd_in_hex][REG_CODE]);
-		}
-		ft_putstr_fd("ERROR TYPE ARGUMENT T_REG get_type func\n", 2);
-	}
-	else if (type == DIR_CODE)
-	{
-		if (type & g_tab[ps->cmd_in_hex - 1].arg[argc])
-		{
-			ps->arg_types[argc] = DIR_CODE;
-			return (g_sizes[ps->cmd_in_hex][DIR_CODE]);
-		}
-		ft_putstr_fd("ERROR TYPE ARGUMENT T_DIR get_type func\n", 2);
-	}
-	else if (type == IND_CODE)
-	{
-		if (type & g_tab[ps->cmd_in_hex - 1].arg[argc])
-		{
-			ps->arg_types[argc] = IND_CODE;
-			return (g_sizes[ps->cmd_in_hex][IND_CODE]);
-		}
-		ft_putstr_fd("ERROR TYPE ARGUMENT T_IND get_type func\n", 2);
-	}
+	if (type == REG_CODE
+		&& type & g_tab[ps->cmd_in_hex - 1].arg[argc])
+		ps->arg_types[argc] = REG_CODE;
+	else if (type == DIR_CODE
+		&& (type & g_tab[ps->cmd_in_hex - 1].arg[argc]))
+		ps->arg_types[argc] = DIR_CODE;
+	else if (type == IND_CODE
+		&& (type & g_tab[ps->cmd_in_hex - 1].arg[argc]))
+		ps->arg_types[argc] = IND_CODE;
 	else
-		ft_putstr_fd("ERROR get_type func\n", 2);
-	return (0);
-}
-
-
-static int		get_value_from_map(t_map *all_info, t_ps *ps, int len)
-{
-	int			j;
-	int			res;
-	int			position;
-
-	j = 0;
-	res = 0;
-	while (j < len)
 	{
-		res = (res << 8) | (all_info->map[ps->pc] & 0x000000ff);
-		move_pc(ps, 1);
-		j++;
+		printf("%sERROR get_type func%s\n", RED, RESET);
+		return (0);
 	}
-	return (res);
+	return (g_sizes[ps->cmd_in_hex][type]);
 }
 
-int				get_value_from_map_2(t_map *all_info, t_ps *ps, int pos, int len)
-{
-	int			j;
-	int			res;
-	int			position;
-
-	j = 0;
-	res = 0;
-	position = move_counter(ps->pc - ps->p_size, pos);
-	while (j < len)
-	{
-		res = (res << 8) | (all_info->map[position] & 0x000000ff);
-		position = move_counter(position, 1);
-		j++;
-	}
-	return (res);
-}
-
-int				get_length_arg(t_ps *ps, int argc)
+static int		get_length_arg(t_ps *ps, int argc)
 {
 	int			len;
 	char		type;
@@ -101,7 +50,7 @@ int				get_length_arg(t_ps *ps, int argc)
 	return (len);
 }
 
-void			fill_args(t_map *all_info, t_ps *ps, int argc)
+static void		fill_args(t_map *all_info, t_ps *ps, int *pc_copy, int argc)
 {
 	int			len;
 
@@ -109,43 +58,33 @@ void			fill_args(t_map *all_info, t_ps *ps, int argc)
 	if (g_tab[ps->cmd_in_hex - 1].coding_byte == 1)
 		len = get_length_arg(ps, argc);
 	else
+	{
 		len = g_sizes[ps->cmd_in_hex][DIR_CODE];
-	ps->arg[argc] = get_value_from_map(all_info, ps, len);
+		ps->p_size += 4;
+	}
+	ps->arg[argc] = get_value_from_map(all_info, pc_copy, len);
 }
 
-void			fill_commands(t_map *all_info, t_ps *ps)
+int				fill_commands(t_map *all_info, t_ps *ps)
 {
 	int			arg;
+	int			pc_copy;
 
 	arg = 0;
-	ps->cmd_in_hex = all_info->map[ps->pc];
-	move_pc(ps, 1);
+	pc_copy = ps->pc;
+	ps->cmd_in_hex = all_info->map[pc_copy];
+	move_map_counter(&pc_copy, 1);
 	ps->p_size++;
 	if (arg < g_tab[ps->cmd_in_hex - 1].coding_byte)
 	{
 		ps->p_size++;
-		ps->coding_byte = all_info->map[ps->pc];
-		move_pc(ps, 1);
+		ps->coding_byte = all_info->map[pc_copy];
+		move_map_counter(&pc_copy, 1);
 	}
 	while (arg < g_tab[ps->cmd_in_hex - 1].count_arg)
 	{
-		fill_args(all_info, ps, arg);
+		fill_args(all_info, ps, &pc_copy, arg);
 		arg++;
 	}
-}
-
-void			null_commands_variables(t_ps *ps)
-{
-	int			i;
-
-	i = 0;
-	while (i < MAX_ARGS_NUMBER)
-	{
-		ps->arg_types[i] = 0;
-		ps->arg[i] = 0;
-		i++;
-	}
-	ps->cmd_in_hex = 0;
-	ps->coding_byte = 0;
-	ps->p_size = 0;
+	return (pc_copy);
 }

@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ld.c                                               :+:      :+:    :+:   */
+/*   ldi.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dvynokur <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,42 +12,36 @@
 
 #include "../../header/vm.h"
 
-static void		execute_ld_cmd(t_map *all_info, t_ps *ps);
+// НЕРАБОТАЕТ
+
+// static void		execute_ldi_cmd(t_map *all_info, t_ps *ps);
 
 //	проверки на валидность нет и пропус команды CARRY НЕ МЕНЯЕТ
-void			ld(t_map *all_info, t_player *player, t_ps *ps)
-{
-	int			i;
-	int			pc;
+// void			ldi(t_map *all_info, t_player *player, t_ps *ps)
+// {
+// 	int			i;
+// 	int			pc;
 
-	if (ps->cycles_to_cmd < g_tab[1].cycle)
-	{
-		ps->cycles_to_cmd++;
-		return ;
-	}
+// 	if (ps->cycles_to_cmd < g_tab[8].cycle)
+// 	{
+// 		ps->cycles_to_cmd++;
+// 		return ;
+// 	}
 	
-	printf("%sLD HAS BEEN USED BY:%s\n", GREEN, RESET);
-	// printf("%splayer:\t\t\t%d%s\n", GREEN, ps->player, RESET);
-	// printf("%sps->cycles_to_cmd:\t%d%s\n", GREEN, ps->cycles_to_cmd, RESET);
-	// print_process(ps);
+// 	printf("%sLDI HAS BEEN USED BY:%s\n", GREEN, RESET);
+// 	// printf("%splayer:\t\t\t%d%s\n", GREEN, ps->player, RESET);
+// 	// printf("%sps->cycles_to_cmd:\t%d%s\n", GREEN, ps->cycles_to_cmd, RESET);
+// 	// print_process(ps);
 
-	pc = fill_commands(all_info, ps);
-	execute_ld_cmd(all_info, ps);
-	ps->pc = pc;
+// 	pc = fill_commands(all_info, ps);
+// 	execute_ldi_cmd(all_info, ps);
 
-	// print_process(ps);
-	null_commands_variables(ps);
-}
+// 	// print_process(ps);
+// 	null_commands_variables(ps);
+// }
 
-static void		execute_ld_cmd(t_map *all_info, t_ps *ps)
-{
-	int			pc;
-	int			value;
-
-	pc = ps->pc + ps->arg[FIRST_ARG];
-	if(ps->arg_types[0] == DIR_CODE)
-		value = ps->arg[0];
-	else
-		value = get_value_from_map(all_info, &pc, 4);
-	ps->reg[ps->arg[1] - 1] = value;
-}
+// static void		execute_ldi_cmd(t_map *all_info, t_ps *ps)
+// {
+// 	if (ps->carry == 1)
+// 		move_map_counter(&ps->pc, ps->arg[FIRST_ARG]);
+// }

@@ -67,7 +67,7 @@ static int		fill_args(unsigned char *buf, t_cmd *cmd, int pos_buf, int argc)
 		len = get_length_arg(cmd, argc);
 	else
 		len = g_sizes[cmd->cmd_in_hex][DIR_CODE];
-	cmd->arg[argc] = get_value(buf + pos_buf, len);
+	cmd->arg[argc] = get_value_from_file(buf + pos_buf, len);
 	cmd->cmd_size += len;
 	return (len);
 }

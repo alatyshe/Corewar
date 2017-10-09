@@ -16,7 +16,7 @@ unsigned int		magic_reading(unsigned char *buf, t_file *file)
 {
 	unsigned int	res;
 
-	res = get_value(buf, 4);
+	res = get_value_from_file(buf, 4);
 	if (res != COREWAR_EXEC_MAGIC)
 	{
 		ft_putstr_fd("Error: File ", 2);
@@ -54,7 +54,7 @@ unsigned int		size_reading(unsigned char *buf, t_file *file)
 	i = sizeof(unsigned int) + PROG_NAME_LENGTH + 1;
 	while (i % 4 != 0)
 		i++;
-	res = get_value(buf + i, 4);
+	res = get_value_from_file(buf + i, 4);
 	if (res > 682)
 	{
 		ft_putstr_fd("Error: File  ../../42.cor(change it) has too large a code (", 2);

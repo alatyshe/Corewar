@@ -21,6 +21,10 @@
 # define BLACK   "\x1b[37m"
 # define RESET   "\x1b[0m"
 
+# define FIRST_ARG		0
+# define SECOND_ARG		1
+# define THIRD_ARG		2
+
 # include <stdio.h>
 # include <stdlib.h>
 # include <ncurses.h>
@@ -45,18 +49,22 @@ typedef struct		t_map
 
 typedef struct		s_ps
 {
-	int					pc;			//	позиция процесса на карте
-	int					reg[16];	//	его регистры
+	int					pc;				//	позиция процесса на карте
+	char				player;			//	номер игрока 1 2 4 8
+	int					reg[16];		//	его регистры
+
 	// int					color;
-	char				cmd_in_hex;
-	char				coding_byte;
-	int					*arg_types;
-	int					*arg;
-	char				player;		//	номер игрока 1 2 4 8
-	char				carry;		//	возможен ли перенос
+	char				cmd_in_hex;		//	
+	char				coding_byte;	//	
+	int					*arg_types;		//	тип аргументов
+	int					*arg;			//	сами аргументы
+	int					p_size;			//	длинна исполняемой команды при исполнении
+
+	
+	char				carry;			//	возможен ли перенос 1 - 0
 	int					cycles_to_cmd;	//	текущее количесвто циклов до выполнения комманды
 	int					check_live;		//	исполнил ли процесс функцию live
-	int					p_size;			//	длинна исполняемой команды при исполнении
+	
 	struct s_ps			*next;
 }					t_ps;
 
@@ -121,9 +129,11 @@ t_map			*create_map(void);
 t_player		*create_player(void);
 
 
-void			move_pc(t_ps *ps, int delta_pos);
-int				move_counter(int pos, int delta_pos);
-int				get_value_from_map_2(t_map *all_info, t_ps *ps, int pos, int len);
+void			move_map_counter(int *pos, int delta_pos);
+unsigned int	get_value_from_file(void *buf, int len);
+int				get_value_from_map(t_map *all_info, int *where, int len);
+void			write_value_on_map(t_map *all_info, int where, int value_in);
+void			null_commands_variables(t_ps *ps);
 
 int				exec_arg_value(char *map, t_ps *ps, int len);
 unsigned int 	get_value(void *buf, int len);
@@ -141,8 +151,15 @@ void			print_map(t_map *map);
 
 
 //============================FUNC===============================
-void			fill_commands(t_map *all_info, t_ps *ps);
+int				fill_commands(t_map *all_info, t_ps *ps);
 void			null_commands_variables(t_ps *ps);
 void			live(t_map *all_info, t_player *player, t_ps *ps);
 void			ld(t_map *all_info, t_player *player, t_ps *ps);
+void			st(t_map *all_info, t_player *player, t_ps *ps);
+void			add(t_map *all_info, t_player *player, t_ps *ps);
+void			sub(t_map *all_info, t_player *player, t_ps *ps);
+void			and(t_map *all_info, t_player *player, t_ps *ps);
+void			or(t_map *all_info, t_player *player, t_ps *ps);
+void			xor(t_map *all_info, t_player *player, t_ps *ps);
+void			zjmp(t_map *all_info, t_player *player, t_ps *ps);
 #endif

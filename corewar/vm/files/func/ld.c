@@ -11,10 +11,10 @@
 /* ************************************************************************** */
 
 #include "../../header/vm.h"
-
+//	CARRY GOOD!!!!!!!!!!!!!!!!!!!!!!!
 static void		execute_ld_cmd(t_map *all_info, t_ps *ps);
 
-//	проверки на валидность нет и пропус команды CARRY НЕ МЕНЯЕТ
+//	проверки на валидность нет и пропус команды
 void			ld(t_map *all_info, t_player *player, t_ps *ps)
 {
 	int			i;
@@ -35,7 +35,7 @@ void			ld(t_map *all_info, t_player *player, t_ps *ps)
 	execute_ld_cmd(all_info, ps);
 	ps->pc = pc;
 
-	// print_process(ps);
+	print_process(ps);
 	null_commands_variables(ps);
 }
 
@@ -49,5 +49,9 @@ static void		execute_ld_cmd(t_map *all_info, t_ps *ps)
 		value = ps->arg[0];
 	else
 		value = get_value_from_map(all_info, &pc, 4);
+	if (value == 0)
+		ps->carry = 1;
+	else
+		ps->carry = 0;
 	ps->reg[ps->arg[1] - 1] = value;
 }

@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "../../header/vm.h"
-
+//	CARRY GOOD!!!!!!!!!!!!!!!!!!!!!!!
 static void		execute_and_cmd(t_map *all_info, t_ps *ps);
 
 //	проверки на валидность нет и пропус команды CARRY НЕ МЕНЯЕТ
@@ -43,6 +43,7 @@ static void		execute_and_cmd(t_map *all_info, t_ps *ps)
 {
 	int			first_arg;
 	int			second_arg;
+	int			res;
 	int			pc;
 
 	if (ps->arg_types[FIRST_ARG] == REG_CODE)
@@ -50,8 +51,10 @@ static void		execute_and_cmd(t_map *all_info, t_ps *ps)
 	else if (ps->arg_types[FIRST_ARG] == DIR_CODE)
 		first_arg = ps->arg[FIRST_ARG];
 	else if (ps->arg_types[FIRST_ARG] == IND_CODE)
+	{
 		pc = ps->pc + ps->arg[FIRST_ARG];
 		first_arg = get_value_from_map(all_info, &pc, 4);
+	}
 	if (ps->arg_types[SECOND_ARG] == REG_CODE)
 		second_arg = ps->reg[ps->arg[SECOND_ARG] - 1];
 	else if (ps->arg_types[SECOND_ARG] == DIR_CODE)
@@ -61,5 +64,10 @@ static void		execute_and_cmd(t_map *all_info, t_ps *ps)
 		pc = ps->pc + ps->arg[SECOND_ARG];
 		second_arg = get_value_from_map(all_info, &pc, 4);
 	}
-	ps->reg[ps->arg[THIRD_ARG] - 1] = first_arg & second_arg;
+	res = first_arg & second_arg;
+	if (!res)
+		ps->carry = 1;
+	else
+		ps->carry = 0;
+	ps->reg[ps->arg[THIRD_ARG] - 1] = res;
 }

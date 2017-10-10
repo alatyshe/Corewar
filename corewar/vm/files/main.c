@@ -80,7 +80,7 @@ void				memory_map(t_file *file, int total_players)
 	// print_map(map);
 	// print_players(map->players);
 	// printf("\n");
-	while (map->cycle < 35)
+	while (map->cycle < 25)
 	{
 		printf("cycle : %d\n", map->cycle);
 		start_processes(map);

@@ -46,6 +46,10 @@ void				executing_ps(t_map *map, t_player *players, t_ps *ps)
 			or(map, players, ps);
 		else if (map->map[ps->pc] == 8)
 			xor(map, players, ps);
+		else if (map->map[ps->pc] == 9)
+			zjmp(map, players, ps);
+		else if (map->map[ps->pc] == 10)
+			ldi(map, players, ps);
 	}
 }
 

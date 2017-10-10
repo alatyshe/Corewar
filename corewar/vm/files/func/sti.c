@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ldi.c                                              :+:      :+:    :+:   */
+/*   sti.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dvynokur <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,32 +12,32 @@
 
 #include "../../header/vm.h"
 
-static void		execute_ldi_cmd(t_map *all_info, t_ps *ps);
+static void		execute_sti_cmd(t_map *all_info, t_ps *ps);
 
-void			ldi(t_map *all_info, t_player *player, t_ps *ps)
+void			sti(t_map *all_info, t_player *player, t_ps *ps)
 {
 	int			i;
 	int			pc;
 
-	if (ps->cycles_to_cmd < g_tab[10].cycle)
+	if (ps->cycles_to_cmd < g_tab[11].cycle)
 	{
 		ps->cycles_to_cmd++;
 		return ;
 	}
 	
-	printf("%sLDI HAS BEEN USED BY:%s\n", GREEN, RESET);
+	printf("%sSTI HAS BEEN USED BY:%s\n", GREEN, RESET);
 	// printf("%splayer:\t\t\t%d%s\n", GREEN, ps->player, RESET);
 	// printf("%sps->cycles_to_cmd:\t%d%s\n", GREEN, ps->cycles_to_cmd, RESET);
 	// print_process(ps);
 
 	pc = fill_commands(all_info, ps);
-	execute_ldi_cmd(all_info, ps);
+	execute_sti_cmd(all_info, ps);
 
 	// print_process(ps);
 	null_commands_variables(ps);
 }
 
-static void		execute_ldi_cmd(t_map *all_info, t_ps *ps)
+static void		execute_sti_cmd(t_map *all_info, t_ps *ps)
 {
 	int			first_arg;
 	int			second_arg;

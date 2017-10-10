@@ -69,6 +69,6 @@ static void		execute_xor_cmd(t_map *all_info, t_ps *ps)
 		ps->carry = 1;
 	else
 		ps->carry = 0;
-	ps->reg[ps->arg[THIRD_ARG] - 1] = first_arg ^ second_arg;
+	ps->reg[ps->arg[THIRD_ARG] - 1] = res;
 }
 

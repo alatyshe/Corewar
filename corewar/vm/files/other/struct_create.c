@@ -84,7 +84,7 @@ t_ps			*create_ps(void)
 	}
 	ps->cmd_in_hex = 0;
 	ps->coding_byte = 0;
-	ps->player = 0;
+	ps->player_num = 0;
 	ps->carry = 0;
 	ps->check_live = 0;
 	ps->cycles_to_cmd = 0;

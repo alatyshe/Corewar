@@ -34,9 +34,18 @@
 # include "../../libft/header/ft_printf.h"
 
 
+typedef struct		s_flags
+{
+	char			a_flag;
+	char			b_flag;
+	char			d_flag;
+	char			n_flag;
+	char			v_flag;
+	char			s_flag;
+}					t_flags;
 
 
-typedef struct		t_map
+typedef struct		s_map
 {
 	char				map[MEM_SIZE];
 	unsigned int		cycle;			//	текущий цикл
@@ -50,7 +59,7 @@ typedef struct		t_map
 typedef struct		s_ps
 {
 	int					pc;				//	позиция процесса на карте
-	char				player;			//	номер игрока 1 2 4 8
+	int					player_num;		//	номер игрока 1 2 4 8
 	int					reg[16];		//	его регистры
 
 	// int					color;
@@ -162,4 +171,6 @@ void			and(t_map *all_info, t_player *player, t_ps *ps);
 void			or(t_map *all_info, t_player *player, t_ps *ps);
 void			xor(t_map *all_info, t_player *player, t_ps *ps);
 void			zjmp(t_map *all_info, t_player *player, t_ps *ps);
+void			ldi(t_map *all_info, t_player *player, t_ps *ps);
+
 #endif

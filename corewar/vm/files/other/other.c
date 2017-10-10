@@ -37,31 +37,6 @@ void				move_map_counter(int *pos, int delta_pos)
 		(*pos) += delta_pos - MEM_SIZE;
 }
 
-
-// void				move_pc(t_ps *ps, int delta_pos)
-// {
-// 	if ((ps->pc + delta_pos) < MEM_SIZE)
-// 		ps->pc += delta_pos;
-// 	else
-// 		ps->pc += delta_pos - MEM_SIZE;
-// }
-
-// int					exec_arg_value(char *map, t_ps *ps, int len)
-// {
-// 	int				value;
-
-// 	value = 0;
-// 	while (len)
-// 	{
-// 		value = value | map[ps->pc];
-// 		len--;
-// 		move_map_counter(&ps->pc, 1);
-// 		if (len)
-// 			value = value << 8;
-// 	}
-// 	return (value);
-// }
-
 unsigned int		get_value_from_file(void *buf, int len)
 {
 	int				j;
@@ -112,4 +87,3 @@ void				write_value_on_map(t_map *all_info, int where, int value_in)
 		move_map_counter(&where, 1);
 	}
 }
-

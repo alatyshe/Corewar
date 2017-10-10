@@ -43,7 +43,7 @@ static void			fill_players(t_map *map, char *name, int pos, int num)
 	player->player_num = num * -1;
 	player->ps->pc = pos;
 	player->ps->reg[0] = num * -1;
-	player->ps->player = num * -1;
+	player->ps->player_num = num * -1;
 }
 
 void				fill_map(t_file *file, t_map *map, int total_players)

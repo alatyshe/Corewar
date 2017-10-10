@@ -101,7 +101,7 @@ void			print_process(t_ps *ps)
 		printf("%04x ", ps->arg[i]);
 		i++;
 	}
-	printf("\nps->player:\t\t%d\n", ps->player);
+	printf("\nps->player_num:\t\t%d\n", ps->player_num);
 	printf("ps->carry:\t\t%d\n", ps->carry);
 	printf("ps->cycles_to_cmd:\t%d\n", ps->cycles_to_cmd);
 	printf("ps->check_live:\t\t%d\n", ps->check_live);

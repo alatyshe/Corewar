@@ -20,7 +20,7 @@ void			zjmp(t_map *all_info, t_player *player, t_ps *ps)
 	int			i;
 	int			pc;
 
-	if (ps->cycles_to_cmd < g_tab[8].cycle)
+	if (ps->cycles_to_cmd < g_tab[9].cycle)
 	{
 		ps->cycles_to_cmd++;
 		return ;

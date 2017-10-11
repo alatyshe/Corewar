@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ld.c                                               :+:      :+:    :+:   */
+/*   ldi.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dvynokur <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,35 +12,34 @@
 
 #include "../../header/vm.h"
 //	CARRY GOOD!!!!!!!!!!!!!!!!!!!!!!!
-static void		execute_ld_cmd(t_map *all_info, t_ps *ps);
+static void		execute_lld_cmd(t_map *all_info, t_ps *ps);
 
 //	проверки на валидность нет и пропус команды
-void			ld(t_map *all_info, t_player *player, t_ps *ps)
+void			lld(t_map *all_info, t_player *player, t_ps *ps)
 {
 	int			i;
 	int			pc;
 
-	if (ps->cycles_to_cmd < g_tab[1].cycle)
+	if (ps->cycles_to_cmd < g_tab[12].cycle)
 	{
 		ps->cycles_to_cmd++;
 		return ;
 	}
 	
-	printf("%sLD HAS BEEN USED BY:%s\n", GREEN, RESET);
+	printf("%sLLD HAS BEEN USED BY:%s\n", GREEN, RESET);
 	// printf("%splayer:\t\t\t%d%s\n", GREEN, ps->player, RESET);
 	// printf("%sps->cycles_to_cmd:\t%d%s\n", GREEN, ps->cycles_to_cmd, RESET);
 	// print_process(ps);
 
 	pc = fill_commands(all_info, ps);
-	// IDX_MOD check
-	execute_ld_cmd(all_info, ps);
+	execute_lld_cmd(all_info, ps);
 	ps->pc = pc;
 
-	// print_process(ps);
+	print_process(ps);
 	null_commands_variables(ps);
 }
 
-static void		execute_ld_cmd(t_map *all_info, t_ps *ps)
+static void		execute_lld_cmd(t_map *all_info, t_ps *ps)
 {
 	int			pc;
 	int			distance;
@@ -57,7 +56,8 @@ static void		execute_ld_cmd(t_map *all_info, t_ps *ps)
 	else
 	{
 		pc = ps->pc;
-		distance = ps->arg[FIRST_ARG] % IDX_MOD;
+		// не делить с отатком на MEM_SIZE, потому что не с той ячейки возьмет
+		distance = ps->arg[FIRST_ARG];
 		move_map_counter(&pc, distance);
 		first_arg = get_value_from_map(all_info, &pc, 4);
 	}

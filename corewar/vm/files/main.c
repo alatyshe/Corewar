@@ -14,9 +14,6 @@
 
 int					check_command(t_ps *ps, t_map *map)
 {
-	int		mask = 255;
-
-	// printf("map[%04d]: [%02x]\n", ps->pc, map->map[ps->pc] & mask);
 	if (map->map[ps->pc] >= 1 && map->map[ps->pc] <= 16)
 	{		
 		return (1);
@@ -49,7 +46,19 @@ void				executing_ps(t_map *map, t_player *players, t_ps *ps)
 		else if (map->map[ps->pc] == 9)
 			zjmp(map, players, ps);
 		else if (map->map[ps->pc] == 10)
-			ldi(map, players, ps);
+			;// ldi(map, players, ps);
+		else if (map->map[ps->pc] == 11)
+			sti(map, players, ps);
+		else if (map->map[ps->pc] == 12)
+			fork_cmd(map, players, ps);
+		else if (map->map[ps->pc] == 13)
+			lld(map, players, ps);
+		else if (map->map[ps->pc] == 14)
+			;// lldi(map, players, ps);
+		else if (map->map[ps->pc] == 15)
+			lfork(map, players, ps);
+		else if (map->map[ps->pc] == 16)
+			;// aff(map, players, ps);
 	}
 }
 
@@ -84,7 +93,7 @@ void				memory_map(t_file *file, int total_players)
 	// print_map(map);
 	// print_players(map->players);
 	// printf("\n");
-	while (map->cycle < 25)
+	while (map->cycle < 40)
 	{
 		printf("cycle : %d\n", map->cycle);
 		start_processes(map);

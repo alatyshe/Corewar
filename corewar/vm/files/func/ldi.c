@@ -19,7 +19,7 @@ void			ldi(t_map *all_info, t_player *player, t_ps *ps)
 	int			i;
 	int			pc;
 
-	if (ps->cycles_to_cmd < g_tab[10].cycle)
+	if (ps->cycles_to_cmd < g_tab[9].cycle)
 	{
 		ps->cycles_to_cmd++;
 		return ;
@@ -41,22 +41,42 @@ static void		execute_ldi_cmd(t_map *all_info, t_ps *ps)
 {
 	int			first_arg;
 	int			second_arg;
+	int			distance;
 	int			res;
 	int			pc;
 
+	//	проверка 1-го аргумента
 	if (ps->arg_types[FIRST_ARG] == REG_CODE)
+	{
+		if (ps->arg[FIRST_ARG] < 1
+			|| ps->arg[FIRST_ARG] > 16)
+			return ;
 		first_arg = ps->reg[ps->arg[FIRST_ARG] - 1];
+	}
 	else if (ps->arg_types[FIRST_ARG] == DIR_CODE)
 		first_arg = ps->arg[FIRST_ARG];
 	else if (ps->arg_types[FIRST_ARG] == IND_CODE)
 	{
-		pc = ps->pc + ps->arg[FIRST_ARG];
-		first_arg = get_value_from_map(all_info, &pc, 1);
+		pc = ps->pc;
+		distance = ps->arg[FIRST_ARG] % IDX_MOD;
+		move_map_counter(&pc, distance);
+		first_arg = get_value_from_map(all_info, &pc, 4);
 	}
+	//	проверка 2-го аргумента
 	if (ps->arg_types[SECOND_ARG] == REG_CODE)
+	{
+		if (ps->arg[SECOND_ARG] < 1
+			|| ps->arg[SECOND_ARG] > 16)
+			return ;
 		second_arg = ps->reg[ps->arg[SECOND_ARG] - 1];
+	}
 	else if (ps->arg_types[SECOND_ARG] == DIR_CODE)
 		second_arg = ps->arg[SECOND_ARG];
+	//	проверка 3-го аргумента
+	if (ps->arg[THIRD_ARG] < 1
+		|| ps->arg[THIRD_ARG] > 16)
+		return ;
+
 
 	// НЕ РАБОТАЕТ (аргуметы есть)
 	// res = first_arg + second_arg;

@@ -30,23 +30,38 @@ void			st(t_map *all_info, t_player *player, t_ps *ps)
 	// printf("%splayer:\t\t\t%d%s\n", GREEN, ps->player, RESET);
 	// printf("%sps->cycles_to_cmd:\t%d%s\n", GREEN, ps->cycles_to_cmd, RESET);
 	// print_process(ps);
-
+	
 	pc = fill_commands(all_info, ps);
 	execute_st_cmd(all_info, ps);
 	ps->pc = pc;
+	//	print_flags // ПЕЧАТЬ ЕСЛИ ЕСТЬ ФЛАГИ
 
-	// print_process(ps);
 	null_commands_variables(ps);
 }
 
 static void		execute_st_cmd(t_map *all_info, t_ps *ps)
 {
 	int			pc;
+	int			distance;
+	int			first_arg;
+	int			second_arg;
 
-	pc = ps->pc;
+	if (ps->arg[FIRST_ARG] < 1
+		|| ps->arg[FIRST_ARG] > 16)
+			return ;
 	if(ps->arg_types[SECOND_ARG] == REG_CODE)
-		ps->reg[(ps->arg[1]) - 1] = ps->reg[ps->arg[0] - 1];
+	{
+		if (ps->arg[SECOND_ARG] < 1
+			|| ps->arg[SECOND_ARG] > 16)
+			return ;
+		ps->reg[(ps->arg[SECOND_ARG]) - 1] = ps->reg[ps->arg[FIRST_ARG] - 1];
+	}
 	else
-		write_value_on_map(all_info, pc + ps->arg[SECOND_ARG], ps->reg[ps->arg[0] - 1]);
+	{
+		pc = ps->pc;
+		distance = ps->arg[SECOND_ARG] % IDX_MOD;
+		move_map_counter(&pc, distance);
+		write_value_on_map(all_info, pc, ps->reg[ps->arg[0] - 1]);
+	}
 }
 

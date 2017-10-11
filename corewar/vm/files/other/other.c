@@ -31,7 +31,11 @@ void				null_commands_variables(t_ps *ps)
 
 void				move_map_counter(int *pos, int delta_pos)
 {
-	if (((*pos) + delta_pos) < MEM_SIZE)
+	if (delta_pos > MEM_SIZE - 1 || delta_pos < -MEM_SIZE + 1)
+		delta_pos = delta_pos % (MEM_SIZE - 1);
+	if (((*pos) + delta_pos) < 0)
+		(*pos) = MEM_SIZE + ((*pos) + delta_pos);
+	else if (((*pos) + delta_pos) < MEM_SIZE)
 		(*pos) += delta_pos;
 	else
 		(*pos) += delta_pos - MEM_SIZE;
@@ -62,6 +66,8 @@ int					get_value_from_map(t_map *all_info, int *where, int len)
 		move_map_counter(where, 1);
 		j++;
 	}
+	if (len == 2 && res & 0x8000)
+		res = (short)res;
 	return (res);
 }
 
@@ -87,3 +93,4 @@ void				write_value_on_map(t_map *all_info, int where, int value_in)
 		move_map_counter(&where, 1);
 	}
 }
+

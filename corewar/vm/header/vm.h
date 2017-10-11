@@ -33,7 +33,6 @@
 # include "../../libft/header/libft.h"
 # include "../../libft/header/ft_printf.h"
 
-
 typedef struct		s_flags
 {
 	char			a_flag;
@@ -136,7 +135,7 @@ t_file			*create_file(void);
 t_cmd			*create_cmd(int	args);
 t_map			*create_map(void);
 t_player		*create_player(void);
-
+t_ps			*create_ps(void);
 
 void			move_map_counter(int *pos, int delta_pos);
 unsigned int	get_value_from_file(void *buf, int len);
@@ -172,5 +171,11 @@ void			or(t_map *all_info, t_player *player, t_ps *ps);
 void			xor(t_map *all_info, t_player *player, t_ps *ps);
 void			zjmp(t_map *all_info, t_player *player, t_ps *ps);
 void			ldi(t_map *all_info, t_player *player, t_ps *ps);
+void			sti(t_map *all_info, t_player *player, t_ps *ps);
+void			fork_cmd(t_map *all_info, t_player *player, t_ps *ps);
+void			lld(t_map *all_info, t_player *player, t_ps *ps);
+void			lldi(t_map *all_info, t_player *player, t_ps *ps);
+void			lfork(t_map *all_info, t_player *player, t_ps *ps);
+void			aff(t_map *all_info, t_player *player, t_ps *ps);
 
 #endif

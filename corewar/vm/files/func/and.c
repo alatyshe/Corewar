@@ -43,27 +43,51 @@ static void		execute_and_cmd(t_map *all_info, t_ps *ps)
 {
 	int			first_arg;
 	int			second_arg;
+	int			distance;
 	int			res;
 	int			pc;
 
+	//	проверки для первого аргумента
 	if (ps->arg_types[FIRST_ARG] == REG_CODE)
+	{
+		if (ps->arg[FIRST_ARG] < 1
+			|| ps->arg[FIRST_ARG] > 16)
+			return ;
 		first_arg = ps->reg[ps->arg[FIRST_ARG] - 1];
+	}
 	else if (ps->arg_types[FIRST_ARG] == DIR_CODE)
 		first_arg = ps->arg[FIRST_ARG];
 	else if (ps->arg_types[FIRST_ARG] == IND_CODE)
 	{
-		pc = ps->pc + ps->arg[FIRST_ARG];
+		//	взятие значение через модуль
+		pc = ps->pc;
+		distance = ps->arg[FIRST_ARG] % IDX_MOD;
+		move_map_counter(&pc, distance);
 		first_arg = get_value_from_map(all_info, &pc, 4);
 	}
+	//	проверки для второго аргумента
 	if (ps->arg_types[SECOND_ARG] == REG_CODE)
+	{
+		if (ps->arg[SECOND_ARG] < 1
+			|| ps->arg[SECOND_ARG] > 16)
+			return ;
 		second_arg = ps->reg[ps->arg[SECOND_ARG] - 1];
+	}
 	else if (ps->arg_types[SECOND_ARG] == DIR_CODE)
 		second_arg = ps->arg[SECOND_ARG];
 	else if (ps->arg_types[SECOND_ARG] == IND_CODE)
 	{
-		pc = ps->pc + ps->arg[SECOND_ARG];
+		//	взятие значение через модуль
+		pc = ps->pc;
+		distance = ps->arg[SECOND_ARG] % IDX_MOD;
+		move_map_counter(&pc, distance);
 		second_arg = get_value_from_map(all_info, &pc, 4);
 	}
+	//	проверка для третьего элемента
+	if (ps->arg[THIRD_ARG] < 1
+		|| ps->arg[THIRD_ARG] > 16)
+		return ;
+	//	операция
 	res = first_arg & second_arg;
 	if (!res)
 		ps->carry = 1;

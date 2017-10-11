@@ -44,6 +44,17 @@ static void		execute_sub_cmd(t_map *all_info, t_ps *ps)
 	int			first_arg;
 	int			second_arg;
 
+	//	проверка на валидность регистра
+	if (ps->arg[FIRST_ARG] < 1
+		|| ps->arg[FIRST_ARG] > 16)
+		return ;
+	if (ps->arg[SECOND_ARG] < 1
+		|| ps->arg[SECOND_ARG] > 16)
+		return ;
+	if (ps->arg[THIRD_ARG] < 1
+		|| ps->arg[THIRD_ARG] > 16)
+		return ;
+	//	запись аргументов
 	first_arg = ps->reg[ps->arg[FIRST_ARG] - 1];
 	second_arg = ps->reg[ps->arg[SECOND_ARG] - 1];
 	if (!first_arg && !second_arg)

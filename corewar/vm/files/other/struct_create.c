@@ -42,6 +42,7 @@ t_file			*create_file(void)
 	file->player_num = 0;
 	file->read = NULL;
 	file->commands = NULL;
+	file->flags = NULL;
 	file->next = NULL;
 	return (file);
 }
@@ -57,6 +58,7 @@ t_map			*create_map(void)
 	map->cycle_delta = CYCLE_DELTA;
 	map->processes = 0;
 	map->players = NULL;
+	map->flags = NULL;
 	return (map);
 }
 
@@ -91,6 +93,23 @@ t_ps			*create_ps(void)
 	ps->p_size = 0;
 	ps->next = NULL;
 	return (ps);
+}
+
+t_flags			*create_flags(void)
+{
+	t_flags		*flags;
+
+	flags = (t_flags *)malloc(sizeof(t_flags));
+	flags->a_flag = 0;
+	flags->b_flag = 0;
+	flags->d_flag = 0;
+	flags->d_value = 0;
+	flags->n_flag = 0;
+	flags->v_flag = 0;
+	flags->v_value = 0;
+	flags->s_flag = 0;
+	flags->s_value = 0;
+	return (flags);
 }
 
 t_player		*create_player(void)

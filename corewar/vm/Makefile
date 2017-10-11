@@ -32,7 +32,7 @@ OBJECTS_PATH	= ./objects
 FILES_FILES		= main memory_map fill
 READ_FILES		= read_arguments read_header read_commands read_file 
 OTHER_FILES		= struct_create other print
-FUNC_FILES		= fill_command live ld st add sub and or xor zjmp ldi
+FUNC_FILES		= fill_command live ld st add sub and or xor zjmp ldi aff
 
 #------ other ------
 FILES_OBJ 		= $(addprefix $(OBJECTS_PATH)/, $(addsuffix .o, $(FILES_FILES)))

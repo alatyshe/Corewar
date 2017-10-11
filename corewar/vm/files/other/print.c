@@ -174,5 +174,13 @@ void				return_color(int n)
 
 }
 
-
+void				print_flags(t_flags *f)
+{
+	printf("a_flag:		%d\n", f->a_flag);
+	printf("b_flag:		%d\n", f->b_flag);
+	printf("d_flag:\t\t%d\td_value\t\t%d\n", f->d_flag, f->d_value);
+	printf("n_flag:		%d\n", f->n_flag);
+	printf("v_flag:\t\t%d\tv_value\t\t%d\n", f->v_flag, f->v_value);
+	printf("s_flag:\t\t%d\ts_value\t\t%d\n", f->s_flag, f->s_value);
+}
 

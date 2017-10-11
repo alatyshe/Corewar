@@ -39,9 +39,12 @@ typedef struct		s_flags
 	char			a_flag;
 	char			b_flag;
 	char			d_flag;
+	int				d_value;
 	char			n_flag;
 	char			v_flag;
+	int				v_value;
 	char			s_flag;
+	int				s_value;
 }					t_flags;
 
 
@@ -53,6 +56,7 @@ typedef struct		s_map
 	unsigned int		cycle_delta;
 	unsigned int		processes;		//	количество процессов
 	struct s_player		*players;		//	игроки
+	t_flags				*flags;
 	// struct s_ps			*ps;
 }					t_map;
 
@@ -112,7 +116,7 @@ typedef struct		s_file
 	char 				*prog_name;
 	unsigned int 		prog_size;
 	char 				*prog_comment;
-	
+	t_flags				*flags;
 	int					player_num;
 	unsigned char		*read;
 	t_cmd				*commands;
@@ -124,10 +128,10 @@ typedef struct		s_file
 
 unsigned int	magic_reading(unsigned char *buf, t_file *file);
 char			*name_reading(unsigned char *buf, t_file *file);
-unsigned int	size_reading(unsigned char *buf, t_file *file);
+unsigned int	size_reading(unsigned char *buf, t_file *file, char *file_name);
 char			*comment_reading(unsigned char *buf, t_file *file);
 int				read_commands(unsigned char *buf, t_cmd *cmd, int pos_buf, int len_file);
-t_file			*read_arguments(int argc, char **argv, int *counter_players);
+t_file			*read_arguments(int argc, char **argv, int *counter_players, t_flags *f);
 
 void			read_file(char *file_name, t_file *file, int player_num);
 // ===================== create struct ========================
@@ -136,6 +140,7 @@ t_file			*create_file(void);
 t_cmd			*create_cmd(int	args);
 t_map			*create_map(void);
 t_player		*create_player(void);
+t_flags			*create_flags(void);
 
 
 void			move_map_counter(int *pos, int delta_pos);
@@ -157,7 +162,9 @@ void			return_color(int n);
 void			print_process(t_ps *ps);
 void			print_players(t_player *player);
 void			print_map(t_map *map);
+void			print_flags(t_flags *f);
 
+int				it_is_flag(char *s);
 
 //============================FUNC===============================
 int				fill_commands(t_map *all_info, t_ps *ps);

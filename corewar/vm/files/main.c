@@ -71,7 +71,7 @@ void				start_processes(t_map *map)
 	}
 }
 
-void				memory_map(t_file *file, int total_players)
+void				memory_map(t_file *file, int total_players, t_flags *f)
 {
 	t_map			*map;
 	int				pos;
@@ -79,18 +79,19 @@ void				memory_map(t_file *file, int total_players)
 	int				player_num;
 
 	map = create_map();
+	map->flags = f;
 	fill_map(file, map, total_players);
 	
 	// print_map(map);
 	// print_players(map->players);
 	// printf("\n");
-	while (map->cycle < 25)
-	{
-		printf("cycle : %d\n", map->cycle);
-		start_processes(map);
-		map->cycle++;
-		// printf("\n");
-	}
+	// while (map->cycle < 25)
+	// {
+	// 	printf("cycle : %d\n", map->cycle);
+	// 	start_processes(map);
+	// 	map->cycle++;
+	// 	// printf("\n");
+	// }
 
 	print_map(map);
 	// printf("\n");
@@ -103,10 +104,13 @@ int				main(int argc, char **argv)
 	t_file		*files;
 	t_file		*copy_files;
 	int			count_players;
+	t_flags		*flags;
 
 	files = NULL;
+	flags = create_flags();
 	count_players = 0;
-	files = read_arguments(argc, argv, &count_players);
-	memory_map(files, count_players);
+	files = read_arguments(argc, argv, &count_players, flags);
+	// print_flags(flags);
+	memory_map(files, count_players, flags);
 	return (0);
 }

@@ -64,5 +64,5 @@ void				fill_map(t_file *file, t_map *map, int total_players)
 		fill_players(map, copy_file->prog_name, pos, player_num);
 		pos += distance;
 		copy_file = copy_file->next;
-	}	
+	}
 }

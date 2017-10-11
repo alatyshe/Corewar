@@ -32,7 +32,7 @@ void			ldi(t_map *all_info, t_player *player, t_ps *ps)
 
 	pc = fill_commands(all_info, ps);
 	execute_ldi_cmd(all_info, ps);
-
+	ps->pc = pc;
 	// print_process(ps);
 	null_commands_variables(ps);
 }

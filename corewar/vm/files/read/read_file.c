@@ -19,7 +19,7 @@ static int			read_header(unsigned char *buf, t_file *file, char *file_name)
 	file->file_name = ft_strdup(file_name);
 	file->magic = magic_reading(buf, file);
 	file->prog_name = name_reading(buf, file);
-	file->prog_size = size_reading(buf, file);
+	file->prog_size = size_reading(buf, file, file_name);
 	file->prog_comment = comment_reading(buf, file);
 	j = sizeof(unsigned int) + PROG_NAME_LENGTH + 1;
 	while (j % 4 != 0)
@@ -57,6 +57,13 @@ void				read_file(char *file_name, t_file *file, int player_num)
 	int				fd;
 
 	fd = open(file_name, O_RDONLY);
+	if (fd == -1)
+	{
+		ft_putstr_fd("Can't read source file ", 2);
+		ft_putstr_fd(file_name, 2);
+		ft_putstr_fd("\n", 2);
+		exit(0);
+	}
 	file_len = lseek(fd, 0, SEEK_END);
 	file->player_num = player_num * -1;
 	lseek(fd, 0, SEEK_SET);
@@ -66,6 +73,7 @@ void				read_file(char *file_name, t_file *file, int player_num)
 	file->read = malloc(sizeof(unsigned char) * cmd_len + 1);
 	lseek(fd, -cmd_len, 2);
 	read(fd, file->read, cmd_len);
+
 	free(buf);
 	close(fd);
 }

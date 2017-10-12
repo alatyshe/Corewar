@@ -58,7 +58,7 @@ void				executing_ps(t_map *map, t_player *players, t_ps *ps)
 		else if (map->map[ps->pc] == 15)
 			lfork(map, players, ps);
 		else if (map->map[ps->pc] == 16)
-			;// aff(map, players, ps);
+			aff(map, players, ps);
 	}
 }
 
@@ -96,12 +96,12 @@ void				memory_map(t_file *file, int total_players, t_flags *f)
 	// printf("\n");
 	while (map->cycle < 40)
 	{
-		printf("cycle : %d\n", map->cycle);
+		// printf("cycle : %d\n", map->cycle);
 		start_processes(map);
 		map->cycle++;
 		// printf("\n");
 	}
-	print_map(map);
+	// print_map(map);
 	// printf("\n");
 	// print_players(map->players);
 

@@ -12,7 +12,7 @@
 
 #include "../../header/vm.h"
 
-static void		execute_aff_cmd(t_map *all_info, t_ps *ps);
+static void		execute_add_cmd(t_map *all_info, t_ps *ps);
 
 void			aff(t_map *all_info, t_player *player, t_ps *ps)
 {
@@ -25,18 +25,30 @@ void			aff(t_map *all_info, t_player *player, t_ps *ps)
 		return ;
 	}
 
-	printf("%sAFF HAS BEEN USED BY:%s\n", GREEN, RESET);
+	printf("%sAff HAS BEEN USED BY:%s\n", GREEN, RESET);
+	// printf("%splayer:\t\t\t%d%s\n", GREEN, ps->player, RESET);
+	// printf("%sps->cycles_to_cmd:\t%d%s\n", GREEN, ps->cycles_to_cmd, RESET);
+	// print_process(ps);
 
 	pc = fill_commands(all_info, ps);
-	execute_aff_cmd(all_info, ps);
+	execute_add_cmd(all_info, ps);
 	ps->pc = pc;
 
 	// print_process(ps);
 	null_commands_variables(ps);
 }
 
-static void		execute_aff_cmd(t_map *all_info, t_ps *ps)
+static void		execute_add_cmd(t_map *all_info, t_ps *ps)
 {
-	if (all_info->flags->a_flag == 1)
-		ft_printf("Aff: %c\n", ps->reg[ps->arg[0] - 1]);
+	int			first_arg;
+	int			second_arg;
+
+	first_arg = ps->reg[ps->arg[FIRST_ARG] - 1];
+	second_arg = ps->reg[ps->arg[SECOND_ARG] - 1];
+	if (!first_arg && !second_arg)
+		ps->carry = 1;
+	else
+		ps->carry = 0;
+	ps->reg[ps->arg[THIRD_ARG] - 1] = first_arg + second_arg;
 }
+

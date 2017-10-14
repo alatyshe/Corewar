@@ -70,9 +70,12 @@ static void		run_players(t_map *map)
 	player = map->players;
 	while (player)
 	{
+		// if (map->cycle % 1536 == 0)
+		// 	printf("player %d total_lives: %d\n", player->player_num * -1, player->total_lives);
 		ps = player->ps;
 		while (ps)
 		{
+
 			executing_ps(map, ps);
 			ps = ps->next;
 		}
@@ -83,15 +86,23 @@ static void		run_players(t_map *map)
 void				memory_map(t_file *file, int total_players, t_flags *flags)
 {
 	t_map			*map;
+	int				mask;
 
+	mask = 2;
 	map = create_map();
 	map->flags = flags;
 	fill_map(file, map, total_players);
-
-	while (map->cycle < 40)
+	map->processes = total_players;
+	introducing_print(file);
+	while (map->cycle < 20000)
 	{
+		if (flags->v_flag == 1 && flags->n_flag != 1
+			&& flags->b_flag != 1 && flags->d_flag != 1)
+			if (flags->v_value & mask)
+				ft_printf("It is now cycle %d\n",
+				map->cycle);
 		run_players(map);
 		map->cycle++;
 	}
-	print_map(map);
+	// print_map(map);
 }

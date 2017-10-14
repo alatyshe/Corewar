@@ -24,7 +24,7 @@ void			cmd_zjmp(t_map *all_info, t_ps *ps)
 		return ;
 	}
 
-	printf("%sZJMP HAS BEEN USED BY:%s\n", GREEN, RESET);
+	// printf("%sZJMP HAS BEEN USED BY:%s\n", GREEN, RESET);
 	// printf("%sps->cycles_to_cmd:\t%d%s\n", GREEN, ps->cycles_to_cmd, RESET);
 	// print_process(ps);
 
@@ -43,7 +43,7 @@ static void		execute_zjmp_cmd(t_ps *ps)
 	if (ps->carry == 1)
 	{
 		pc = ps->pc;
-		distance = ps->arg[SECOND_ARG] % IDX_MOD;
+		distance = ps->arg[FIRST_ARG] % IDX_MOD;
 		move_map_counter(&pc, distance);
 		ps->pc = pc;
 	}

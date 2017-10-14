@@ -24,7 +24,7 @@ void			cmd_live(t_map *all_info, t_ps *ps)
 		return ;
 	}
 
-	printf("%sLIVE HAS BEEN USED BY:%s\n", GREEN, RESET);
+	// printf("%sLIVE HAS BEEN USED BY:%s\n", GREEN, RESET);
 	// printf("%sps->cycles_to_cmd:\t%d%s\n", GREEN, ps->cycles_to_cmd, RESET);
 	// print_process(ps);
 
@@ -39,7 +39,9 @@ void			cmd_live(t_map *all_info, t_ps *ps)
 static void		execute_live_cmd(t_map *all_info, t_ps *ps)
 {
 	t_player	*copy_players;
+	char		mask;
 
+	mask = 1;
 	ps->check_live = 1;
 	copy_players = all_info->players;
 	while (copy_players)
@@ -47,6 +49,11 @@ static void		execute_live_cmd(t_map *all_info, t_ps *ps)
 		if (ps->arg[0] == copy_players->player_num)
 		{
 			copy_players->total_lives++;
+			if (all_info->flags->v_flag == 1 && all_info->flags->n_flag != 1
+				&& all_info->flags->b_flag != 1 && all_info->flags->d_flag != 1)
+				if (all_info->flags->v_value & mask)
+					ft_printf("Player %d (%s) is said to be alive\n",
+					copy_players->player_num * -1, copy_players->name);
 			copy_players->last_live = all_info->cycle;
 			return ;
 		}

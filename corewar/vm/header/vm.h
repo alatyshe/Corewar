@@ -163,6 +163,7 @@ void			print_process(t_ps *ps);
 void			print_players(t_player *player);
 void			print_map(t_map *map);
 void			print_flags(t_flags *f);
+void			introducing_print(t_file *file);
 
 int				it_is_flag(char *s);
 

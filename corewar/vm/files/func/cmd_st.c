@@ -24,7 +24,7 @@ void			cmd_st(t_map *all_info, t_ps *ps)
 		return ;
 	}
 	
-	printf("%sST HAS BEEN USED BY:%s\n", GREEN, RESET);
+	// printf("%sST HAS BEEN USED BY:%s\n", GREEN, RESET);
 	// printf("%sps->cycles_to_cmd:\t%d%s\n", GREEN, ps->cycles_to_cmd, RESET);
 	// print_process(ps);
 	

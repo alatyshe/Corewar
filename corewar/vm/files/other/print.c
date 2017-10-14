@@ -106,7 +106,7 @@ void			print_process(t_ps *ps)
 	printf("ps->cycles_to_cmd:\t%d\n", ps->cycles_to_cmd);
 	printf("ps->check_live:\t\t%d\n", ps->check_live);
 	printf("ps->p_size:\t\t%d\n", ps->p_size);
-	printf("%s==============================================%s\n\n", YELLOW, RESET);
+	printf("%s==============================================%s\n\n", YELLOW, RESET);  
 }
 
 void			print_processes(t_ps *ps)
@@ -139,7 +139,7 @@ void			print_players(t_player *player)
 	}
 }	
 
-void			print_map(t_map *map)
+void			print_one_cycle(t_map *map)
 {
 	int		i;
 	short	mask;
@@ -148,10 +148,32 @@ void			print_map(t_map *map)
 	i = 0;
 	while (i < MEM_SIZE)
 	{
-		printf("%02x ", map->map[i] & mask);
+		if (i == 0)
+			ft_printf("0x0000 : ");
+		if (i != 0 && i % 64 == 0)
+			ft_printf("%#06x : ", i);
+		ft_printf("%02x ", map->map[i] & mask);
 		if ((i + 1) % 64 == 0)
-			printf("\n");
+			ft_printf("\n");
 		i++;
+	}
+}
+
+void			print_map(t_map *map)
+{
+	char	*buf;
+	int		fd;
+
+	fd = 0;
+	buf = NULL;
+
+	if (map->flags->s_flag == 1)
+	{
+		if (map->cycle % map->flags->s_value == 0)
+		{
+			print_one_cycle(map);
+			get_next_line(0, &buf);
+		}
 	}
 }
 
@@ -172,6 +194,23 @@ void				return_color(int n)
 	else
 		printf("%s", BLACK);
 
+}
+
+void				introducing_print(t_file *file)
+{
+	t_file	*player;
+	int		i;
+
+	i = 1;
+	player = file;
+	ft_printf("Introducing contestants...\n");
+	while (player)
+	{
+		ft_printf("* Player %d, weighing %d bytes, \"%s\" (\"%s\") !\n",
+			i, player->prog_size, player->prog_name, player->prog_comment);
+		i++;
+		player = player->next;
+	}
 }
 
 void				print_flags(t_flags *f)

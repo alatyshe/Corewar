@@ -54,14 +54,16 @@ t_map			*create_map(void)
 	ft_bzero(map->map, MEM_SIZE + 1);
 	map->cycle = 0;
 	map->cycle_to_die = CYCLE_TO_DIE;
-	map->cycle_delta = CYCLE_DELTA;
 	map->processes = 0;
 	map->players = NULL;
 	map->flags = NULL;
+	map->ps = NULL;
+	map->ps_counter = 1;
+	map->total_lives = 0;
 	return (map);
 }
 
-t_ps			*create_ps(void)
+t_ps			*create_ps(int pc, int player, int num)
 {
 	t_ps		*ps;
 	int			i;
@@ -70,7 +72,7 @@ t_ps			*create_ps(void)
 	ps = (t_ps *)malloc(sizeof(t_ps));
 	ps->arg = (int *)malloc(sizeof(int) * MAX_ARGS_NUMBER);
 	ps->arg_types = (int *)malloc(sizeof(int) * MAX_ARGS_NUMBER);
-	ps->pc = 0;
+	ps->pc = pc;
 	i = 0;
 	while (i < REG_NUMBER || i < MAX_ARGS_NUMBER)
 	{
@@ -85,11 +87,12 @@ t_ps			*create_ps(void)
 	}
 	ps->cmd_in_hex = 0;
 	ps->coding_byte = 0;
-	ps->player_num = 0;
+	ps->player_num = player;
 	ps->carry = 0;
 	ps->check_live = 0;
 	ps->cycles_to_cmd = 0;
 	ps->p_size = 0;
+	ps->ps_num = num;
 	ps->skip_cmd = 0;
 	ps->next = NULL;
 	return (ps);
@@ -121,7 +124,6 @@ t_player		*create_player(void)
 	player->player_num = 0;
 	player->total_lives = 0;
 	player->last_live = 0;
-	player->ps = create_ps();
 	player->next = NULL;
 	return (player);
 }

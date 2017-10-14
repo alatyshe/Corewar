@@ -116,7 +116,7 @@ void			print_processes(t_ps *ps)
 	copy_ps = ps;
 	while (copy_ps)
 	{
-		print_process(ps);
+		print_process(copy_ps);
 		copy_ps = copy_ps->next;
 	}
 }
@@ -133,7 +133,6 @@ void			print_players(t_player *player)
 		printf("%sPLAYER->TOTAL_LIVES:%s\t%d\n", GREEN, RESET, player->total_lives);
 		printf("\n");
 		printf("%sPROCESS PROCESS PROCESS PROCESS PROCESS PROCESS PROCESS%s\n", CYAN, RESET);
-		print_processes(player->ps);
 		printf("%sPLAYER END PLAYER END PLAYER END PLAYER END PLAYER END PLAYER END PLAYER END PLAYER END%s\n\n\n", MAGENTA, RESET);
 		player = player->next;
 	}

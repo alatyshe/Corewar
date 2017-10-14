@@ -12,9 +12,9 @@
 
 #include "../../header/vm.h"
 
-static void		execute_live_cmd(t_map *all_info, t_ps *ps);
+static void		execute_live_cmd(t_map *map, t_ps *ps);
 
-void			cmd_live(t_map *all_info, t_ps *ps)
+void			cmd_live(t_map *map, t_ps *ps)
 {
 	int			pc;
 
@@ -25,29 +25,28 @@ void			cmd_live(t_map *all_info, t_ps *ps)
 	}
 
 	printf("%sLIVE HAS BEEN USED BY:%s\n", GREEN, RESET);
-	// printf("%sps->cycles_to_cmd:\t%d%s\n", GREEN, ps->cycles_to_cmd, RESET);
 	// print_process(ps);
 
-	pc = fill_commands(all_info, ps);
-	execute_live_cmd(all_info, ps);
+	pc = fill_commands(map, ps);
+	execute_live_cmd(map, ps);
 	ps->pc = pc;
 
-	// print_process(ps);
 	null_commands_variables(ps);
 }
 
-static void		execute_live_cmd(t_map *all_info, t_ps *ps)
+static void		execute_live_cmd(t_map *map, t_ps *ps)
 {
 	t_player	*copy_players;
 
 	ps->check_live = 1;
-	copy_players = all_info->players;
+	copy_players = map->players;
 	while (copy_players)
 	{
 		if (ps->arg[0] == copy_players->player_num)
 		{
+			map->total_lives++;
 			copy_players->total_lives++;
-			copy_players->last_live = all_info->cycle;
+			copy_players->last_live = map->cycle;
 			return ;
 		}
 		copy_players = copy_players->next;

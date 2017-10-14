@@ -22,7 +22,7 @@ static void			copy_players_commands_on_map(char *str1,
 	}
 }
 
-static void			fill_players(t_map *map, char *name, int pos, int num)
+static void			fill_players(t_map *map, char *name, int num)
 {
 	t_player	*player;
 
@@ -41,9 +41,6 @@ static void			fill_players(t_map *map, char *name, int pos, int num)
 	}
 	player->name = ft_strdup(name);
 	player->player_num = num * -1;
-	player->ps->pc = pos;
-	player->ps->reg[0] = num * -1;
-	player->ps->player_num = num * -1;
 }
 
 void				fill_map(t_file *file, t_map *map, int total_players)
@@ -52,7 +49,9 @@ void				fill_map(t_file *file, t_map *map, int total_players)
 	int				distance;
 	int				player_num;
 	t_file			*copy_file;
+	t_ps 			*process;
 
+	process = map->ps;
 	pos = 0;
 	player_num = 0;
 	copy_file = file;
@@ -61,8 +60,19 @@ void				fill_map(t_file *file, t_map *map, int total_players)
 	{
 		player_num++;
 		copy_players_commands_on_map(map->map + pos, copy_file->read, copy_file->prog_size);
-		fill_players(map, copy_file->prog_name, pos, player_num);
+		fill_players(map, copy_file->prog_name, player_num);
+		if (map->ps == NULL)
+			map->ps = create_ps(distance, -player_num, map->ps_counter);
+		else
+		{
+			process = create_ps(distance, -player_num, map->ps_counter);
+			process->next = map->ps;
+			map->ps = process;
+		}
+		map->ps->reg[0] = -player_num;
+		map->ps_counter++;
 		pos += distance;
 		copy_file = copy_file->next;
 	}
+	print_processes(map->ps);
 }

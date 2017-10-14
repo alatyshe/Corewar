@@ -12,86 +12,49 @@
 
 #include "../header/vm.h"
 
-static int		check_command(t_ps *ps, t_map *map)
+static void			executing_ps(t_map *map, t_ps *ps)
 {
 	if (map->map[ps->pc] >= 1 && map->map[ps->pc] <= 16)
-	{		
-		return (1);
-	}
-	return (0);
-}
-
-static void		executing_ps(t_map *map, t_ps *ps)
-{
-	if (!check_command(ps, map))
-		move_map_counter(&ps->pc, 1);
+		g_cmd_arr[(int)map->map[ps->pc]](map, ps);
 	else
-	{
-		if (map->map[ps->pc] == 1)
-			cmd_live(map, ps);
-		else if (map->map[ps->pc] == 2)
-			cmd_ld(map, ps);
-		else if (map->map[ps->pc] == 3)
-			cmd_st(map, ps);
-		else if (map->map[ps->pc] == 4)
-			cmd_add(map, ps);
-		else if (map->map[ps->pc] == 5)
-			cmd_sub(map, ps);
-		else if (map->map[ps->pc] == 6)
-			cmd_and(map, ps);
-		else if (map->map[ps->pc] == 7)
-			cmd_or(map, ps);
-		else if (map->map[ps->pc] == 8)
-			cmd_xor(map, ps);
-		else if (map->map[ps->pc] == 9)
-			cmd_zjmp(map, ps);
-		else if (map->map[ps->pc] == 10)
-			cmd_ldi(map, ps);
-		else if (map->map[ps->pc] == 11)
-			cmd_sti(map, ps);
-		else if (map->map[ps->pc] == 12)
-			cmd_fork(map, ps);
-		else if (map->map[ps->pc] == 13)
-			cmd_lld(map, ps);
-		else if (map->map[ps->pc] == 14)
-			cmd_lldi(map, ps);
-		else if (map->map[ps->pc] == 15)
-			cmd_lfork(map, ps);
-		else if (map->map[ps->pc] == 16)
-			cmd_aff(map, ps);
-	}
+		move_map_counter(&ps->pc, 1);
 }
 
-static void		run_players(t_map *map)
+static void			run_players(t_map *map)
 {
-	t_player	*player;
-	t_ps		*ps;
+	t_ps			*ps;
 
-	player = map->players;
-	while (player)
+	ps = map->ps;
+	while (ps)
 	{
-		ps = player->ps;
-		while (ps)
-		{
-			executing_ps(map, ps);
-			ps = ps->next;
-		}
-		player = player->next;
+		for( int i = 0; i < 50000000; i++);
+		print_process(ps);
+		executing_ps(map, ps);
+		ps = ps->next;
 	}
 }
 
 void				memory_map(t_file *file, int total_players, t_flags *flags)
 {
 	t_map			*map;
-
+	unsigned int	i;
+	
 	map = create_map();
 	map->flags = flags;
 	fill_map(file, map, total_players);
-
-	while (map->cycle < 40)
+	// map->total_lives = total_players;
+	while (map->total_lives != 0)
 	{
-		run_players(map);
-		map->cycle++;
+		i = 1;
+		while (i < map->cycle_to_die)
+		{
+			printf("cycle : %d\n", i);
+			run_players(map);
+			map->cycle++;
+			i++;
+		}
+		if (map->total_lives > NBR_LIVE)
+			map->cycle_to_die -= CYCLE_DELTA;
 	}
 	print_map(map);
 }

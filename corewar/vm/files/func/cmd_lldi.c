@@ -12,9 +12,9 @@
 
 #include "../../header/vm.h"
 
-static void		execute_lldi_cmd(t_map *all_info, t_ps *ps);
+static void		execute_lldi_cmd(t_map *map, t_ps *ps);
 // ХУНЯ
-void			cmd_lldi(t_map *all_info, t_ps *ps)
+void			cmd_lldi(t_map *map, t_ps *ps)
 {
 	int			pc;
 
@@ -25,18 +25,16 @@ void			cmd_lldi(t_map *all_info, t_ps *ps)
 	}
 	
 	printf("%sLLDI HAS BEEN USED BY:%s\n", GREEN, RESET);
-	// printf("%sps->cycles_to_cmd:\t%d%s\n", GREEN, ps->cycles_to_cmd, RESET);
 	// print_process(ps);
 
-	pc = fill_commands(all_info, ps);
-	execute_lldi_cmd(all_info, ps);
+	pc = fill_commands(map, ps);
+	execute_lldi_cmd(map, ps);
 	ps->pc = pc;
 	
-	// print_process(ps);
 	null_commands_variables(ps);
 }
 
-static void		execute_lldi_cmd(t_map *all_info, t_ps *ps)
+static void		execute_lldi_cmd(t_map *map, t_ps *ps)
 {
 	int			first_arg;
 	int			second_arg;
@@ -59,7 +57,7 @@ static void		execute_lldi_cmd(t_map *all_info, t_ps *ps)
 		pc = ps->pc;
 		distance = ps->arg[FIRST_ARG] % IDX_MOD;
 		move_map_counter(&pc, distance);
-		first_arg = get_value_from_map(all_info, &pc, 4);
+		first_arg = get_value_from_map(map, &pc, 4);
 	}
 	//	проверка 2-го аргумента
 	if (ps->arg_types[SECOND_ARG] == REG_CODE)
@@ -79,7 +77,7 @@ static void		execute_lldi_cmd(t_map *all_info, t_ps *ps)
 	distance = (first_arg + second_arg);
 	pc = ps->pc;
 	move_map_counter(&pc, distance);
-	res = get_value_from_map(all_info, &pc, 4);
+	res = get_value_from_map(map, &pc, 4);
 	
 	if (!res)
 		ps->carry = 1;

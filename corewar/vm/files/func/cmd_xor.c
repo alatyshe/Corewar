@@ -12,9 +12,9 @@
 
 #include "../../header/vm.h"
 
-static void		execute_xor_cmd(t_map *all_info, t_ps *ps);
-//	проверки на валидность нет и пропус команды CARRY НЕ МЕНЯЕТ
-void			cmd_xor(t_map *all_info, t_ps *ps)
+static void		execute_xor_cmd(t_map *map, t_ps *ps);
+
+void			cmd_xor(t_map *map, t_ps *ps)
 {
 	int			pc;
 
@@ -25,18 +25,16 @@ void			cmd_xor(t_map *all_info, t_ps *ps)
 	}
 	
 	printf("%sXOR HAS BEEN USED BY:%s\n", GREEN, RESET);
-	// printf("%sps->cycles_to_cmd:\t%d%s\n", GREEN, ps->cycles_to_cmd, RESET);
 	// print_process(ps);
 
-	pc = fill_commands(all_info, ps);
-	execute_xor_cmd(all_info, ps);
+	pc = fill_commands(map, ps);
+	execute_xor_cmd(map, ps);
 	ps->pc = pc;
 
-	// print_process(ps);
 	null_commands_variables(ps);
 }
 
-static void		execute_xor_cmd(t_map *all_info, t_ps *ps)
+static void		execute_xor_cmd(t_map *map, t_ps *ps)
 {
 	int			value[g_tab[7].count_arg];
 	int			res;
@@ -45,7 +43,7 @@ static void		execute_xor_cmd(t_map *all_info, t_ps *ps)
 	i = 0;
 	while (i < g_tab[7].count_arg)
 	{
-		value[i] = get_variables_idxmod(all_info, ps, i, g_tab[7].arg[i]);
+		value[i] = get_variables_idxmod(map, ps, i, g_tab[7].arg[i]);
 		if (ps->skip_cmd)
 		{
 			ps->skip_cmd = 0;

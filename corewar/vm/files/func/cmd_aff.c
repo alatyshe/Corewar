@@ -12,9 +12,9 @@
 
 #include "../../header/vm.h"
 
-static void		execute_aff_cmd(t_map *all_info, t_ps *ps);
+static void		execute_aff_cmd(t_map *map, t_ps *ps);
 
-void			cmd_aff(t_map *all_info, t_ps *ps)
+void			cmd_aff(t_map *map, t_ps *ps)
 {
 	int			pc;
 
@@ -25,19 +25,17 @@ void			cmd_aff(t_map *all_info, t_ps *ps)
 	}
 
 	printf("%sAFF HAS BEEN USED BY:%s\n", GREEN, RESET);
-	// printf("%sps->cycles_to_cmd:\t%d%s\n", GREEN, ps->cycles_to_cmd, RESET);
 	// print_process(ps);
 
-	pc = fill_commands(all_info, ps);
-	execute_aff_cmd(all_info, ps);
+	pc = fill_commands(map, ps);
+	execute_aff_cmd(map, ps);
 	ps->pc = pc;
 
-	// print_process(ps);
 	null_commands_variables(ps);
 }
 
-static void		execute_aff_cmd(t_map *all_info, t_ps *ps)
+static void		execute_aff_cmd(t_map *map, t_ps *ps)
 {
-	if (all_info->flags->a_flag == 1)
+	if (map->flags->a_flag == 1)
 		ft_printf("Aff: %c\n", ps->reg[ps->arg[0] - 1]);
 }

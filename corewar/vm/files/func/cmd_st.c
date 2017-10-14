@@ -12,9 +12,9 @@
 
 #include "../../header/vm.h"
 
-static void		execute_st_cmd(t_map *all_info, t_ps *ps);
+static void		execute_st_cmd(t_map *map, t_ps *ps);
 
-void			cmd_st(t_map *all_info, t_ps *ps)
+void			cmd_st(t_map *map, t_ps *ps)
 {
 	int			pc;
 
@@ -25,18 +25,16 @@ void			cmd_st(t_map *all_info, t_ps *ps)
 	}
 	
 	printf("%sST HAS BEEN USED BY:%s\n", GREEN, RESET);
-	// printf("%sps->cycles_to_cmd:\t%d%s\n", GREEN, ps->cycles_to_cmd, RESET);
 	// print_process(ps);
 	
-	pc = fill_commands(all_info, ps);
-	execute_st_cmd(all_info, ps);
+	pc = fill_commands(map, ps);
+	execute_st_cmd(map, ps);
 	ps->pc = pc;
 
-	//	print_flags // ПЕЧАТЬ ЕСЛИ ЕСТЬ ФЛАГИ
 	null_commands_variables(ps);
 }
 
-static void		execute_st_cmd(t_map *all_info, t_ps *ps)
+static void		execute_st_cmd(t_map *map, t_ps *ps)
 {
 	int			second_arg;
 	int			first_arg;
@@ -58,6 +56,6 @@ static void		execute_st_cmd(t_map *all_info, t_ps *ps)
 		pc = ps->pc;
 		distance = second_arg % IDX_MOD;
 		move_map_counter(&pc, distance);
-		write_value_on_map(all_info, pc, ps->reg[first_arg - 1]);
+		write_value_on_map(map, pc, ps->reg[first_arg - 1]);
 	}
 }

@@ -12,9 +12,9 @@
 
 #include "../../header/vm.h"
 
-static void		execute_fork_cmd(t_map *all_info, t_ps *ps);
+static void		execute_fork_cmd(t_map *map, t_ps *ps);
 
-void			cmd_fork(t_map *all_info, t_ps *ps)
+void			cmd_fork(t_map *map, t_ps *ps)
 {
 	int			pc;
 
@@ -25,28 +25,25 @@ void			cmd_fork(t_map *all_info, t_ps *ps)
 	}
 	
 	printf("%sFORK HAS BEEN USED BY:%s\n", GREEN, RESET);
-	// printf("%sps->cycles_to_cmd:\t%d%s\n", GREEN, ps->cycles_to_cmd, RESET);
 	// print_process(ps);
 
-	pc = fill_commands(all_info, ps);
-	execute_fork_cmd(all_info, ps);
+	pc = fill_commands(map, ps);
+	execute_fork_cmd(map, ps);
 	ps->pc = pc;
 
-	// print_process(ps);
 	null_commands_variables(ps);
 }
 
-static void		execute_fork_cmd(t_map *all_info, t_ps *ps)
+static void		execute_fork_cmd(t_map *map, t_ps *ps)
 {
 	t_ps		*ps_new;
 	int			distance;
 	int			pc;
 
-	ps_new = ps;
-	while (ps_new->next)
-		ps_new = ps_new->next;
-	ps_new->next = create_ps();
-	ps_new = ps_new->next;
+	ps_new = create_ps(0, 0, map->ps_counter++);
+	ps_new->next = map->ps;
+	map->ps = ps_new;
+
 	ps_new->player_num = ps->player_num;
 	ps_new->check_live = ps->check_live;
 	ps_new->carry = ps->carry;
@@ -56,6 +53,6 @@ static void		execute_fork_cmd(t_map *all_info, t_ps *ps)
 	move_map_counter(&pc, distance);
 	ps_new->pc = pc;
 	
-	all_info->processes++;
-	move_map_counter(&ps_new->pc, ps->arg[FIRST_ARG]);
+	map->processes++;
+	// move_map_counter(&ps_new->pc, ps->arg[FIRST_ARG]);
 }

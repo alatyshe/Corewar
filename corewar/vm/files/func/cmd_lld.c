@@ -12,9 +12,9 @@
 
 #include "../../header/vm.h"
 
-static void		execute_lld_cmd(t_map *all_info, t_ps *ps);
+static void		execute_lld_cmd(t_map *map, t_ps *ps);
 
-void			cmd_lld(t_map *all_info, t_ps *ps)
+void			cmd_lld(t_map *map, t_ps *ps)
 {
 	int			pc;
 
@@ -25,18 +25,16 @@ void			cmd_lld(t_map *all_info, t_ps *ps)
 	}
 	
 	printf("%sLLD HAS BEEN USED BY:%s\n", GREEN, RESET);
-	// printf("%sps->cycles_to_cmd:\t%d%s\n", GREEN, ps->cycles_to_cmd, RESET);
 	// print_process(ps);
 
-	pc = fill_commands(all_info, ps);
-	execute_lld_cmd(all_info, ps);
+	pc = fill_commands(map, ps);
+	execute_lld_cmd(map, ps);
 	ps->pc = pc;
 
-	// print_process(ps);
 	null_commands_variables(ps);
 }
 
-static void		execute_lld_cmd(t_map *all_info, t_ps *ps)
+static void		execute_lld_cmd(t_map *map, t_ps *ps)
 {
 	int			pc;
 	int			distance;
@@ -52,7 +50,7 @@ static void		execute_lld_cmd(t_map *all_info, t_ps *ps)
 		pc = ps->pc;
 		distance = ps->arg[FIRST_ARG];
 		move_map_counter(&pc, distance);
-		first_arg = get_value_from_map(all_info, &pc, 4);
+		first_arg = get_value_from_map(map, &pc, 4);
 	}
 	if (first_arg == 0)
 		ps->carry = 1;

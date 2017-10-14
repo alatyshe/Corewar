@@ -52,11 +52,12 @@ typedef struct		s_map
 	char				map[MEM_SIZE];
 	unsigned int		cycle;			//	текущий цикл
 	unsigned int		cycle_to_die;	//	цикл смерти
-	unsigned int		cycle_delta;
+	unsigned int		total_lives;
 	unsigned int		processes;		//	количество процессов
+	unsigned int		ps_counter;
 	struct s_player		*players;		//	игроки
 	t_flags				*flags;
-	// struct s_ps			*ps;
+	struct s_ps			*ps;
 }					t_map;
 
 typedef struct		s_ps
@@ -76,7 +77,7 @@ typedef struct		s_ps
 	char				carry;			//	возможен ли перенос 1 - 0
 	int					cycles_to_cmd;	//	текущее количесвто циклов до выполнения комманды
 	int					check_live;		//	исполнил ли процесс функцию live
-	
+	unsigned int		ps_num;			//	номер процесса
 	struct s_ps			*next;
 }					t_ps;
 
@@ -87,7 +88,7 @@ typedef struct		s_player
 	// int				color;			//	цвет
 	unsigned int		last_live;		//	последний крик live (номер цикла)
 	unsigned int		total_lives;	//	количество криков live
-	struct s_ps			*ps;
+	// struct s_ps			*ps;
 	struct s_player		*next;
 }					t_player;
 
@@ -121,6 +122,7 @@ typedef struct		s_file
 	struct	s_file		*next;
 }					t_file;
 
+typedef void	(*t_cmd_array)(t_map *all_info, t_ps *ps);
 
 // ===================== read ========================
 
@@ -139,7 +141,7 @@ t_file			*create_file(void);
 t_cmd			*create_cmd(int	args);
 t_map			*create_map(void);
 t_player		*create_player(void);
-t_ps			*create_ps(void);
+t_ps			*create_ps(int pc, int player, int num);
 t_flags			*create_flags(void);
 
 void			move_map_counter(int *pos, int delta_pos);
@@ -160,6 +162,7 @@ void			return_color(int n);
 // void			print_map(short *map);
 // void			print_wb_map(short *map);
 void			print_process(t_ps *ps);
+void			print_processes(t_ps *ps);
 void			print_players(t_player *player);
 void			print_map(t_map *map);
 void			print_flags(t_flags *f);
@@ -170,21 +173,42 @@ int				it_is_flag(char *s);
 int				fill_commands(t_map *all_info, t_ps *ps);
 void			null_commands_variables(t_ps *ps);
 int				get_variables_idxmod(t_map *all_info, t_ps *ps, int i, int types);
-void			cmd_live(t_map *all_info, t_ps *ps);
-void			cmd_ld(t_map *all_info, t_ps *ps);
-void			cmd_st(t_map *all_info, t_ps *ps);
-void			cmd_add(t_map *all_info, t_ps *ps);
-void			cmd_sub(t_map *all_info, t_ps *ps);
-void			cmd_and(t_map *all_info, t_ps *ps);
-void			cmd_or(t_map *all_info, t_ps *ps);
-void			cmd_xor(t_map *all_info, t_ps *ps);
-void			cmd_zjmp(t_map *all_info, t_ps *ps);
-void			cmd_ldi(t_map *all_info, t_ps *ps);
-void			cmd_sti(t_map *all_info, t_ps *ps);
-void			cmd_fork(t_map *all_info, t_ps *ps);
-void			cmd_lld(t_map *all_info, t_ps *ps);
-void			cmd_lldi(t_map *all_info, t_ps *ps);
-void			cmd_lfork(t_map *all_info, t_ps *ps);
-void			cmd_aff(t_map *all_info, t_ps *ps);
+void			cmd_live(t_map *map, t_ps *ps);
+void			cmd_ld(t_map *map, t_ps *ps);
+void			cmd_st(t_map *map, t_ps *ps);
+void			cmd_add(t_map *map, t_ps *ps);
+void			cmd_sub(t_map *map, t_ps *ps);
+void			cmd_and(t_map *map, t_ps *ps);
+void			cmd_or(t_map *map, t_ps *ps);
+void			cmd_xor(t_map *map, t_ps *ps);
+void			cmd_zjmp(t_map *map, t_ps *ps);
+void			cmd_ldi(t_map *map, t_ps *ps);
+void			cmd_sti(t_map *map, t_ps *ps);
+void			cmd_fork(t_map *map, t_ps *ps);
+void			cmd_lld(t_map *map, t_ps *ps);
+void			cmd_lldi(t_map *map, t_ps *ps);
+void			cmd_lfork(t_map *map, t_ps *ps);
+void			cmd_aff(t_map *map, t_ps *ps);
+
+
+static t_cmd_array	g_cmd_arr[17] = {
+	NULL,
+	cmd_live,
+	cmd_ld,
+	cmd_st,
+	cmd_add,
+	cmd_sub,
+	cmd_and,
+	cmd_or,
+	cmd_xor,
+	cmd_zjmp,
+	cmd_ldi,
+	cmd_sti,
+	cmd_fork,
+	cmd_lld,
+	cmd_lldi,
+	cmd_lfork,
+	cmd_aff
+};
 
 #endif

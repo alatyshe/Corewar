@@ -24,7 +24,8 @@ void			cmd_lldi(t_map *map, t_ps *ps)
 		return ;
 	}
 	
-	printf("%sLLDI HAS BEEN USED BY:%s\n", GREEN, RESET);
+	// printf("%sLLDI HAS BEEN USED BY:%s\n", GREEN, RESET);
+	// printf("%sps->cycles_to_cmd:\t%d%s\n", GREEN, ps->cycles_to_cmd, RESET);
 	// print_process(ps);
 
 	pc = fill_commands(map, ps);

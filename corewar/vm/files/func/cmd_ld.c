@@ -23,8 +23,9 @@ void			cmd_ld(t_map *map, t_ps *ps)
 		ps->cycles_to_cmd++;
 		return ;
 	}
-	
-	printf("%sLD HAS BEEN USED BY:%s\n", GREEN, RESET);
+
+	// printf("%sLD HAS BEEN USED BY:%s\n", GREEN, RESET);
+	// printf("%sps->cycles_to_cmd:\t%d%s\n", GREEN, ps->cycles_to_cmd, RESET);
 	// print_process(ps);
 
 	pc = fill_commands(map, ps);

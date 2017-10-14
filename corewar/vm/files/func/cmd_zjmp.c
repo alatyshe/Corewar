@@ -24,7 +24,8 @@ void			cmd_zjmp(t_map *map, t_ps *ps)
 		return ;
 	}
 
-	printf("%sZJMP HAS BEEN USED BY:%s\n", GREEN, RESET);
+	// printf("%sZJMP HAS BEEN USED BY:%s\n", GREEN, RESET);
+	// printf("%sps->cycles_to_cmd:\t%d%s\n", GREEN, ps->cycles_to_cmd, RESET);
 	// print_process(ps);
 
 	pc = fill_commands(map, ps);

@@ -18,11 +18,7 @@ void			cmd_sub(t_map *map, t_ps *ps)
 {
 	int			pc;
 
-	if (ps->cycles_to_cmd < g_tab[4].cycle)
-	{
-		ps->cycles_to_cmd++;
-		return ;
-	}
+	// проверка кодирующего бита
 	
 	// printf("%sSUB HAS BEEN USED BY:%s\n", GREEN, RESET);
 	// printf("%sps->cycles_to_cmd:\t%d%s\n", GREEN, ps->cycles_to_cmd, RESET);

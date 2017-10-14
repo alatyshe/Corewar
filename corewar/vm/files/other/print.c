@@ -38,31 +38,31 @@ void			print_file(t_file *file)
 	printf("%s===============================%s\n\n", GREEN, RESET);
 }
 
-void			print_cmd(t_cmd *cmd)
-{
-	int			i;
+// void			print_cmd(t_cmd *cmd)
+// {
+// 	int			i;
 
-	printf("%s===============================%s\n", RED, RESET);
-	printf("%scmd_name: %s\n%s", MAGENTA, cmd->cmd_name, RESET);
-	printf("cmd_size :\t%d\n", cmd->cmd_size);
-	printf("cmd_in_hex :\t%02x\n", cmd->cmd_in_hex);
-	printf("coding_byte:\t%02x\n\n", cmd->coding_byte);
-	i = 0;
-	while (i < g_tab[cmd->cmd_in_hex - 1].count_arg)
-	{
-		printf("argument[%d]:\t%-10x", i + 1, cmd->arg[i]);
-		printf("%sTYPE : %s", GREEN, RESET);
-		if (cmd->arg_types[i] == T_REG)
-			printf("T_REG");
-		else if (cmd->arg_types[i] == T_DIR)
-			printf("T_DIR");
-		else if (cmd->arg_types[i] == T_IND)
-			printf("T_IND");
-		printf("\n");
-		i++;
-	}
-	printf("%s===============================%s\n", RED, RESET);
-}
+// 	printf("%s===============================%s\n", RED, RESET);
+// 	printf("%scmd_name: %s\n%s", MAGENTA, cmd->cmd_name, RESET);
+// 	printf("cmd_size :\t%d\n", cmd->cmd_size);
+// 	printf("cmd_in_hex :\t%02x\n", cmd->cmd_in_hex);
+// 	printf("coding_byte:\t%02x\n\n", cmd->coding_byte);
+// 	i = 0;
+// 	while (i < g_tab[cmd->cmd_in_hex - 1].count_arg)
+// 	{
+// 		printf("argument[%d]:\t%-10x", i + 1, cmd->arg[i]);
+// 		printf("%sTYPE : %s", GREEN, RESET);
+// 		if (cmd->arg_types[i] == T_REG)
+// 			printf("T_REG");
+// 		else if (cmd->arg_types[i] == T_DIR)
+// 			printf("T_DIR");
+// 		else if (cmd->arg_types[i] == T_IND)
+// 			printf("T_IND");
+// 		printf("\n");
+// 		i++;
+// 	}
+// 	printf("%s===============================%s\n", RED, RESET);
+// }
 
 void			print_process(t_ps *ps)
 {
@@ -158,12 +158,20 @@ void			print_one_cycle(t_map *map)
 	}
 }
 
+void			print_info_map(t_map *map)
+{
+
+	printf("cycle:\t\t%d\n", map->cycle);
+	printf("cycle_to_die:\t\t%d\n", map->cycle_to_die);
+	printf("total_lives:\t\t%d\n", map->total_lives);
+	printf("processes:\t\t%d\n", map->processes);
+	printf("ps_counter:\t\t%d\n\n", map->ps_counter);
+}
+
 void			print_map(t_map *map)
 {
 	char	*buf;
-	int		fd;
 
-	fd = 0;
 	buf = NULL;
 
 	if (map->flags->s_flag == 1)

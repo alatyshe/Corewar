@@ -33,20 +33,18 @@ static int			read_header(unsigned char *buf, t_file *file, char *file_name)
 static unsigned int	fill_file_struct(unsigned char *buf, int file_len,
 	t_file *file, char *file_name)
 {
-	int				j;
-	unsigned int	prog_size;
+	unsigned int	j;
 
 	j = 0;
-	prog_size = 0;
 	j = read_header(buf, file, file_name);
-	prog_size = read_commands(buf, file->commands, j, file_len) - j; // нафига оно нужно - не понятно
-	if (prog_size != file->prog_size)
+	// read_commands(buf, file->commands, j, file_len) - j; // нафига оно нужно - не понятно
+	if ((file_len - j) != file->prog_size)
 	{
 		ft_putstr_fd("Error: File ../../ex.cor has a code ", 2);
 		ft_putstr_fd("size that differ from what its header says\n", 2);
 		exit(0);
 	}
-	return (prog_size);
+	return (file->prog_size);
 }
 
 void				read_file(char *file_name, t_file *file, int player_num)

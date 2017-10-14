@@ -60,22 +60,31 @@ typedef struct		s_map
 	struct s_ps			*ps;
 }					t_map;
 
+typedef struct		s_cmd
+{
+	short				cmd_size;
+	int					cmd_in_hex;
+	char				coding_byte;
+	char				arg_types[3];
+	int					arg[3];
+}					t_cmd;
+
 typedef struct		s_ps
 {
 	int					pc;				//	позиция процесса на карте
 	int					player_num;		//	номер игрока 1 2 4 8
 	int					reg[16];		//	его регистры
 
-	// int					color;
 	char				cmd_in_hex;		//	
 	char				coding_byte;	//	
 	int					*arg_types;		//	тип аргументов
 	int					*arg;			//	сами аргументы
 	int					p_size;			//	длинна исполняемой команды при исполнении
+
 	int					skip_cmd;		//	пропуск команды на ошибочном кодирующем бите
-	
-	char				carry;			//	возможен ли перенос 1 - 0
 	int					cycles_to_cmd;	//	текущее количесвто циклов до выполнения комманды
+
+	char				carry;			//	возможен ли перенос 1 - 0
 	int					check_live;		//	исполнил ли процесс функцию live
 	unsigned int		ps_num;			//	номер процесса
 	struct s_ps			*next;
@@ -97,17 +106,6 @@ typedef struct		s_player
 
 
 
-
-typedef struct		s_cmd
-{
-	char				*cmd_name;
-	short				cmd_size;
-	char				cmd_in_hex;
-	char				coding_byte;
-	char				*arg_types;
-	int					*arg;
-	struct s_cmd		*next;
-}					t_cmd;
 
 typedef struct		s_file
 {
@@ -138,7 +136,7 @@ void			memory_map(t_file *file, int total_players, t_flags *f);
 // ===================== create struct ========================
 
 t_file			*create_file(void);
-t_cmd			*create_cmd(int	args);
+t_cmd			*create_cmd();
 t_map			*create_map(void);
 t_player		*create_player(void);
 t_ps			*create_ps(int pc, int player, int num);
@@ -149,6 +147,7 @@ unsigned int	get_value_from_file(void *buf, int len);
 int				get_value_from_map(t_map *all_info, int *where, int len);
 void			write_value_on_map(t_map *all_info, int where, int value_in);
 void			null_commands_variables(t_ps *ps);
+void			null_cmd(t_cmd *cmd);
 
 int				exec_arg_value(char *map, t_ps *ps, int len);
 unsigned int 	get_value(void *buf, int len);
@@ -166,6 +165,7 @@ void			print_processes(t_ps *ps);
 void			print_players(t_player *player);
 void			print_map(t_map *map);
 void			print_flags(t_flags *f);
+void			print_info_map(t_map *map);
 void			introducing_print(t_file *file);
 
 int				it_is_flag(char *s);

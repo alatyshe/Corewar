@@ -12,20 +12,21 @@
 
 #include "../../header/vm.h"
 
-t_cmd			*create_cmd(int args)
+t_cmd			*create_cmd()
 {
 	t_cmd		*cmd;
 	int			i;
 
 	i = 0;
 	cmd = (t_cmd *)malloc(sizeof(t_cmd));
-	cmd->cmd_name = NULL;
 	cmd->cmd_size = 0;
 	cmd->cmd_in_hex = 0;
 	cmd->coding_byte = 0;
-	cmd->arg_types = (char *)malloc(sizeof(char) * args);
-	cmd->arg = (int *)malloc(sizeof(int) * args);
-	cmd->next = NULL;
+	while (i < 3)
+	{
+		cmd->arg_types[i] = 0;
+		cmd->arg[i] = 0;
+	}
 	return (cmd);
 }
 

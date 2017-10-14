@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   vm.c                                               :+:      :+:    :+:   */
+/*   fill_variables.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dvynokur <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,20 +10,32 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../header/vm.h"
+#include "../../header/vm.h"
 
-int				main(int argc, char **argv)
+int				get_variables_idxmod(t_map *all_info, t_ps *ps, int i, int types)
 {
-	t_file		*files;
-	int			count_players;
-	t_flags		*flags;
+	int			pc;
+	int			result;
+	int			distance;
 
-	files = NULL;
-	flags = create_flags();
-	count_players = 0;
-	files = read_arguments(argc, argv, &count_players, flags);
-	// print_flags(flags);
-
-	memory_map(files, count_players, flags);
-	return (0);
+	result = 0;
+	if ((types & ps->arg_types[i]) && ps->arg_types[i] == REG_CODE)
+	{
+		if (ps->arg[i] < 1 || ps->arg[i] > 16)
+		{
+			ps->skip_cmd = 1;
+			return (0);
+		}
+		result = ps->reg[ps->arg[i] - 1];
+	}
+	else if ((types & ps->arg_types[i]) && ps->arg_types[i] == DIR_CODE)
+		result = ps->arg[i];
+	else if ((types & ps->arg_types[i]) && ps->arg_types[i] == IND_CODE)
+	{
+		pc = ps->pc;
+		distance = ps->arg[i] % IDX_MOD;
+		move_map_counter(&pc, distance);
+		result = get_value_from_map(all_info, &pc, 4);
+	}
+	return (result);
 }

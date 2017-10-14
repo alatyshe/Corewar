@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   live.c                                             :+:      :+:    :+:   */
+/*   cmd_or.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dvynokur <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,48 +12,51 @@
 
 #include "../../header/vm.h"
 
-static void		execute_live_cmd(t_map *all_info, t_player *player, t_ps *ps,
-	int value);
-//	проверки на валидность нет и пропус команды
-void			live(t_map *all_info, t_player *player, t_ps *ps)
+static void		execute_or_cmd(t_map *all_info, t_ps *ps);
+//	проверки на валидность нет и пропус команды CARRY НЕ МЕНЯЕТ
+void			cmd_or(t_map *all_info, t_ps *ps)
 {
-	int			i;
 	int			pc;
 
-	if (ps->cycles_to_cmd < g_tab[0].cycle)
+	if (ps->cycles_to_cmd < g_tab[6].cycle)
 	{
 		ps->cycles_to_cmd++;
 		return ;
 	}
-
-	printf("%sLIVE HAS BEEN USED BY:%s\n", GREEN, RESET);
-	// printf("%splayer:\t\t\t%d%s\n", GREEN, ps->player, RESET);
+	
+	printf("%sOR HAS BEEN USED BY:%s\n", GREEN, RESET);
 	// printf("%sps->cycles_to_cmd:\t%d%s\n", GREEN, ps->cycles_to_cmd, RESET);
 	// print_process(ps);
 
 	pc = fill_commands(all_info, ps);
-	execute_live_cmd(all_info, player, ps, ps->arg[0]);
+	execute_or_cmd(all_info, ps);
 	ps->pc = pc;
 
 	// print_process(ps);
 	null_commands_variables(ps);
 }
 
-static void		execute_live_cmd(t_map *all_info, t_player *player, t_ps *ps,
-	int value)
+static void		execute_or_cmd(t_map *all_info, t_ps *ps)
 {
-	t_player	*copy_players;
+	int			value[g_tab[6].count_arg];
+	int			res;
+	int			i;
 
-	ps->check_live = 1;
-	copy_players = player;
-	while (copy_players)
+	i = 0;
+	while (i < g_tab[6].count_arg)
 	{
-		if (value == copy_players->player_num)
+		value[i] = get_variables_idxmod(all_info, ps, i, g_tab[6].arg[i]);
+		if (ps->skip_cmd)
 		{
-			copy_players->total_lives++;
-			copy_players->last_live = all_info->cycle;
+			ps->skip_cmd = 0;
 			return ;
 		}
-		copy_players = copy_players->next;
+		i++;
 	}
+	res = value[FIRST_ARG] | value[SECOND_ARG];
+	if (!res)
+		ps->carry = 1;
+	else
+		ps->carry = 0;
+	ps->reg[ps->arg[THIRD_ARG] - 1] = res;
 }

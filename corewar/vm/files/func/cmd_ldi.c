@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ldi.c                                              :+:      :+:    :+:   */
+/*   cmd_ldi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dvynokur <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -14,9 +14,8 @@
 
 static void		execute_ldi_cmd(t_map *all_info, t_ps *ps);
 
-void			ldi(t_map *all_info, t_player *player, t_ps *ps)
+void			cmd_ldi(t_map *all_info, t_ps *ps)
 {
-	int			i;
 	int			pc;
 
 	if (ps->cycles_to_cmd < g_tab[9].cycle)
@@ -26,59 +25,38 @@ void			ldi(t_map *all_info, t_player *player, t_ps *ps)
 	}
 	
 	printf("%sLDI HAS BEEN USED BY:%s\n", GREEN, RESET);
-	// printf("%splayer:\t\t\t%d%s\n", GREEN, ps->player, RESET);
 	// printf("%sps->cycles_to_cmd:\t%d%s\n", GREEN, ps->cycles_to_cmd, RESET);
 	// print_process(ps);
 
 	pc = fill_commands(all_info, ps);
 	execute_ldi_cmd(all_info, ps);
 	ps->pc = pc;
+
 	// print_process(ps);
 	null_commands_variables(ps);
 }
 
 static void		execute_ldi_cmd(t_map *all_info, t_ps *ps)
 {
-	int			first_arg;
-	int			second_arg;
+	int			value[g_tab[3].count_arg];
 	int			distance;
-	int			res;
 	int			pc;
+	int			i;
 
-	//	проверка 1-го аргумента
-	if (ps->arg_types[FIRST_ARG] == REG_CODE)
+	i = 0;
+	while (i < g_tab[3].count_arg)
 	{
-		if (ps->arg[FIRST_ARG] < 1
-			|| ps->arg[FIRST_ARG] > 16)
+		value[i] = get_variables_idxmod(all_info, ps, i, g_tab[3].arg[i]);
+		if (ps->skip_cmd)
+		{
+			ps->skip_cmd = 0;
 			return ;
-		first_arg = ps->reg[ps->arg[FIRST_ARG] - 1];
+		}
+		i++;
 	}
-	else if (ps->arg_types[FIRST_ARG] == DIR_CODE)
-		first_arg = ps->arg[FIRST_ARG];
-	else if (ps->arg_types[FIRST_ARG] == IND_CODE)
-	{
-		pc = ps->pc;
-		distance = ps->arg[FIRST_ARG] % IDX_MOD;
-		move_map_counter(&pc, distance);
-		first_arg = get_value_from_map(all_info, &pc, 4);
-	}
-	//	проверка 2-го аргумента
-	if (ps->arg_types[SECOND_ARG] == REG_CODE)
-	{
-		if (ps->arg[SECOND_ARG] < 1
-			|| ps->arg[SECOND_ARG] > 16)
-			return ;
-		second_arg = ps->reg[ps->arg[SECOND_ARG] - 1];
-	}
-	else if (ps->arg_types[SECOND_ARG] == DIR_CODE)
-		second_arg = ps->arg[SECOND_ARG];
-	//	проверка 3-го аргумента
-	if (ps->arg[THIRD_ARG] < 1
-		|| ps->arg[THIRD_ARG] > 16)
-		return ;
-
-
-	// НЕ РАБОТАЕТ (аргуметы есть)
-	// res = first_arg + second_arg;
-	// ps->reg[ps->arg[THIRD_ARG] - 1] = res;
+	distance = (value[FIRST_ARG] + value[SECOND_ARG]) % IDX_MOD;
+	pc = ps->pc;
+	move_map_counter(&pc, distance);
+	ps->reg[ps->arg[THIRD_ARG] - 1] = get_value_from_map(all_info, &pc, 4);
 }
+

@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   st.c                                               :+:      :+:    :+:   */
+/*   cmd_live.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dvynokur <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,56 +12,44 @@
 
 #include "../../header/vm.h"
 
-static void		execute_st_cmd(t_map *all_info, t_ps *ps);
+static void		execute_live_cmd(t_map *all_info, t_ps *ps);
 
-//	проверки на валидность нет и пропус команды
-void			st(t_map *all_info, t_player *player, t_ps *ps)
+void			cmd_live(t_map *all_info, t_ps *ps)
 {
-	int			i;
 	int			pc;
 
-	if (ps->cycles_to_cmd < g_tab[2].cycle)
+	if (ps->cycles_to_cmd < g_tab[0].cycle)
 	{
 		ps->cycles_to_cmd++;
 		return ;
 	}
-	
-	printf("%sST HAS BEEN USED BY:%s\n", GREEN, RESET);
-	// printf("%splayer:\t\t\t%d%s\n", GREEN, ps->player, RESET);
+
+	printf("%sLIVE HAS BEEN USED BY:%s\n", GREEN, RESET);
 	// printf("%sps->cycles_to_cmd:\t%d%s\n", GREEN, ps->cycles_to_cmd, RESET);
 	// print_process(ps);
-	
-	pc = fill_commands(all_info, ps);
-	execute_st_cmd(all_info, ps);
-	ps->pc = pc;
-	//	print_flags // ПЕЧАТЬ ЕСЛИ ЕСТЬ ФЛАГИ
 
+	pc = fill_commands(all_info, ps);
+	execute_live_cmd(all_info, ps);
+	ps->pc = pc;
+
+	// print_process(ps);
 	null_commands_variables(ps);
 }
 
-static void		execute_st_cmd(t_map *all_info, t_ps *ps)
+static void		execute_live_cmd(t_map *all_info, t_ps *ps)
 {
-	int			pc;
-	int			distance;
-	int			first_arg;
-	int			second_arg;
+	t_player	*copy_players;
 
-	if (ps->arg[FIRST_ARG] < 1
-		|| ps->arg[FIRST_ARG] > 16)
-			return ;
-	if(ps->arg_types[SECOND_ARG] == REG_CODE)
+	ps->check_live = 1;
+	copy_players = all_info->players;
+	while (copy_players)
 	{
-		if (ps->arg[SECOND_ARG] < 1
-			|| ps->arg[SECOND_ARG] > 16)
+		if (ps->arg[0] == copy_players->player_num)
+		{
+			copy_players->total_lives++;
+			copy_players->last_live = all_info->cycle;
 			return ;
-		ps->reg[(ps->arg[SECOND_ARG]) - 1] = ps->reg[ps->arg[FIRST_ARG] - 1];
-	}
-	else
-	{
-		pc = ps->pc;
-		distance = ps->arg[SECOND_ARG] % IDX_MOD;
-		move_map_counter(&pc, distance);
-		write_value_on_map(all_info, pc, ps->reg[ps->arg[0] - 1]);
+		}
+		copy_players = copy_players->next;
 	}
 }
-

@@ -42,7 +42,6 @@ t_file			*create_file(void)
 	file->player_num = 0;
 	file->read = NULL;
 	file->commands = NULL;
-	file->flags = NULL;
 	file->next = NULL;
 	return (file);
 }
@@ -91,6 +90,7 @@ t_ps			*create_ps(void)
 	ps->check_live = 0;
 	ps->cycles_to_cmd = 0;
 	ps->p_size = 0;
+	ps->skip_cmd = 0;
 	ps->next = NULL;
 	return (ps);
 }

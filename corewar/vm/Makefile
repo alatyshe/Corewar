@@ -17,7 +17,7 @@ LIBRARY = ../libft/libft.a
 NAME = corewar
 HEAD = header/vm.h header/op.h
 
-# FLAGS = -Wall -Wextra -Werror
+FLAGS = -Wall -Wextra -Werror
 
 
 #------ path -------
@@ -32,8 +32,9 @@ OBJECTS_PATH	= ./objects
 FILES_FILES		= main memory_map fill
 READ_FILES		= read_arguments read_header read_commands read_file 
 OTHER_FILES		= struct_create other print
-FUNC_FILES		= fill_command live ld st add sub and or xor zjmp ldi sti\
-					fork lld lldi lfork aff
+FUNC_FILES		= fill_command fill_variables cmd_live cmd_ld cmd_st cmd_add cmd_sub\
+					cmd_and cmd_or cmd_xor cmd_zjmp cmd_ldi cmd_sti cmd_fork cmd_lld\
+					cmd_lldi cmd_lfork cmd_aff
 
 #------ other ------
 FILES_OBJ 		= $(addprefix $(OBJECTS_PATH)/, $(addsuffix .o, $(FILES_FILES)))

@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   zjmp.c                                             :+:      :+:    :+:   */
+/*   cmd_sub.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dvynokur <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,43 +12,51 @@
 
 #include "../../header/vm.h"
 
-static void		execute_zjmp_cmd(t_map *all_info, t_ps *ps);
-
+static void		execute_sub_cmd(t_map *all_info, t_ps *ps);
 //	проверки на валидность нет и пропус команды CARRY НЕ МЕНЯЕТ
-void			zjmp(t_map *all_info, t_player *player, t_ps *ps)
+void			cmd_sub(t_map *all_info, t_ps *ps)
 {
-	int			i;
 	int			pc;
 
-	if (ps->cycles_to_cmd < g_tab[8].cycle)
+	if (ps->cycles_to_cmd < g_tab[4].cycle)
 	{
 		ps->cycles_to_cmd++;
 		return ;
 	}
-
-	printf("%sZJMP HAS BEEN USED BY:%s\n", GREEN, RESET);
-	// printf("%splayer:\t\t\t%d%s\n", GREEN, ps->player, RESET);
+	
+	printf("%sSUB HAS BEEN USED BY:%s\n", GREEN, RESET);
 	// printf("%sps->cycles_to_cmd:\t%d%s\n", GREEN, ps->cycles_to_cmd, RESET);
 	// print_process(ps);
 
 	pc = fill_commands(all_info, ps);
-	execute_zjmp_cmd(all_info, ps);
+	execute_sub_cmd(all_info, ps);
+	ps->pc = pc;
 
 	// print_process(ps);
 	null_commands_variables(ps);
-	ps->carry = 1;
 }
 
-static void		execute_zjmp_cmd(t_map *all_info, t_ps *ps)
+static void		execute_sub_cmd(t_map *all_info, t_ps *ps)
 {
-	int			distance;
-	int			pc;
+	int			value[g_tab[4].count_arg];
+	int			res;
+	int			i;
 
-	if (ps->carry == 1)
+	i = 0;
+	while (i < g_tab[4].count_arg)
 	{
-		pc = ps->pc;
-		distance = ps->arg[SECOND_ARG] % IDX_MOD;
-		move_map_counter(&pc, distance);
-		ps->pc = pc;
+		value[i] = get_variables_idxmod(all_info, ps, i, g_tab[4].arg[i]);
+		if (ps->skip_cmd)
+		{
+			ps->skip_cmd = 0;
+			return ;
+		}
+		i++;
 	}
+	res = value[FIRST_ARG] - value[SECOND_ARG];
+	if (!res)
+		ps->carry = 1;
+	else
+		ps->carry = 0;
+	ps->reg[ps->arg[THIRD_ARG] - 1] = res;
 }

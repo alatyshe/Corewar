@@ -18,21 +18,21 @@ static int		get_type(t_cmd *cmd, char type, int argc)
 	{
 		cmd->arg_types[argc] = T_REG;
 		if (cmd->arg_types[argc] & g_tab[cmd->cmd_in_hex - 1].arg[argc])
-			return (g_sizes[cmd->cmd_in_hex][REG_CODE]);
+			return (g_sizes[(int)cmd->cmd_in_hex][REG_CODE]);
 		ft_putstr_fd("ERROR TYPE ARGUMENT T_REG get_type func\n", 2);
 	}
 	else if (type == DIR_CODE)
 	{
 		cmd->arg_types[argc] = T_DIR;
 		if (cmd->arg_types[argc] & g_tab[cmd->cmd_in_hex - 1].arg[argc])
-			return (g_sizes[cmd->cmd_in_hex][DIR_CODE]);
+			return (g_sizes[(int)cmd->cmd_in_hex][DIR_CODE]);
 		ft_putstr_fd("ERROR TYPE ARGUMENT T_DIR get_type func\n", 2);
 	}
 	else if (type == IND_CODE)
 	{
 		cmd->arg_types[argc] = T_IND;
 		if (cmd->arg_types[argc] & g_tab[cmd->cmd_in_hex - 1].arg[argc])
-			return (g_sizes[cmd->cmd_in_hex][IND_CODE]);
+			return (g_sizes[(int)cmd->cmd_in_hex][IND_CODE]);
 		ft_putstr_fd("ERROR TYPE ARGUMENT T_IND get_type func\n", 2);
 	}
 	else
@@ -54,6 +54,8 @@ static int		get_length_arg(t_cmd *cmd, int argc)
 		type = ((cmd->coding_byte >> 4) & mask);
 	else if (argc == 2)
 		type = ((cmd->coding_byte >> 2) & mask);
+	else
+		type = cmd->coding_byte & mask;
 	len = get_type(cmd, type, argc);
 	return (len);
 }
@@ -66,7 +68,7 @@ static int		fill_args(unsigned char *buf, t_cmd *cmd, int pos_buf, int argc)
 	if (g_tab[cmd->cmd_in_hex - 1].coding_byte == 1)
 		len = get_length_arg(cmd, argc);
 	else
-		len = g_sizes[cmd->cmd_in_hex][DIR_CODE];
+		len = g_sizes[(int)cmd->cmd_in_hex][DIR_CODE];
 	cmd->arg[argc] = get_value_from_file(buf + pos_buf, len);
 	cmd->cmd_size += len;
 	return (len);
@@ -78,7 +80,7 @@ int				read_commands(unsigned char *buf, t_cmd *cmd, int pos_buf, int file_len)
 
 	argc = 0;
 	if (pos_buf < file_len
-		&& ((char*)buf)[pos_buf] >= 1 && ((char*)buf)[pos_buf] <= 16)
+		&& buf[pos_buf] >= 1 && buf[pos_buf] <= 16)
 	{
 		if (cmd == NULL)
 			cmd = create_cmd(g_tab[(((char*)buf)[pos_buf] - 1)].count_arg);

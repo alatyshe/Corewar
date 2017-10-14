@@ -71,7 +71,7 @@ typedef struct		s_ps
 	int					*arg_types;		//	тип аргументов
 	int					*arg;			//	сами аргументы
 	int					p_size;			//	длинна исполняемой команды при исполнении
-
+	int					skip_cmd;		//	пропуск команды на ошибочном кодирующем бите
 	
 	char				carry;			//	возможен ли перенос 1 - 0
 	int					cycles_to_cmd;	//	текущее количесвто циклов до выполнения комманды
@@ -115,7 +115,6 @@ typedef struct		s_file
 	char 				*prog_name;
 	unsigned int 		prog_size;
 	char 				*prog_comment;
-	t_flags				*flags;
 	int					player_num;
 	unsigned char		*read;
 	t_cmd				*commands;
@@ -126,13 +125,14 @@ typedef struct		s_file
 // ===================== read ========================
 
 unsigned int	magic_reading(unsigned char *buf, t_file *file);
-char			*name_reading(unsigned char *buf, t_file *file);
-unsigned int	size_reading(unsigned char *buf, t_file *file, char *file_name);
-char			*comment_reading(unsigned char *buf, t_file *file);
+char			*name_reading(unsigned char *buf);
+unsigned int	size_reading(unsigned char *buf, char *file_name);
+char			*comment_reading(unsigned char *buf);
 int				read_commands(unsigned char *buf, t_cmd *cmd, int pos_buf, int len_file);
 t_file			*read_arguments(int argc, char **argv, int *counter_players, t_flags *f);
 
 void			read_file(char *file_name, t_file *file, int player_num);
+void			memory_map(t_file *file, int total_players, t_flags *f);
 // ===================== create struct ========================
 
 t_file			*create_file(void);
@@ -152,6 +152,7 @@ int				exec_arg_value(char *map, t_ps *ps, int len);
 unsigned int 	get_value(void *buf, int len);
 void			fill_map(t_file *file, t_map *map, int total_players);
 
+
 void			print_buf(unsigned char *buffer, int buffer_size);
 void			print_file(t_file *file);
 void			print_cmd(t_cmd *cmd);
@@ -168,21 +169,22 @@ int				it_is_flag(char *s);
 //============================FUNC===============================
 int				fill_commands(t_map *all_info, t_ps *ps);
 void			null_commands_variables(t_ps *ps);
-void			live(t_map *all_info, t_player *player, t_ps *ps);
-void			ld(t_map *all_info, t_player *player, t_ps *ps);
-void			st(t_map *all_info, t_player *player, t_ps *ps);
-void			add(t_map *all_info, t_player *player, t_ps *ps);
-void			sub(t_map *all_info, t_player *player, t_ps *ps);
-void			and(t_map *all_info, t_player *player, t_ps *ps);
-void			or(t_map *all_info, t_player *player, t_ps *ps);
-void			xor(t_map *all_info, t_player *player, t_ps *ps);
-void			zjmp(t_map *all_info, t_player *player, t_ps *ps);
-void			ldi(t_map *all_info, t_player *player, t_ps *ps);
-void			sti(t_map *all_info, t_player *player, t_ps *ps);
-void			fork_cmd(t_map *all_info, t_player *player, t_ps *ps);
-void			lld(t_map *all_info, t_player *player, t_ps *ps);
-void			lldi(t_map *all_info, t_player *player, t_ps *ps);
-void			lfork(t_map *all_info, t_player *player, t_ps *ps);
-void			aff(t_map *all_info, t_player *player, t_ps *ps);
+int				get_variables_idxmod(t_map *all_info, t_ps *ps, int i, int types);
+void			cmd_live(t_map *all_info, t_ps *ps);
+void			cmd_ld(t_map *all_info, t_ps *ps);
+void			cmd_st(t_map *all_info, t_ps *ps);
+void			cmd_add(t_map *all_info, t_ps *ps);
+void			cmd_sub(t_map *all_info, t_ps *ps);
+void			cmd_and(t_map *all_info, t_ps *ps);
+void			cmd_or(t_map *all_info, t_ps *ps);
+void			cmd_xor(t_map *all_info, t_ps *ps);
+void			cmd_zjmp(t_map *all_info, t_ps *ps);
+void			cmd_ldi(t_map *all_info, t_ps *ps);
+void			cmd_sti(t_map *all_info, t_ps *ps);
+void			cmd_fork(t_map *all_info, t_ps *ps);
+void			cmd_lld(t_map *all_info, t_ps *ps);
+void			cmd_lldi(t_map *all_info, t_ps *ps);
+void			cmd_lfork(t_map *all_info, t_ps *ps);
+void			cmd_aff(t_map *all_info, t_ps *ps);
 
 #endif

@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ld.c                                               :+:      :+:    :+:   */
+/*   cmd_ld.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dvynokur <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -11,13 +11,11 @@
 /* ************************************************************************** */
 
 #include "../../header/vm.h"
-//	CARRY GOOD!!!!!!!!!!!!!!!!!!!!!!!
+
 static void		execute_ld_cmd(t_map *all_info, t_ps *ps);
 
-//	проверки на валидность нет и пропус команды
-void			ld(t_map *all_info, t_player *player, t_ps *ps)
+void			cmd_ld(t_map *all_info, t_ps *ps)
 {
-	int			i;
 	int			pc;
 
 	if (ps->cycles_to_cmd < g_tab[1].cycle)
@@ -27,12 +25,10 @@ void			ld(t_map *all_info, t_player *player, t_ps *ps)
 	}
 	
 	printf("%sLD HAS BEEN USED BY:%s\n", GREEN, RESET);
-	// printf("%splayer:\t\t\t%d%s\n", GREEN, ps->player, RESET);
 	// printf("%sps->cycles_to_cmd:\t%d%s\n", GREEN, ps->cycles_to_cmd, RESET);
 	// print_process(ps);
 
 	pc = fill_commands(all_info, ps);
-	// IDX_MOD check
 	execute_ld_cmd(all_info, ps);
 	ps->pc = pc;
 
@@ -46,12 +42,9 @@ static void		execute_ld_cmd(t_map *all_info, t_ps *ps)
 	int			distance;
 	int			first_arg;
 
-	//	проверка на валидный регистр(если регистр выходит за пределы,
-	//	функция ждет свои циклы, но не исполняется)
 	if (ps->arg[SECOND_ARG] < 1
 		|| ps->arg[SECOND_ARG] > 16)
 		return ;
-	//	проверка тип(T_DIR T_IND) первого аргумента и взятие значения
 	if (ps->arg_types[FIRST_ARG] == DIR_CODE)
 		first_arg = ps->arg[FIRST_ARG];
 	else

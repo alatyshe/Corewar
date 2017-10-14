@@ -12,53 +12,86 @@
 
 #include "../header/vm.h"
 
-// void			print_map(short *map)
-// {
-// 	int			i;
-// 	short		mask;
-// 	int			green_mask;
-// 	int			red_mask;
-// 	int			blue_mask;
-// 	int			cyan_mask;
+static int		check_command(t_ps *ps, t_map *map)
+{
+	if (map->map[ps->pc] >= 1 && map->map[ps->pc] <= 16)
+	{		
+		return (1);
+	}
+	return (0);
+}
 
+static void		executing_ps(t_map *map, t_ps *ps)
+{
+	if (!check_command(ps, map))
+		move_map_counter(&ps->pc, 1);
+	else
+	{
+		if (map->map[ps->pc] == 1)
+			cmd_live(map, ps);
+		else if (map->map[ps->pc] == 2)
+			cmd_ld(map, ps);
+		else if (map->map[ps->pc] == 3)
+			cmd_st(map, ps);
+		else if (map->map[ps->pc] == 4)
+			cmd_add(map, ps);
+		else if (map->map[ps->pc] == 5)
+			cmd_sub(map, ps);
+		else if (map->map[ps->pc] == 6)
+			cmd_and(map, ps);
+		else if (map->map[ps->pc] == 7)
+			cmd_or(map, ps);
+		else if (map->map[ps->pc] == 8)
+			cmd_xor(map, ps);
+		else if (map->map[ps->pc] == 9)
+			cmd_zjmp(map, ps);
+		else if (map->map[ps->pc] == 10)
+			cmd_ldi(map, ps);
+		else if (map->map[ps->pc] == 11)
+			cmd_sti(map, ps);
+		else if (map->map[ps->pc] == 12)
+			cmd_fork(map, ps);
+		else if (map->map[ps->pc] == 13)
+			cmd_lld(map, ps);
+		else if (map->map[ps->pc] == 14)
+			cmd_lldi(map, ps);
+		else if (map->map[ps->pc] == 15)
+			cmd_lfork(map, ps);
+		else if (map->map[ps->pc] == 16)
+			cmd_aff(map, ps);
+	}
+}
 
-// 	mask = 255;
-// 	green_mask = 256;
-// 	red_mask = 512;
-// 	blue_mask = 1024;
-// 	cyan_mask = 2056;
-// 	i = 0;
-// 	while (i < MEM_SIZE)
-// 	{
-// 		if (map[i] & green_mask)
-// 			printf("%s", GREEN);
-// 		else if (map[i] & red_mask)
-// 			printf("%s", RED);
-// 		else if (map[i] & blue_mask)
-// 			printf("%s", BLUE);
-// 		else if (map[i] & cyan_mask)
-// 			printf("%s", CYAN);
-// 		printf("%02x ", (map[i] & mask));
-// 		printf("%s", RESET);
-// 		if ((i + 1) % 64 == 0)
-// 			printf("\n");
-// 		i++;
-// 	}
-// }
+static void		run_players(t_map *map)
+{
+	t_player	*player;
+	t_ps		*ps;
 
-// void			print_wb_map(short *map)
-// {
-// 	int 	i;
-// 	short	mask;
+	player = map->players;
+	while (player)
+	{
+		ps = player->ps;
+		while (ps)
+		{
+			executing_ps(map, ps);
+			ps = ps->next;
+		}
+		player = player->next;
+	}
+}
 
-// 	i = 0;
-// 	mask = 255;
-// 	while (i < MEM_SIZE)
-// 	{
-// 		printf("%02x ", map[i] & mask);
-// 		if ((i + 1) % 64 == 0)
-// 			printf("\n");
-// 		i++;
-// 	}
-// }
+void				memory_map(t_file *file, int total_players, t_flags *flags)
+{
+	t_map			*map;
 
+	map = create_map();
+	map->flags = flags;
+	fill_map(file, map, total_players);
+
+	while (map->cycle < 40)
+	{
+		run_players(map);
+		map->cycle++;
+	}
+	print_map(map);
+}

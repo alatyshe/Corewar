@@ -27,7 +27,7 @@ unsigned int		magic_reading(unsigned char *buf, t_file *file)
 	return (res);
 }
 
-char				*name_reading(unsigned char *buf, t_file *file)
+char				*name_reading(unsigned char *buf)
 {
 	int				i;
 	int				j;
@@ -45,7 +45,7 @@ char				*name_reading(unsigned char *buf, t_file *file)
 	return (res);
 }
 
-unsigned int		size_reading(unsigned char *buf, t_file *file, char *file_name)
+unsigned int		size_reading(unsigned char *buf, char *file_name)
 {
 	int				i;
 	unsigned int	res;
@@ -67,7 +67,7 @@ unsigned int		size_reading(unsigned char *buf, t_file *file, char *file_name)
 	return (res);
 }
 
-char				*comment_reading(unsigned char *buf, t_file *file)
+char				*comment_reading(unsigned char *buf)
 {
 	char			*res;
 	int				i;

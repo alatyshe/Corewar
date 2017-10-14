@@ -15,20 +15,20 @@
 static int		get_type(t_ps *ps, char type, int argc)
 {
 	if (type == REG_CODE
-		&& type & g_tab[ps->cmd_in_hex - 1].arg[argc])
+		&& type & g_tab[(int)ps->cmd_in_hex - 1].arg[argc])
 		ps->arg_types[argc] = REG_CODE;
 	else if (type == DIR_CODE
-		&& (type & g_tab[ps->cmd_in_hex - 1].arg[argc]))
+		&& (type & g_tab[(int)ps->cmd_in_hex - 1].arg[argc]))
 		ps->arg_types[argc] = DIR_CODE;
 	else if (type == IND_CODE
-		&& (type & g_tab[ps->cmd_in_hex - 1].arg[argc]))
+		&& (type & g_tab[(int)ps->cmd_in_hex - 1].arg[argc]))
 		ps->arg_types[argc] = IND_CODE;
 	else
 	{
-		printf("%sERROR get_type func%s\n", RED, RESET);
+		printf("%sERROR UNCODE BYTE%s\n", RED, RESET);
 		return (0);
 	}
-	return (g_sizes[ps->cmd_in_hex][type]);
+	return (g_sizes[(int)ps->cmd_in_hex][(int)type]);
 }
 
 static int		get_length_arg(t_ps *ps, int argc)
@@ -45,6 +45,8 @@ static int		get_length_arg(t_ps *ps, int argc)
 		type = ((ps->coding_byte >> 4) & mask);
 	else if (argc == 2)
 		type = ((ps->coding_byte >> 2) & mask);
+	else
+		type = (ps->coding_byte & mask);
 	len = get_type(ps, type, argc);
 	ps->p_size += len;
 	return (len);
@@ -59,7 +61,7 @@ static void		fill_args(t_map *all_info, t_ps *ps, int *pc_copy, int argc)
 		len = get_length_arg(ps, argc);
 	else
 	{
-		len = g_sizes[ps->cmd_in_hex][DIR_CODE];
+		len = g_sizes[(int)ps->cmd_in_hex][DIR_CODE];
 		ps->p_size += 4;
 	}
 	ps->arg[argc] = get_value_from_map(all_info, pc_copy, len);

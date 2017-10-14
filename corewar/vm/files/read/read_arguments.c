@@ -67,8 +67,6 @@ int				it_is_flag(char *s)
 
 void			num_arg_analysing(char *s, t_flags *f)
 {
-	int		i;
-
 	if (f->d_value == -1)
 		f->d_value = ft_atoi(s);
 	else if (f->v_value == -1)
@@ -111,7 +109,6 @@ t_file			*filling_files(t_file *start, int *counter_players, char *s)
 t_file			*read_arguments(int argc, char **argv, int *counter_players, t_flags *f)
 {
 	int			i;
-	t_file		*file;
 	t_file		*start;
 	int			flag_return;
 

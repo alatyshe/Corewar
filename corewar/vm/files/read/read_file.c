@@ -18,9 +18,9 @@ static int			read_header(unsigned char *buf, t_file *file, char *file_name)
 
 	file->file_name = ft_strdup(file_name);
 	file->magic = magic_reading(buf, file);
-	file->prog_name = name_reading(buf, file);
-	file->prog_size = size_reading(buf, file, file_name);
-	file->prog_comment = comment_reading(buf, file);
+	file->prog_name = name_reading(buf);
+	file->prog_size = size_reading(buf, file_name);
+	file->prog_comment = comment_reading(buf);
 	j = sizeof(unsigned int) + PROG_NAME_LENGTH + 1;
 	while (j % 4 != 0)
 		j++;
@@ -34,7 +34,7 @@ static unsigned int	fill_file_struct(unsigned char *buf, int file_len,
 	t_file *file, char *file_name)
 {
 	int				j;
-	int				prog_size;
+	unsigned int	prog_size;
 
 	j = 0;
 	prog_size = 0;

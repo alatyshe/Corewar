@@ -58,12 +58,11 @@ void				memory_map(t_file *file, int total_players, t_flags *flags)
 		map->total_lives = 0;
 		while (i <= map->cycle_to_die)
 		{
-			printf("cycle : %d\n", map->cycle);
-			if (flags->v_flag && !flags->n_flag && !flags->b_flag && !flags->d_flag)
-			{
-				if (flags->v_value & 2)
-					ft_printf("It is now cycle %d\n", map->cycle);
-			}
+			// printf("cycle : %d\n", map->cycle);
+			// if (flags->v_flag && !flags->n_flag && !flags->b_flag && !flags->d_flag)
+			print_map(map);
+			if (check_flags(flags, 'v', 2))
+				ft_printf("It is now cycle %d\n", map->cycle);
 			run_players(map);
 			map->cycle++;
 			i++;

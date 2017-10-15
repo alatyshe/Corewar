@@ -169,6 +169,7 @@ void			print_info_map(t_map *map);
 void			introducing_print(t_file *file);
 
 int				it_is_flag(char *s);
+int				check_flags(t_flags *f, char c, int n);
 
 //============================FUNC===============================
 int				fill_commands(t_map *all_info, t_ps *ps);

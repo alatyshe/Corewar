@@ -174,7 +174,7 @@ void			print_map(t_map *map)
 
 	buf = NULL;
 
-	if (map->flags->s_flag == 1)
+	if (check_flags(map->flags, 's', 0))
 	{
 		if (map->cycle % map->flags->s_value == 0)
 		{
@@ -182,6 +182,10 @@ void			print_map(t_map *map)
 			get_next_line(0, &buf);
 		}
 	}
+}
+
+void				print_v_flag(int pc, int new_pc, t_ps *ps)
+{
 }
 
 void				return_color(int n)

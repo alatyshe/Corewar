@@ -30,6 +30,7 @@ static void			executing_ps(t_map *map, t_ps *ps)
 	{
 		ps->cmd_in_hex = map->map[ps->pc];
 		printf("\t\t%sHERE : |%s|%s\n", GREEN, g_tab[(int)ps->cmd_in_hex - 1].name , RESET);
+		printf("\t\t%sps->pc : |%d|%s\n", GREEN, ps->pc , RESET);
 		ps->cycles_to_cmd = g_tab[ps->cmd_in_hex - 1].cycle;
 	}
 	else

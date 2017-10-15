@@ -59,7 +59,7 @@ t_map			*create_map(void)
 	map->players = NULL;
 	map->flags = NULL;
 	map->ps = NULL;
-	map->ps_counter = 0;
+	map->ps_counter = 1;
 	map->total_lives = 0;
 	return (map);
 }

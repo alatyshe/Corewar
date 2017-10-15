@@ -26,7 +26,7 @@ void			cmd_sub(t_map *map, t_ps *ps)
 
 	pc = fill_commands(map, ps);
 	execute_sub_cmd(map, ps);
-	print_v_flag(ps->pc, pc, ps);
+	print_v_flag(ps->pc, pc, ps, map);
 	
 	ps->pc = pc;
 

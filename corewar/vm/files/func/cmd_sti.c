@@ -26,7 +26,7 @@ void			cmd_sti(t_map *map, t_ps *ps)
 
 	pc = fill_commands(map, ps);
 	execute_sti_cmd(map, ps);
-	print_v_flag(ps->pc, pc, ps);
+	print_v_flag(ps->pc, pc, ps, map);
 	
 	ps->pc = pc;
 
@@ -54,5 +54,5 @@ static void		execute_sti_cmd(t_map *map, t_ps *ps)
 	pc = ps->pc;
 	distance = (value[SECOND_ARG] + value[THIRD_ARG]) % IDX_MOD;
 	move_map_counter(&pc, distance);
-	write_value_on_map(map, pc, ps->reg[value[FIRST_ARG] - 1]);
+	write_value_on_map(map, pc, ps->reg[ps->arg[FIRST_ARG] - 1]);
 }

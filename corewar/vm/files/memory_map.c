@@ -22,7 +22,7 @@ static void			executing_ps(t_map *map, t_ps *ps)
 		&& map->map[ps->pc] >= 1 && map->map[ps->pc] <= 16)
 	{
 		ps->cmd_in_hex = map->map[ps->pc];
-		printf("\t\t%sHERE : |%s|%s\n", GREEN, g_tab[(int)ps->cmd_in_hex - 1].name , RESET);
+		// printf("\t\t%sHERE : |%s|%s\n", GREEN, g_tab[(int)ps->cmd_in_hex - 1].name , RESET);
 		ps->cycles_to_cmd = g_tab[ps->cmd_in_hex - 1].cycle;
 	}
 	else
@@ -60,10 +60,11 @@ void				memory_map(t_file *file, int total_players, t_flags *flags)
 		{
 			// printf("cycle : %d\n", map->cycle);
 			// if (flags->v_flag && !flags->n_flag && !flags->b_flag && !flags->d_flag)
-			print_map(map);
-			if (check_flags(flags, 'v', 2))
+			if (map->cycle && check_flags(flags, 'v', 2))
 				ft_printf("It is now cycle %d\n", map->cycle);
 			run_players(map);
+			print_map(map);
+
 			map->cycle++;
 			i++;
 		}

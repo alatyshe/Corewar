@@ -26,6 +26,8 @@ void			cmd_fork(t_map *map, t_ps *ps)
 
 	pc = fill_commands(map, ps);
 	execute_fork_cmd(map, ps);
+	print_v_flag(ps->pc, pc, ps);
+	
 	ps->pc = pc;
 
 	null_commands_variables(ps);

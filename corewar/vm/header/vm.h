@@ -167,6 +167,7 @@ void			print_map(t_map *map);
 void			print_flags(t_flags *f);
 void			print_info_map(t_map *map);
 void			introducing_print(t_file *file);
+void			print_v_flag(int pc, int new_pc, t_ps *ps);
 
 int				it_is_flag(char *s);
 int				check_flags(t_flags *f, char c, int n);

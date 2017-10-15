@@ -23,9 +23,7 @@ static void			executing_ps(t_map *map, t_ps *ps)
 		g_cmd_arr[(int)ps->cmd_in_hex](map, ps);
 	}
 
-	if (ps->cycles_to_cmd)
-		;
-	else if (!ps->cycles_to_cmd && !ps->skip_cmd
+	if (!ps->cycles_to_cmd && !ps->skip_cmd
 		&& map->map[ps->pc] >= 1 && map->map[ps->pc] <= 16)
 	{
 		ps->cmd_in_hex = map->map[ps->pc];
@@ -33,7 +31,8 @@ static void			executing_ps(t_map *map, t_ps *ps)
 		printf("\t\t%sps->pc : |%d|%s\n", GREEN, ps->pc , RESET);
 		ps->cycles_to_cmd = g_tab[ps->cmd_in_hex - 1].cycle;
 	}
-	else
+	if (!ps->cycles_to_cmd && !ps->skip_cmd
+		&& map->map[ps->pc] < 1 && map->map[ps->pc] > 16)
 		move_map_counter(&ps->pc, 1);
 }
 

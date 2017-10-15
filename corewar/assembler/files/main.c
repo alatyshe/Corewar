@@ -6,12 +6,11 @@
 /*   By: alatyshe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/29 16:00:41 by alatyshe          #+#    #+#             */
-/*   Updated: 2017/03/29 16:00:44 by alatyshe         ###   ########.fr       */
+/*   Updated: 2017/10/15 15:54:04 by coleksii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/asm.h"
-#include "../header/create.h"
 
 static void				error_last_line(t_header *head)
 {
@@ -66,9 +65,37 @@ static void				file_manipulaton(t_header *head, int fd)
 		if (head->error == 0)
 		{
 			//пихать запись в файл сюда
-			print_commands(head);
+//			print_commands(head);
 			create_file(head);
 		}
+	}
+}
+
+void					ft_free_head(t_header *head)
+{
+	t_cmd	*cmd;
+	t_cmd	*cmd1;
+	int		i;
+
+	free(head->file_name);
+	free(head->prog_name);
+	free(head->prog_comment);
+	free(head->error_str);
+	cmd = head->commands;
+	free(head);
+	while (cmd)
+	{
+		i = 0;
+		free(cmd->label);
+		free(cmd->str);
+		while (i < 3)
+		{
+			free(cmd->arg[i++]);
+		}
+		free(cmd->arg);
+		cmd1 = cmd->next;
+		free(cmd);
+		cmd = cmd1;
 	}
 }
 
@@ -76,19 +103,25 @@ int						main(int argc, char **argv)
 {
 	int					fd;
 	t_header			*head;
+	int					i;
 
-	head = create_t_header();
-	if (argc == 2)
-	{
-		fd = open(argv[1], O_RDONLY);
-		if (fd < 0)
+	i = 1;
+	head = NULL;
+	if (argc > 1)
+		while (i < argc)
 		{
-			perror("Error");
-			exit(0);
+			head = create_t_header();
+			fd = open(argv[i], O_RDONLY);
+			if (fd < 0)
+			{
+				perror("Error");
+				exit(0);
+			}
+			head->file_name = ft_strdup(argv[i]);
+			file_manipulaton(head, fd);
+			i++;
+			ft_free_head(head);
 		}
-		head->file_name = ft_strdup(argv[1]);
-		file_manipulaton(head, fd);
-	}
 	else
 		ft_printf("usage: ./asm file.s\n");
 	return (0);

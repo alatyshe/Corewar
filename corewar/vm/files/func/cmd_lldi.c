@@ -25,7 +25,8 @@ void			cmd_lldi(t_map *map, t_ps *ps)
 	// print_process(ps);
 
 	pc = fill_commands(map, ps);
-	execute_lldi_cmd(map, ps);
+	if (ps->skip_cmd == 0)
+		execute_lldi_cmd(map, ps);
 	
 	ps->pc = pc;
 	

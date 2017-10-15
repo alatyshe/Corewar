@@ -27,6 +27,7 @@ void				null_commands_variables(t_ps *ps)
 	ps->coding_byte = 0;
 	ps->p_size = 0;
 	ps->cycles_to_cmd = 0;
+	ps->skip_cmd = 0;
 }
 
 void				move_map_counter(int *pos, int delta_pos)

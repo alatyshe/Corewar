@@ -25,9 +25,11 @@ void			cmd_xor(t_map *map, t_ps *ps)
 	// print_process(ps);
 
 	pc = fill_commands(map, ps);
-	execute_xor_cmd(map, ps);
+	if (ps->skip_cmd == 0)
+		execute_xor_cmd(map, ps);
 
 	ps->pc = pc;
+	
 	null_commands_variables(ps);
 }
 

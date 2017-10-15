@@ -25,7 +25,8 @@ void			cmd_lld(t_map *map, t_ps *ps)
 	// print_process(ps);
 
 	pc = fill_commands(map, ps);
-	execute_lld_cmd(map, ps);
+	if (ps->skip_cmd == 0)
+		execute_lld_cmd(map, ps);
 	
 	ps->pc = pc;
 

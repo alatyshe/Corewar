@@ -26,7 +26,6 @@ void			cmd_st(t_map *map, t_ps *ps)
 	
 	pc = fill_commands(map, ps);
 	execute_st_cmd(map, ps);
-	print_v_flag(ps->pc, pc, ps, map);
 	
 	ps->pc = pc;
 
@@ -57,4 +56,6 @@ static void		execute_st_cmd(t_map *map, t_ps *ps)
 		move_map_counter(&pc, distance);
 		write_value_on_map(map, pc, ps->reg[first_arg - 1]);
 	}
+	if (check_flags(map->flags, 'v', 4))
+		ft_printf("P\t%d | %s r%d %d\n", ps->ps_num, "st", ps->arg[0], ps->arg[1]);
 }

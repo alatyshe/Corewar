@@ -189,23 +189,32 @@ void				print_v_flag(int pc, int new_pc, t_ps *ps, t_map *map)
 	int		i;
 	int		j;
 	t_map	*temp;
+	int 	copy_pc;
 
 	j = 0;
 	temp = map;
 	i = g_tab[ps->cmd_in_hex - 1].count_arg;
 
-	pc = new_pc;
-
+	new_pc = 0;
 	if (check_flags(map->flags, 'v', 4))
 	{
 		ft_printf("P\t%d | %s ", ps->ps_num, g_tab[ps->cmd_in_hex - 1].name);
 		while (j < i)
 		{
+			copy_pc = pc;
 			if (ps->arg_types[j] == REG_CODE)
-				ft_printf("r");
-			ft_printf("%d ", ps->arg[j]);
+				ft_printf("r%d ", ps->arg[j]);
+			else if (ps->arg_types[j] == IND_CODE)
+			{
+				move_map_counter(&copy_pc, ps->arg[j]);
+				ft_printf("%d ", get_value_from_map(map, &copy_pc, 4));
+			}
+			else
+				ft_printf("%d ", ps->arg[j]);
 			j++;
 		}
+		// if (ps->cmd_in_hex == 10 || ps->cmd_in_hex == 11 || ps->cmd_in_hex == 14)
+		// 	print_load_store(pc, new_pc, ps, map);
 		ft_printf("\n");
 	}
 }

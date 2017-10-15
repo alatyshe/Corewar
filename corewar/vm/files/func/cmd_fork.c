@@ -26,7 +26,6 @@ void			cmd_fork(t_map *map, t_ps *ps)
 
 	pc = fill_commands(map, ps);
 	execute_fork_cmd(map, ps);
-	print_v_flag(ps->pc, pc, ps, map);
 	
 	ps->pc = pc;
 
@@ -53,5 +52,8 @@ static void		execute_fork_cmd(t_map *map, t_ps *ps)
 	ps_new->pc = pc;
 	
 	map->processes++;
+	if (check_flags(map->flags, 'v', 4))
+		ft_printf("P\t%d | %s %d (%d)\n", ps->ps_num, "fork", ps->arg[FIRST_ARG], pc);
+
 	// move_map_counter(&ps_new->pc, ps->arg[FIRST_ARG]);
 }

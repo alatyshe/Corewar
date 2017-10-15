@@ -26,7 +26,6 @@ void			cmd_live(t_map *map, t_ps *ps)
 
 	pc = fill_commands(map, ps);
 	execute_live_cmd(map, ps);
-	print_v_flag(ps->pc, pc, ps, map);
 	ps->pc = pc;
 
 	null_commands_variables(ps);
@@ -41,6 +40,8 @@ static void		execute_live_cmd(t_map *map, t_ps *ps)
 	map->total_lives++;
 	ps->check_live = 1;
 	copy_players = map->players;
+	if (check_flags(map->flags, 'v', 4))
+		ft_printf("P\t%d | %s %d\n", ps->ps_num, "live", ps->arg[0]);
 	while (copy_players)
 	{
 		if (ps->arg[0] == copy_players->player_num)

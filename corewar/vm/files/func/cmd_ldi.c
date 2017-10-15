@@ -26,7 +26,6 @@ void			cmd_ldi(t_map *map, t_ps *ps)
 
 	pc = fill_commands(map, ps);
 	execute_ldi_cmd(map, ps);
-	print_v_flag(ps->pc, pc, ps, map);
 	
 	ps->pc = pc;
 
@@ -54,6 +53,8 @@ static void		execute_ldi_cmd(t_map *map, t_ps *ps)
 	distance = (value[FIRST_ARG] + value[SECOND_ARG]) % IDX_MOD;
 	pc = ps->pc;
 	move_map_counter(&pc, distance);
+	if (check_flags(map->flags, 'v', 4))
+		ft_printf("P\t%d | %s %d %d r%d\n\t  | -> load from %d + %d = %d (with pc and mod %d)\n", ps->ps_num, "ldi", value[FIRST_ARG], value[SECOND_ARG], ps->arg[0], value[FIRST_ARG], value[SECOND_ARG], value[FIRST_ARG] + value[SECOND_ARG], pc);
 	ps->reg[ps->arg[THIRD_ARG] - 1] = get_value_from_map(map, &pc, 4);
-}
+	}
 

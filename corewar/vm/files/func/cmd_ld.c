@@ -26,7 +26,6 @@ void			cmd_ld(t_map *map, t_ps *ps)
 
 	pc = fill_commands(map, ps);
 	execute_ld_cmd(map, ps);
-	print_v_flag(ps->pc, pc, ps, map);
 	
 	ps->pc = pc;
 
@@ -56,4 +55,6 @@ static void		execute_ld_cmd(t_map *map, t_ps *ps)
 	else
 		ps->carry = 0;
 	ps->reg[ps->arg[1] - 1] = first_arg;
+	if (check_flags(map->flags, 'v', 4))
+		ft_printf("P\t%d | %s %d r%d\n", ps->ps_num, "ld", first_arg, ps->arg[1]);
 }

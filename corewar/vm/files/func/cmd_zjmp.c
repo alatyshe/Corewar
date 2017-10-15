@@ -12,7 +12,7 @@
 
 #include "../../header/vm.h"
 
-static void		execute_zjmp_cmd(t_ps *ps);
+static void		execute_zjmp_cmd(t_map *map, t_ps *ps);
 
 void			cmd_zjmp(t_map *map, t_ps *ps)
 {
@@ -25,23 +25,25 @@ void			cmd_zjmp(t_map *map, t_ps *ps)
 	// print_process(ps);
 
 	pc = fill_commands(map, ps);
-	execute_zjmp_cmd(ps);
-	print_v_flag(ps->pc, pc, ps, map);
+	execute_zjmp_cmd(map, ps);
 
 	null_commands_variables(ps);
 }
 
-static void		execute_zjmp_cmd(t_ps *ps)
+static void		execute_zjmp_cmd(t_map *map, t_ps *ps)
 {
 	int			distance;
 	int			pc;
 
+	if (check_flags(map->flags, 'v', 4))
+		ft_printf("P\t%d | %s %d ", ps->ps_num, "zjmp", ps->arg[0]);
 	if (ps->carry == 1)
 	{
 		pc = ps->pc;
 		distance = ps->arg[FIRST_ARG] % IDX_MOD;
 		move_map_counter(&pc, distance);
 		ps->pc = pc;
+		printf("OK\n");
 	}
 	else
 	{
@@ -49,5 +51,6 @@ static void		execute_zjmp_cmd(t_ps *ps)
 		distance = 3;
 		move_map_counter(&pc, distance);
 		ps->pc = pc;
+		printf("FAILED\n");
 	}
 }

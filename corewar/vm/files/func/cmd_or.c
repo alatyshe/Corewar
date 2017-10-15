@@ -26,7 +26,6 @@ void			cmd_or(t_map *map, t_ps *ps)
 
 	pc = fill_commands(map, ps);
 	execute_or_cmd(map, ps);
-	print_v_flag(ps->pc, pc, ps, map);
 	
 	ps->pc = pc;
 
@@ -56,4 +55,7 @@ static void		execute_or_cmd(t_map *map, t_ps *ps)
 	else
 		ps->carry = 0;
 	ps->reg[ps->arg[THIRD_ARG] - 1] = res;
+	if (check_flags(map->flags, 'v', 4))
+		ft_printf("P\t%d | %s %d %d r%d\n", ps->ps_num, "or",
+			value[FIRST_ARG], value[SECOND_ARG], ps->arg[2]);
 }

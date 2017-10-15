@@ -16,9 +16,16 @@ static void			executing_ps(t_map *map, t_ps *ps)
 {
 	if (ps->cycles_to_cmd)
 		ps->cycles_to_cmd--;
-	else if (ps->cmd_in_hex != 0 && ps->cycles_to_cmd == 0)
+	
+	if (!ps->skip_cmd && !ps->cycles_to_cmd && ps->cmd_in_hex)
+	{
+		printf("USE\n");
 		g_cmd_arr[(int)ps->cmd_in_hex](map, ps);
-	else if (ps->skip_cmd == 0
+	}
+
+	if (ps->cycles_to_cmd)
+		;
+	else if (!ps->cycles_to_cmd && !ps->skip_cmd
 		&& map->map[ps->pc] >= 1 && map->map[ps->pc] <= 16)
 	{
 		ps->cmd_in_hex = map->map[ps->pc];
@@ -51,7 +58,6 @@ void				memory_map(t_file *file, int total_players, t_flags *flags)
 	fill_map(file, map, total_players);
 	introducing_print(file);
 	map->total_lives = total_players;
-
 	while (map->total_lives != 0)
 	{
 		i = 1;

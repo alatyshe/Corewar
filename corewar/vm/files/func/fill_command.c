@@ -15,19 +15,16 @@
 static int		get_type(t_ps *ps, char type, int argc)
 {
 	if (type == REG_CODE
-		&& type & g_tab[(int)ps->cmd_in_hex - 1].arg[argc])
+		&& (T_REG & g_tab[(int)ps->cmd_in_hex - 1].arg[argc]))
 		ps->arg_types[argc] = REG_CODE;
 	else if (type == DIR_CODE
-		&& (type & g_tab[(int)ps->cmd_in_hex - 1].arg[argc]))
+		&& (T_DIR & g_tab[(int)ps->cmd_in_hex - 1].arg[argc]))
 		ps->arg_types[argc] = DIR_CODE;
 	else if (type == IND_CODE
-		&& (type & g_tab[(int)ps->cmd_in_hex - 1].arg[argc]))
+		&& (T_IND & g_tab[(int)ps->cmd_in_hex - 1].arg[argc]))
 		ps->arg_types[argc] = IND_CODE;
 	else
-	{
-		printf("%sERROR UNCODE BYTE%s\n", RED, RESET);
-		return (0);
-	}
+		ps->skip_cmd = 1;
 	return (g_sizes[(int)ps->cmd_in_hex][(int)type]);
 }
 

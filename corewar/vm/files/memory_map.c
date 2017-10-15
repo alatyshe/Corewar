@@ -14,27 +14,31 @@
 
 static void			executing_ps(t_map *map, t_ps *ps)
 {
-	if (ps->cycles_to_cmd)
-		ps->cycles_to_cmd--;
-	
+	printf("line : %d\n", ps->pc / 64);
+	printf("ps->pc : %d\n", ps->pc % 64);
 	if (!ps->skip_cmd && !ps->cycles_to_cmd && ps->cmd_in_hex)
 	{
-		// printf("USE\n");
+		// printf("\t%sUSE : |%s|%s\n", GREEN, g_tab[(int)ps->cmd_in_hex - 1].name , RESET);
 		g_cmd_arr[(int)ps->cmd_in_hex](map, ps);
+		// printf("ps->ps_num : %d\n", ps->ps_num);
 	}
 
 	if (!ps->cycles_to_cmd && !ps->skip_cmd
 		&& map->map[ps->pc] >= 1 && map->map[ps->pc] <= 16)
 	{
 		ps->cmd_in_hex = map->map[ps->pc];
-
-		// printf("\t\t%sHERE : |%s|%s\n", GREEN, g_tab[(int)ps->cmd_in_hex - 1].name , RESET);
+		printf("\t%sHERE : |%s|%s\n", GREEN, g_tab[(int)ps->cmd_in_hex - 1].name , RESET);
 		// printf("\t\t%sps->pc : |%d|%s\n", GREEN, ps->pc , RESET);
 		ps->cycles_to_cmd = g_tab[ps->cmd_in_hex - 1].cycle;
 	}
-	if (!ps->cycles_to_cmd && !ps->skip_cmd
-		&& map->map[ps->pc] < 1 && map->map[ps->pc] > 16)
+	if (ps->cycles_to_cmd)
+	{
+		ps->cycles_to_cmd--;
+	}
+	if (ps->cycles_to_cmd == 0
+		&& (map->map[ps->pc] < 1 || map->map[ps->pc] > 16))
 		move_map_counter(&ps->pc, 1);
+		
 }
 
 static void			run_players(t_map *map)
@@ -77,7 +81,7 @@ void				memory_map(t_file *file, int total_players, t_flags *flags)
 		}
 		if (map->total_lives > NBR_LIVE)
 			map->cycle_to_die -= CYCLE_DELTA;
-		print_info_map(map);
+		// print_info_map(map);
 	}
 	// print_map(map);
 }

@@ -25,8 +25,11 @@ void			cmd_fork(t_map *map, t_ps *ps)
 	// print_process(ps);
 
 	pc = fill_commands(map, ps);
-	execute_fork_cmd(map, ps);
-	print_v_flag(ps->pc, pc, ps, map);
+	if (ps->skip_cmd == 0)
+	{
+		execute_fork_cmd(map, ps);
+		print_v_flag(ps->pc, pc, ps, map);
+	}
 	
 	ps->pc = pc;
 
@@ -51,7 +54,12 @@ static void		execute_fork_cmd(t_map *map, t_ps *ps)
 	distance = ps->arg[FIRST_ARG] % IDX_MOD;
 	move_map_counter(&pc, distance);
 	ps_new->pc = pc;
-	
+
+	if (map->map[ps_new->pc] >= 1 && map->map[ps_new->pc] <= 16)
+	{
+		ps_new->cmd_in_hex = map->map[ps_new->pc];
+		ps_new->cycles_to_cmd = g_tab[ps_new->cmd_in_hex - 1].cycle - 1;
+	}
 	map->processes++;
 	// move_map_counter(&ps_new->pc, ps->arg[FIRST_ARG]);
 }

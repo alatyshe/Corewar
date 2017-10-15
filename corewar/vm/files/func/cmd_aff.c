@@ -25,8 +25,11 @@ void			cmd_aff(t_map *map, t_ps *ps)
 	// print_process(ps);
 
 	pc = fill_commands(map, ps);
-	execute_aff_cmd(map, ps);
-	print_v_flag(ps->pc, pc, ps, map);
+	if (ps->skip_cmd == 0)
+	{
+		execute_aff_cmd(map, ps);
+		print_v_flag(ps->pc, pc, ps, map);
+	}
 	
 	ps->pc = pc;
 

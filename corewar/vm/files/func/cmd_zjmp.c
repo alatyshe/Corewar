@@ -26,7 +26,7 @@ void			cmd_zjmp(t_map *map, t_ps *ps)
 
 	pc = fill_commands(map, ps);
 	execute_zjmp_cmd(ps);
-
+	print_v_flag(ps->pc, pc, ps, map);
 
 	null_commands_variables(ps);
 }

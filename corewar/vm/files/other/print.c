@@ -184,9 +184,31 @@ void			print_map(t_map *map)
 	}
 }
 
-// void				print_v_flag(int pc, int new_pc, t_ps *ps)
-// {
-// }
+void				print_v_flag(int pc, int new_pc, t_ps *ps, t_map *map)
+{
+	int		i;
+	int		j;
+	t_map	*temp;
+
+	j = 0;
+	temp = map;
+	i = g_tab[ps->cmd_in_hex - 1].count_arg;
+
+	pc = new_pc;
+
+	if (check_flags(map->flags, 'v', 4))
+	{
+		ft_printf("P\t%d | %s ", ps->ps_num, g_tab[ps->cmd_in_hex - 1].name);
+		while (j < i)
+		{
+			if (ps->arg_types[j] == REG_CODE)
+				ft_printf("r");
+			ft_printf("%d ", ps->arg[j]);
+			j++;
+		}
+		ft_printf("\n");
+	}
+}
 
 void				return_color(int n)
 {

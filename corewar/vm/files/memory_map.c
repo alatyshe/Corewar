@@ -19,7 +19,7 @@ static void			executing_ps(t_map *map, t_ps *ps)
 	
 	if (!ps->skip_cmd && !ps->cycles_to_cmd && ps->cmd_in_hex)
 	{
-		printf("USE\n");
+		// printf("USE\n");
 		g_cmd_arr[(int)ps->cmd_in_hex](map, ps);
 	}
 
@@ -27,8 +27,9 @@ static void			executing_ps(t_map *map, t_ps *ps)
 		&& map->map[ps->pc] >= 1 && map->map[ps->pc] <= 16)
 	{
 		ps->cmd_in_hex = map->map[ps->pc];
-		printf("\t\t%sHERE : |%s|%s\n", GREEN, g_tab[(int)ps->cmd_in_hex - 1].name , RESET);
-		printf("\t\t%sps->pc : |%d|%s\n", GREEN, ps->pc , RESET);
+
+		// printf("\t\t%sHERE : |%s|%s\n", GREEN, g_tab[(int)ps->cmd_in_hex - 1].name , RESET);
+		// printf("\t\t%sps->pc : |%d|%s\n", GREEN, ps->pc , RESET);
 		ps->cycles_to_cmd = g_tab[ps->cmd_in_hex - 1].cycle;
 	}
 	if (!ps->cycles_to_cmd && !ps->skip_cmd
@@ -70,6 +71,7 @@ void				memory_map(t_file *file, int total_players, t_flags *flags)
 				ft_printf("It is now cycle %d\n", map->cycle);
 			run_players(map);
 			print_map(map);
+
 			map->cycle++;
 			i++;
 		}

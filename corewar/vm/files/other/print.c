@@ -184,9 +184,9 @@ void			print_map(t_map *map)
 	}
 }
 
-void				print_v_flag(int pc, int new_pc, t_ps *ps)
-{
-}
+// void				print_v_flag(int pc, int new_pc, t_ps *ps)
+// {
+// }
 
 void				return_color(int n)
 {

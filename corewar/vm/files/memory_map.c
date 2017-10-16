@@ -51,6 +51,8 @@ void				remove_ps(t_map *map, t_ps *ps_to_remove)
 			if (check_flags(map->flags, 'v', 8))
 			{
 				ft_printf("Process %d hasn't lived for %d cycles (CTD %d)\n", ps->ps_num, map->cycle, map->cycle_to_die);
+				//Тут нужна ссылка в ps на player->last_live. Второй %d - разница между map->cycle_to_die
+				// и player->last_live (для 1 cycle_to_die - в 2 раза больше?)
 			}
 			
 			// free(ps_to_remove);
@@ -68,7 +70,6 @@ static void			run_players(t_map *map, unsigned int i)
 	ps = map->ps;
 	while (ps)
 	{
-
 		if (i == 1)
 			ps->check_live = 0;
 		executing_ps(map, ps);
@@ -102,13 +103,10 @@ void				memory_map(t_file *file, int total_players, t_flags *flags)
 		map->total_lives = 0;
 		while (i <= map->cycle_to_die)
 		{
-			// printf("cycle : %d\n", map->cycle);
-			// if (flags->v_flag && !flags->n_flag && !flags->b_flag && !flags->d_flag)
 			if (map->cycle && check_flags(flags, 'v', 2))
 				ft_printf("It is now cycle %d\n", map->cycle);
 			run_players(map, i);
 			print_map(map);
-
 			map->cycle++;
 			i++;
 		}
@@ -118,7 +116,5 @@ void				memory_map(t_file *file, int total_players, t_flags *flags)
 			if (map->cycle && check_flags(flags, 'v', 2))
 				ft_printf("Cycle to die is now %d\n", map->cycle_to_die);
 		}
-		// print_info_map(map);
 	}
-	// print_map(map);
 }

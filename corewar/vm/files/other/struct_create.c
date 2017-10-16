@@ -108,6 +108,7 @@ t_flags			*create_flags(void)
 	flags->b_flag = 0;
 	flags->d_flag = 0;
 	flags->d_value = 0;
+	flags->j_flag = 0;
 	flags->n_flag = 0;
 	flags->v_flag = 0;
 	flags->v_value = 0;

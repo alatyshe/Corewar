@@ -39,6 +39,7 @@ typedef struct		s_flags
 	char			b_flag;
 	char			d_flag;
 	int				d_value;
+	char			j_flag;
 	char			n_flag;
 	char			v_flag;
 	int				v_value;

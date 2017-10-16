@@ -35,6 +35,8 @@ int				filling_flags(char *s, t_flags *flags)
 	}
 	else if (!ft_strcmp(s, "-n"))
 		flags->n_flag = 'n';
+	else if (!ft_strcmp(s, "-j"))
+		flags->j_flag = 'j';
 	else if (!ft_strcmp(s, "-v"))
 	{
 		flags->v_flag = 'v';
@@ -55,6 +57,8 @@ int				it_is_flag(char *s)
 	else if (!ft_strcmp(s, "-b"))
 		return (1);
 	else if (!ft_strcmp(s, "-d"))
+		return (1);
+	else if (!ft_strcmp(s, "-j"))
 		return (1);
 	else if (!ft_strcmp(s, "-n"))
 		return (1);
@@ -108,13 +112,15 @@ t_file			*filling_files(t_file *start, int *counter_players, char *s)
 
 int				check_flags(t_flags *f, char c, int n)
 {
+	if (f->j_flag == c)
+		return (1);
 	if (f->b_flag == c && f->n_flag == 0)
 		return (1);
-	else if (f->d_flag == c && f->n_flag == 0 && f->b_flag == 0 && f->s_flag == 0)
+	else if (f->d_flag == c && f->n_flag == 0 && f->b_flag == 0 && f->s_flag == 0 && f->j_flag == 0)
 		return (1);
-	else if (f->s_flag == c && f->b_flag == 0 && f->n_flag == 0)
+	else if (f->s_flag == c && f->b_flag == 0 && f->n_flag == 0 && f->j_flag == 0)
 		return (1);
-	else if (f->v_flag == c && f->n_flag == 0 && f->b_flag == 0)
+	else if (f->v_flag == c && f->n_flag == 0 && f->b_flag == 0 && f->j_flag == 0)
 	{
 		if (f->v_value & n)
 			return (1);

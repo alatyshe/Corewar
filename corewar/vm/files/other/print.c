@@ -158,6 +158,19 @@ void			print_one_cycle(t_map *map)
 	}
 }
 
+void			print_one_cycle_for_j(t_map *map)
+{
+	int		i;
+
+	i = 0;
+	while (i < MEM_SIZE)
+	{
+		printf("%02x ", map->map[i] & 255);
+		i++;
+	}
+}
+
+
 void			print_info_map(t_map *map)
 {
 
@@ -182,6 +195,10 @@ void			print_map(t_map *map)
 			get_next_line(0, &buf);
 		}
 	}
+	else if (check_flags(map->flags, 'j', 0))
+	{
+		print_one_cycle_for_j(map);
+	}
 }
 
 void				return_color(int n)
@@ -202,26 +219,6 @@ void				return_color(int n)
 		printf("%s", BLACK);
 
 }
-
-// void				print_pc_movement(t_map *map, t_ps *ps, int new_pc)
-// {
-// 	int		i;
-// 	int		j;
-// 	int		temp_pc;
-
-// 	i = ps->pc;
-// 	j = 0;
-// 	temp_pc = ps->pc;
-// 	while (map->map[i] != map->map[new_pc])
-// 	{
-// 		i++;
-// 		j++;
-// 	}
-// 	if (check_flags(map->flags, 'v', 16))
-// 	{
-// 		ADV 3 (0x0041 -> 0x0044) 09 00 14
-// 	}
-// }
 
 void				introducing_print(t_file *file)
 {
@@ -246,6 +243,7 @@ void				print_flags(t_flags *f)
 	printf("b_flag:		%d\n", f->b_flag);
 	printf("d_flag:\t\t%d\td_value\t\t%d\n", f->d_flag, f->d_value);
 	printf("n_flag:		%d\n", f->n_flag);
+	printf("j_flag:		%c\n", f->j_flag);
 	printf("v_flag:\t\t%d\tv_value\t\t%d\n", f->v_flag, f->v_value);
 	printf("s_flag:\t\t%d\ts_value\t\t%d\n", f->s_flag, f->s_value);
 }

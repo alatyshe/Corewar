@@ -59,7 +59,7 @@ static void		execute_fork_cmd(t_map *map, t_ps *ps)
 	}
 	map->processes++;
 	if (check_flags(map->flags, 'v', 4))
-		ft_printf("P\t%d | %s %d (%d)\n", ps->ps_num, "fork", ps->arg[FIRST_ARG], pc);
+		ft_printf("P    %-d | %s %d (%d)\n", ps->ps_num, "fork", ps->arg[FIRST_ARG], pc);
 
 	// move_map_counter(&ps_new->pc, ps->arg[FIRST_ARG]);
 }

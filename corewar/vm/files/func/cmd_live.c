@@ -43,7 +43,7 @@ static void		execute_live_cmd(t_map *map, t_ps *ps)
 	ps->check_live = 1;
 	copy_players = map->players;
 	if (check_flags(map->flags, 'v', 4))
-		ft_printf("P\t%d | %s %d\n", ps->ps_num, "live", ps->arg[0]);
+		ft_printf("P    %-d | %s %d\n", ps->ps_num, "live", ps->arg[0]);
 	while (copy_players)
 	{
 		if (ps->arg[0] == copy_players->player_num)

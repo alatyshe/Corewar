@@ -38,15 +38,13 @@ static void		execute_zjmp_cmd(t_map *map, t_ps *ps)
 	int			distance;
 	int			pc;
 
-	if (check_flags(map->flags, 'v', 4))
-		ft_printf("P\t%d | %s %d ", ps->ps_num, "zjmp", ps->arg[0]);
+	
 	if (ps->carry == 1)
 	{
 		pc = ps->pc;
 		distance = ps->arg[FIRST_ARG] % IDX_MOD;
 		move_map_counter(&pc, distance);
 		ps->pc = pc;
-		printf("OK\n");
 	}
 	else
 	{
@@ -54,6 +52,14 @@ static void		execute_zjmp_cmd(t_map *map, t_ps *ps)
 		distance = 3;
 		move_map_counter(&pc, distance);
 		ps->pc = pc;
-		printf("FAILED\n");
 	}
+	if (check_flags(map->flags, 'v', 4))
+	{
+		ft_printf("P    %-d | %s %d ", ps->ps_num, "zjmp", ps->arg[0]);
+		if (ps->carry == 1)
+			ft_printf("OK\n");
+		else
+			ft_printf("FAILED\n");
+	}
+	
 }

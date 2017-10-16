@@ -57,6 +57,6 @@ static void		execute_xor_cmd(t_map *map, t_ps *ps)
 		ps->carry = 0;
 	ps->reg[ps->arg[THIRD_ARG] - 1] = res;
 	if (check_flags(map->flags, 'v', 4))
-		ft_printf("P\t%d | %s %d %d r%d\n", ps->ps_num, "xor", value[FIRST_ARG], value[SECOND_ARG], ps->arg[2]);
+		ft_printf("P    %-d | %s %d %d r%d\n", ps->ps_num, "xor", value[FIRST_ARG], value[SECOND_ARG], ps->arg[2]);
 }
 

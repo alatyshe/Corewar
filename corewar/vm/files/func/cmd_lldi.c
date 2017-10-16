@@ -77,7 +77,7 @@ static void		execute_lldi_cmd(t_map *map, t_ps *ps)
 	pc = ps->pc;
 	move_map_counter(&pc, distance);
 	if (check_flags(map->flags, 'v', 4))
-		ft_printf("P\t%d | %s %d %d r%d\n\t  | -> load from %d + %d = %d (with pc and mod %d)\n", ps->ps_num, "lldi", first_arg, second_arg, ps->arg[0], first_arg, second_arg, first_arg + second_arg, pc);
+		ft_printf("P    %-d | %s %d %d r%d\n       | -> load from %d + %d = %d (with pc and mod %d)\n", ps->ps_num, "lldi", first_arg, second_arg, ps->arg[0], first_arg, second_arg, first_arg + second_arg, pc);
 
 	res = get_value_from_map(map, &pc, 4);
 	

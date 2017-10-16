@@ -58,5 +58,5 @@ static void		execute_st_cmd(t_map *map, t_ps *ps)
 		write_value_on_map(map, pc, ps->reg[first_arg - 1]);
 	}
 	if (check_flags(map->flags, 'v', 4))
-		ft_printf("P\t%d | %s r%d %d\n", ps->ps_num, "st", ps->arg[0], ps->arg[1]);
+		ft_printf("P    %-d | %s r%d %d\n", ps->ps_num, "st", ps->arg[0], ps->arg[1]);
 }

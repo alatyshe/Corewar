@@ -57,5 +57,5 @@ static void		execute_lld_cmd(t_map *map, t_ps *ps)
 		ps->carry = 0;
 	ps->reg[ps->arg[1] - 1] = first_arg;
 	if (check_flags(map->flags, 'v', 4))
-		ft_printf("P\t%d | %s %d r%d\n", ps->ps_num, "lld", first_arg, ps->arg[1]);
+		ft_printf("P    %-d | %s %d r%d\n", ps->ps_num, "lld", first_arg, ps->arg[1]);
 }

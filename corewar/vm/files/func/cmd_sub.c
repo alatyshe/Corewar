@@ -57,5 +57,5 @@ static void		execute_sub_cmd(t_map *map, t_ps *ps)
 		ps->carry = 0;
 	ps->reg[ps->arg[THIRD_ARG] - 1] = res;
 	if (check_flags(map->flags, 'v', 4))
-		ft_printf("P\t%d | %s r%d r%d r%d\n", ps->ps_num, "sub", ps->arg[0], ps->arg[1], ps->arg[2]);
+		ft_printf("P    %-d | %s r%d r%d r%d\n", ps->ps_num, "sub", ps->arg[0], ps->arg[1], ps->arg[2]);
 }

@@ -17,6 +17,9 @@ static void		execute_lfork(t_map *map, t_ps *ps);
 void			cmd_lfork(t_map *map, t_ps *ps)
 {
 	int			pc;
+	int			temp_pc;
+
+	temp_pc = ps->pc;
 
 	// проверка кодирующего бита
 
@@ -27,6 +30,22 @@ void			cmd_lfork(t_map *map, t_ps *ps)
 	pc = fill_commands(map, ps);
 	if (ps->skip_cmd == 0)
 		execute_lfork(map, ps);
+	
+
+	if (check_flags(map->flags, 'v', 16))
+	{
+		if (ps->pc == 0)
+			ft_printf("ADV %d (0x0000 -> %#06x) ", pc - ps->pc, pc);
+		else
+			ft_printf("ADV %d (%#06x -> %#06x) ", pc - ps->pc, ps->pc, pc);
+		while (temp_pc != pc)
+		{
+			printf("%02x ", map->map[temp_pc] & 255);
+			move_map_counter(&temp_pc, 1);
+		}
+		printf("\n");
+	}	
+
 	
 	ps->pc = pc;
 

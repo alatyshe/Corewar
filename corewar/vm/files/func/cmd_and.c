@@ -17,6 +17,7 @@ static void		execute_and_cmd(t_map *map, t_ps *ps);
 void			cmd_and(t_map *map, t_ps *ps)
 {
 	int			pc;
+	int			temp_pc;
 
 	// проверка кодирующего бита
 	
@@ -25,9 +26,23 @@ void			cmd_and(t_map *map, t_ps *ps)
 	// print_process(ps);
 
 	pc = fill_commands(map, ps);
+	temp_pc = ps->pc;
 	if (ps->skip_cmd == 0)
 		execute_and_cmd(map, ps);
-	
+	if (check_flags(map->flags, 'v', 16))
+	{
+		if (ps->pc == 0)
+			ft_printf("ADV %d (0x0000 -> %#06x) ", pc - ps->pc, pc);
+		else
+			ft_printf("ADV %d (%#06x -> %#06x) ", pc - ps->pc, ps->pc, pc);
+		while (temp_pc != pc)
+		{
+			printf("%02x ", map->map[temp_pc] & 255);
+			move_map_counter(&temp_pc, 1);
+		}
+		printf("\n");
+	}
+
 	ps->pc = pc;
 
 	null_commands_variables(ps);

@@ -17,17 +17,31 @@ static void		execute_aff_cmd(t_map *map, t_ps *ps);
 void			cmd_aff(t_map *map, t_ps *ps)
 {
 	int			pc;
+	int			temp_pc;
 
 	// проверка кодирующего бита
 	
 	// printf("%sAFF HAS BEEN USED BY:%s\n", GREEN, RESET);
 	// printf("%sps->cycles_to_cmd:\t%d%s\n", GREEN, ps->cycles_to_cmd, RESET);
 	// print_process(ps);
-
+	temp_pc = ps->pc;
 	pc = fill_commands(map, ps);
 	if (ps->skip_cmd == 0)
 		execute_aff_cmd(map, ps);
-	
+
+	if (check_flags(map->flags, 'v', 16))
+	{
+		if (ps->pc == 0)
+			ft_printf("ADV %d (0x0000 -> %#06x) ", pc - ps->pc, pc);
+		else
+			ft_printf("ADV %d (%#06x -> %#06x) ", pc - ps->pc, ps->pc, pc);
+		while (temp_pc != pc)
+		{
+			printf("%02x ", map->map[temp_pc] & 255);
+			move_map_counter(&temp_pc, 1);
+		}
+		printf("\n");
+	}	
 	ps->pc = pc;
 
 	null_commands_variables(ps);

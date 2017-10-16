@@ -101,12 +101,6 @@ typedef struct		s_player
 	struct s_player		*next;
 }					t_player;
 
-
-
-
-
-
-
 typedef struct		s_file
 {
 	char				*file_name;
@@ -167,7 +161,6 @@ void			print_map(t_map *map);
 void			print_flags(t_flags *f);
 void			print_info_map(t_map *map);
 void			introducing_print(t_file *file);
-void			print_v_flag(int pc, int new_pc, t_ps *ps, t_map *map);
 void			print_load_store(int pc, int new_pc, t_ps *ps, t_map *map);
 
 int				it_is_flag(char *s);

@@ -12,6 +12,13 @@
 
 #include "../../header/vm.h"
 
+void				free_process(t_ps *ps)
+{
+	free(ps->arg);
+	free(ps->arg_types);
+	free(ps);
+}
+
 void				null_commands_variables(t_ps *ps)
 {
 	int				i;

@@ -30,34 +30,48 @@ static void			executing_ps(t_map *map, t_ps *ps)
 		ps->cycles_to_cmd = g_tab[ps->cmd_in_hex - 1].cycle;
 	}
 	if (ps->cycles_to_cmd)
-	{
 		ps->cycles_to_cmd--;
-	}
 	if (ps->cycles_to_cmd == 0
 		&& (map->map[ps->pc] < 1 || map->map[ps->pc] > 16))
 		move_map_counter(&ps->pc, 1);
 		
 }
 
-void				remove_ps(t_map *map, t_ps *ps_to_remove)
+static void			kill_processes(t_map *map)
 {
-	t_ps	*ps;
+	t_ps			*ps_before;
+	t_ps			*ps_current;
+	t_ps			*ps_after;
 
-	ps = map->ps;
-	while (ps)
+	ps_before = NULL;
+	ps_current = map->ps;
+	ps_after = map->ps->next;
+	while (ps_current)
 	{
-		if (ps->ps_num == ps_to_remove->ps_num)
+		if (ps_current->check_live == 0)
 		{
 			if (check_flags(map->flags, 'v', 8))
 			{
-				ft_printf("Process %d hasn't lived for %d cycles (CTD %d)\n", ps->ps_num, map->cycle, map->cycle_to_die);
+				ft_printf("Process %d hasn't lived for %d cycles (CTD %d)\n", ps_current->ps_num, map->cycle, map->cycle_to_die);
 				//Тут нужна ссылка в ps на player->last_live. Второй %d - разница между map->cycle_to_die
 				// и player->last_live (для 1 cycle_to_die - в 2 раза больше?)
 			}
-			
-			// free(ps_to_remove);
+			free_process(ps_current);
+			if (ps_before)
+				ps_before->next = ps_after;
+			else
+				map->ps = ps_after;
+			ps_current = ps_after;
+			if (ps_after != NULL)
+				ps_after = ps_after->next;
 		}
-		ps = ps->next;
+		else
+		{
+			ps_before = ps_current;
+			ps_current = ps_after;
+			if (ps_after != NULL)
+				ps_after = ps_after->next;
+		}
 	}
 }
 
@@ -79,7 +93,7 @@ static void			run_players(t_map *map, unsigned int i)
 				temp = ps->next;
 			else
 				temp = NULL;
-			remove_ps(map, ps);
+			// remove_ps(map, ps);
 			ps = temp;
 		}
 		else
@@ -110,6 +124,7 @@ void				memory_map(t_file *file, int total_players, t_flags *flags)
 			map->cycle++;
 			i++;
 		}
+		kill_processes(map);
 		if (map->total_lives > NBR_LIVE)
 		{
 			map->cycle_to_die -= CYCLE_DELTA;

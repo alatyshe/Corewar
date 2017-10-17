@@ -17,10 +17,10 @@ static int			read_header(unsigned char *buf, t_file *file, char *file_name)
 	int				j;
 
 	file->file_name = ft_strdup(file_name);
-	file->magic = magic_reading(buf, file);
-	file->prog_name = name_reading(buf);
-	file->prog_size = size_reading(buf, file_name);
-	file->prog_comment = comment_reading(buf);
+	file->magic = read_magic(buf, file);
+	file->prog_name = read_name(buf);
+	file->prog_size = read_size(buf, file_name);
+	file->prog_comment = read_comment(buf);
 	j = sizeof(unsigned int) + PROG_NAME_LENGTH + 1;
 	while (j % 4 != 0)
 		j++;

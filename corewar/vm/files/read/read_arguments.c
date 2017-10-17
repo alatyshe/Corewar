@@ -128,7 +128,7 @@ int				check_flags(t_flags *f, char c, int n)
 	return (0);
 }
 
-t_file			*read_arguments(int argc, char **argv, int *counter_players, t_flags *f)
+t_file			*read_prog_argv(int argc, char **argv, int *counter_players, t_flags *f)
 {
 	int			i;
 	t_file		*start;

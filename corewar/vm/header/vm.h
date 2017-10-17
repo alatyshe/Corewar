@@ -45,6 +45,7 @@ typedef struct		s_flags
 	int				v_value;
 	char			s_flag;
 	int				s_value;
+	char			java_flag;
 }					t_flags;
 
 

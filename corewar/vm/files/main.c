@@ -26,7 +26,10 @@ int				main(int argc, char **argv)
 	else
 	{
 		files = read_prog_argv(argc, argv, &count_players, flags);
-		memory_map(files, count_players, flags);
+		if (files)
+			memory_map(files, count_players, flags);
+		else
+			print_usage();
 	}
 	return (0);
 }

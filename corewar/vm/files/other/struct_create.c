@@ -114,6 +114,7 @@ t_flags			*create_flags(void)
 	flags->v_value = 0;
 	flags->s_flag = 0;
 	flags->s_value = 0;
+	flags->java_flag = 0;
 	return (flags);
 }
 

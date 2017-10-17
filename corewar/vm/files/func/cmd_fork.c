@@ -70,6 +70,8 @@ static void		execute_fork_cmd(t_map *map, t_ps *ps)
 	map->processes++;
 	if (check_flags(map->flags, 'v', 4))
 		ft_printf("P    %-d | %s %d (%d)\n", ps->ps_num, "fork", ps->arg[FIRST_ARG], pc);
+	if (map->flags->java_flag)
+		ft_printf("%d:%d:%d", ps_new->player_num, ps_new->pc, 1);
 
 	// move_map_counter(&ps_new->pc, ps->arg[FIRST_ARG]);
 }

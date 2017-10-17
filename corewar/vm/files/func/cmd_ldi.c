@@ -67,5 +67,4 @@ static void		execute_ldi_cmd(t_map *map, t_ps *ps)
 	if (check_flags(map->flags, 'v', 4))
 		ft_printf("P    %-d | %s %d %d r%d\n       | -> load from %d + %d = %d (with pc and mod %d)\n", ps->ps_num, "ldi", value[FIRST_ARG], value[SECOND_ARG], ps->arg[0], value[FIRST_ARG], value[SECOND_ARG], value[FIRST_ARG] + value[SECOND_ARG], pc);
 	ps->reg[ps->arg[THIRD_ARG] - 1] = get_value_from_map(map, &pc, 4);
-	}
-
+}

@@ -12,7 +12,7 @@
 
 #include "../../header/vm.h"
 
-void			min_arg_value(t_flags *f)
+static void		min_arg_value(t_flags *f)
 {
 	if (f->d_value == -1 || f->v_value == -1 || f->s_value == -1)
 	{
@@ -21,7 +21,7 @@ void			min_arg_value(t_flags *f)
 	}
 }
 
-int				filling_flags(char *s, t_flags *flags)
+static int		filling_flags(char *s, t_flags *flags)
 {
 	min_arg_value(flags);
 	if (!ft_strcmp(s, "-a"))
@@ -47,6 +47,8 @@ int				filling_flags(char *s, t_flags *flags)
 		flags->s_flag = 's';
 		flags->s_value = -1;
 	}
+	else if (!ft_strcmp(s, "-java"))
+		flags->java_flag = 1;
 	return (0);
 }
 
@@ -65,6 +67,8 @@ int				it_is_flag(char *s)
 	else if (!ft_strcmp(s, "-v"))
 		return (1);
 	else if (!ft_strcmp(s, "-s"))
+		return (1);
+	else if (!ft_strcmp(s, "-java"))
 		return (1);
 	return (0);
 }

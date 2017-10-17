@@ -14,6 +14,8 @@
 
 static void			executing_ps(t_map *map, t_ps *ps)
 {
+	if (map->flags->java_flag)
+		ft_printf("%d:%d:%d", ps->player_num, ps->pc, 1);
 	if (!ps->skip_cmd && !ps->cycles_to_cmd && ps->cmd_in_hex)
 	{
 		// printf("\t%sUSE : |%s|%s\n", GREEN, g_tab[(int)ps->cmd_in_hex - 1].name , RESET);
@@ -34,7 +36,8 @@ static void			executing_ps(t_map *map, t_ps *ps)
 	if (ps->cycles_to_cmd == 0
 		&& (map->map[ps->pc] < 1 || map->map[ps->pc] > 16))
 		move_map_counter(&ps->pc, 1);
-		
+	if (map->flags->java_flag)
+		ft_printf(";");
 }
 
 static void			kill_processes(t_map *map)
@@ -67,6 +70,7 @@ static void			kill_processes(t_map *map)
 		}
 		else
 		{
+			ps_current->check_live = 0;
 			ps_before = ps_current;
 			ps_current = ps_after;
 			if (ps_after != NULL)
@@ -75,7 +79,7 @@ static void			kill_processes(t_map *map)
 	}
 }
 
-static void			run_players(t_map *map, unsigned int i)
+static void			run_players(t_map *map)
 {
 	t_ps			*ps;
 	t_ps			*temp;
@@ -84,21 +88,11 @@ static void			run_players(t_map *map, unsigned int i)
 	ps = map->ps;
 	while (ps)
 	{
-		if (i == 1)
-			ps->check_live = 0;
 		executing_ps(map, ps);
-		if (i == map->cycle_to_die && ps->check_live == 0)
-		{
-			if (ps->next)
-				temp = ps->next;
-			else
-				temp = NULL;
-			// remove_ps(map, ps);
-			ps = temp;
-		}
-		else
-			ps = ps->next;
+		ps = ps->next;
 	}
+	if (map->flags->java_flag)
+		ft_printf("\n");
 }
 
 void				memory_map(t_file *file, int total_players, t_flags *flags)
@@ -119,7 +113,7 @@ void				memory_map(t_file *file, int total_players, t_flags *flags)
 		{
 			if (map->cycle && check_flags(flags, 'v', 2))
 				ft_printf("It is now cycle %d\n", map->cycle);
-			run_players(map, i);
+			run_players(map);
 			print_map(map);
 			map->cycle++;
 			i++;

@@ -22,6 +22,7 @@ FLAGS = -Wall -Wextra -Werror
 #------ path -------
 FILES_PATH		= ./files
 OTHER_PATH		= ./files/other
+CREATE_PATH		= ./files/create
 FILL_PATH		= ./files/fill
 VALIDATE_PATH	= ./files/validate
 OBJECTS_PATH	= ./objects
@@ -31,18 +32,20 @@ OBJECTS_PATH	= ./objects
 FILES_FILES		= main
 OTHER_FILES		= struct_create other print_error_1 print_error_2
 FILL_FILES		= fill_command_arguments commands
+CRE_FILES		= create write_arg write_program_code
 VALIDATE_FILES	= label_command header check crop_name_and_comment check_number
 
 #------ other ------
 FILES_OBJ 		= $(addprefix $(OBJECTS_PATH)/, $(addsuffix .o, $(FILES_FILES)))
-OTHER_OBG 		= $(addprefix $(OBJECTS_PATH)/, $(addsuffix .o, $(OTHER_FILES)))
-FILL_OBG		= $(addprefix $(OBJECTS_PATH)/, $(addsuffix .o, $(FILL_FILES)))
+OTHER_OBJ 		= $(addprefix $(OBJECTS_PATH)/, $(addsuffix .o, $(OTHER_FILES)))
+FILL_OBJ		= $(addprefix $(OBJECTS_PATH)/, $(addsuffix .o, $(FILL_FILES)))
+CRE_OBJ			= $(addprefix $(OBJECTS_PATH)/, $(addsuffix .o, $(CRE_FILES)))
 VALIDATE_OBJ	= $(addprefix $(OBJECTS_PATH)/, $(addsuffix .o, $(VALIDATE_FILES)))
 
 #------ make ------
 all: $(NAME)
 
-$(NAME): $(FILES_OBJ) $(OTHER_OBG) $(FILL_OBG) $(VALIDATE_OBJ)
+$(NAME): $(FILES_OBJ) $(OTHER_OBJ) $(FILL_OBJ) $(VALIDATE_OBJ) $(CRE_OBJ)
 	@echo "\n"
 	@make -C ../libft/
 	@echo $(CYAN) "\tCompiling $@"$(RESET)
@@ -69,6 +72,11 @@ $(OBJECTS_PATH)/%.o: $(FILL_PATH)/%.c
 	@mkdir $(OBJECTS_PATH) 2> /dev/null || true
 	@gcc $(FLAGS) -o $@ -c $<
 
+$(OBJECTS_PATH)/%.o: $(CREATE_PATH)/%.c
+	@echo $(PURPLE) "\tCompiling $<"$(RESET)
+	@mkdir $(OBJECTS_PATH) 2> /dev/null || true
+	@gcc $(FLAGS) -o $@ -c $<
+
 #------ make clean ------
 cleanlib:
 	@make clean -C ../libft
@@ -79,6 +87,7 @@ clean: cleanlib
 	@rm -f $(OTHER_OBG)
 	@rm -f $(FILL_OBG)
 	@rm -f $(VALIDATE_OBJ)
+	@rm -f $(CRE_OBJ)
 	@echo $(RED) "\t.o files have been cleaned.\n"$(RESET)
 	@rm -rf $(OBJECTS_PATH)
 	@echo $(RED) "\t./objects path have been cleaned."$(RESET)
@@ -93,6 +102,7 @@ fclean: fcleanlib
 	@rm -f $(OTHER_OBG)
 	@rm -f $(FILL_OBG)
 	@rm -f $(VALIDATE_OBJ)
+	@rm -f $(CRE_OBJ)
 	@echo $(RED) "\t.o files have been cleaned.\n"$(RESET)
 	@rm -rf $(OBJECTS_PATH)
 	@echo $(RED) "\t./objects path have been cleaned."$(RESET)

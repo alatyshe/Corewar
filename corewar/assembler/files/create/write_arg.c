@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../header/create.h"
+#include "../../header/asm.h"
 
 int		write_rev_short(int fd, short arg)
 {
@@ -33,9 +33,9 @@ int		first_arg(t_cmd *cmd, int fd)
 		write(fd, &cmd->arg[0]->shrt, 1);
 	else if (ar == 2)
 	{
-		if (g_sizes[cmd->code][2] == 2)
+		if (g_sizes[(int)cmd->code][2] == 2)
 			write_rev_short(fd, cmd->arg[0]->num);
-		else if (g_sizes[cmd->code][2] == 4)
+		else if (g_sizes[(int)cmd->code][2] == 4)
 			write_revers_bytes(fd, cmd->arg[0]->num);
 	}
 	else if (ar == 3)
@@ -53,9 +53,9 @@ int		second_arg(t_cmd *cmd, int fd)
 		write(fd, &cmd->arg[1]->shrt, 1);
 	else if (ar == 2)
 	{
-		if (g_sizes[cmd->code][2] == 2)
+		if (g_sizes[(int)cmd->code][2] == 2)
 			write_rev_short(fd, cmd->arg[1]->num);
-		else if (g_sizes[cmd->code][2] == 4)
+		else if (g_sizes[(int)cmd->code][2] == 4)
 			write_revers_bytes(fd, cmd->arg[1]->num);
 	}
 	else if (ar == 3)
@@ -73,9 +73,9 @@ int		third_arg(t_cmd *cmd, int fd)
 		write(fd, &cmd->arg[2]->shrt, 1);
 	else if (ar == 2)
 	{
-		if (g_sizes[cmd->code][2] == 2)
+		if (g_sizes[(int)cmd->code][2] == 2)
 			write_rev_short(fd, cmd->arg[2]->num);
-		else if (g_sizes[cmd->code][2] == 4)
+		else if (g_sizes[(int)cmd->code][2] == 4)
 			write_revers_bytes(fd, cmd->arg[2]->num);
 	}
 	else if (ar == 3)
@@ -83,7 +83,7 @@ int		third_arg(t_cmd *cmd, int fd)
 	return (0);
 }
 
-int		write_arg(int fd, t_header *header, t_cmd *cmd)
+int		write_arg(int fd, t_cmd *cmd)
 {
 	first_arg(cmd, fd);
 	second_arg(cmd, fd);

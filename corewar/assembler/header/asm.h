@@ -6,7 +6,7 @@
 /*   By: alatyshe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/12 16:17:23 by alatyshe          #+#    #+#             */
-/*   Updated: 2016/12/12 16:22:52 by alatyshe         ###   ########.fr       */
+/*   Updated: 2017/10/15 18:45:20 by coleksii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@
 
 # include "op.h"
 # include "asm.h"
+# include "create.h"
 
 # include "../../libft/header/libft.h"
 # include "../../libft/header/ft_printf.h"
@@ -85,6 +86,8 @@ typedef struct		s_header
 	int					last_cmd_line;
 	int					line;
 	unsigned int		x;
+	struct s_header		*next;
+	struct s_header		*previous;
 	t_cmd				*commands;
 }					t_header;
 
@@ -118,5 +121,11 @@ void				error_invalid_argument(t_header *head, t_cmd *cmd,
 int					error_arg(t_cmd *cmd, int type, int argc, char *type_arg);
 int					create_file(t_header *header);
 int					get_label_distance(t_header *head,
-	char *to_find, t_cmd *position);
+										  char *to_find, t_cmd *position);
+int					create_file(t_header *header);
+int				 	write_program(int fd, t_header *header);
+int 				write_arg(int fd, t_cmd *cmd);
+int 				write_revers_bytes(int fd, int byte);
+int					write_rev_short(int fd, short arg);
+
 #endif

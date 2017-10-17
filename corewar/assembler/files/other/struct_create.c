@@ -45,9 +45,7 @@ t_header			*create_t_header(void)
 {
 	t_header		*header;
 
-
 	header = (t_header *)malloc(sizeof(t_header));
-
 	header->file_name = NULL;
 	header->magic = COREWAR_EXEC_MAGIC;
 	header->prog_name = NULL;

@@ -110,7 +110,7 @@ int					header(t_header *head, char *read, int fd)
 		}
 		else
 		{
-			check_syntax(head, read, AVAILABLE_CHARS);
+			check_syntax(head, read, AVL_CHARS);
 			if (head->error == 0)
 				return (error_type(head, SYNTAX_ERROR, LBL_INSTR));
 		}

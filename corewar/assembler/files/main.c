@@ -64,8 +64,7 @@ static void				file_manipulaton(t_header *head, int fd)
 		crop_name_and_comment(head, &head->prog_comment, COMMENT_LENGTH);
 		if (head->error == 0)
 		{
-			//пихать запись в файл сюда
-//			print_commands(head);
+			print_create(head);
 			create_file(head);
 		}
 	}
@@ -114,12 +113,13 @@ int						main(int argc, char **argv)
 			fd = open(argv[i], O_RDONLY);
 			if (fd < 0)
 			{
-				perror("Error");
-				exit(0);
+				ft_printf("%sError :%s %s\n", RED, argv[i++], RESET);
+				continue ;
 			}
-			head->file_name = ft_strdup(argv[i]);
+			head->file_name = ft_strdup(argv[i++]);
 			file_manipulaton(head, fd);
-			i++;
+			if (head->error != 0)
+				ft_printf("\t%s^= %s - file%s\n", RED, head->file_name, RESET);
 			ft_free_head(head);
 		}
 	else

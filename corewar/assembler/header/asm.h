@@ -49,7 +49,6 @@
 
 # include "op.h"
 # include "asm.h"
-# include "create.h"
 
 # include "../../libft/header/libft.h"
 # include "../../libft/header/ft_printf.h"
@@ -102,6 +101,7 @@ t_cmd				*get_last_cmd(t_header *head);
 int					ft_str_find_char(char *str, int (*f)(int));
 void				print_commands(t_header *head);
 void				print_command(t_cmd *cmd);
+void				print_create(t_header *head);
 void				fill_command_arguments(t_header *head);
 int					error_type(t_header *head, int type, int error);
 int					error_line_char(t_header *head, char *str);
@@ -120,12 +120,12 @@ void				error_invalid_argument(t_header *head, t_cmd *cmd,
 	char *read, int arg_num);
 int					error_arg(t_cmd *cmd, int type, int argc, char *type_arg);
 int					create_file(t_header *header);
-int					get_label_distance(t_header *head,
-										  char *to_find, t_cmd *position);
+int					get_label_distance(t_header *head, char *to_find,
+	t_cmd *position);
 int					create_file(t_header *header);
-int				 	write_program(int fd, t_header *header);
-int 				write_arg(int fd, t_cmd *cmd);
-int 				write_revers_bytes(int fd, int byte);
+int					write_program(int fd, t_header *header);
+int					write_arg(int fd, t_cmd *cmd);
+int					write_revers_bytes(int fd, int byte);
 int					write_rev_short(int fd, short arg);
 
 #endif

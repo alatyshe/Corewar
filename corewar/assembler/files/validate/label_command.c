@@ -117,7 +117,7 @@ void				label_command(t_header *head, char *read)
 	t_cmd			*cmd;
 
 	head->x = skip_spaces(read);
-	check_syntax(head, read, AVAILABLE_CHARS);
+	check_syntax(head, read, AVL_CHARS);
 	if (head->error == 0 && read)
 	{
 		if (read[head->x] == COMMENT_CHAR)

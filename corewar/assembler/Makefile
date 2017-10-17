@@ -30,7 +30,7 @@ OBJECTS_PATH	= ./objects
 
 #------ files ------
 FILES_FILES		= main
-OTHER_FILES		= struct_create other print_error_1 print_error_2
+OTHER_FILES		= struct_create other print_error_1 print_error_2 print
 FILL_FILES		= fill_command_arguments commands
 CRE_FILES		= create write_arg write_program_code
 VALIDATE_FILES	= label_command header check crop_name_and_comment check_number

@@ -19,16 +19,11 @@ void			cmd_and(t_map *map, t_ps *ps)
 	int			pc;
 	int			temp_pc;
 
-	// проверка кодирующего бита
-	
-	// printf("%sAND HAS BEEN USED BY:%s\n", GREEN, RESET);
-	// printf("%sps->cycles_to_cmd:\t%d%s\n", GREEN, ps->cycles_to_cmd, RESET);
-	// print_process(ps);
-
-	pc = fill_commands(map, ps);
 	temp_pc = ps->pc;
+	pc = fill_commands(map, ps);
 	if (ps->skip_cmd == 0)
 		execute_and_cmd(map, ps);
+
 	if (check_flags(map->flags, 'v', 16))
 	{
 		if (ps->pc == 0)

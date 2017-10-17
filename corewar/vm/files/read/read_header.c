@@ -12,7 +12,7 @@
 
 #include "../../header/vm.h"
 
-unsigned int		read_magic(unsigned char *buf, t_file *file)
+static unsigned int	read_magic(unsigned char *buf, t_file *file)
 {
 	unsigned int	res;
 
@@ -27,7 +27,7 @@ unsigned int		read_magic(unsigned char *buf, t_file *file)
 	return (res);
 }
 
-char				*read_name(unsigned char *buf)
+static char			*read_name(unsigned char *buf)
 {
 	int				i;
 	int				j;
@@ -45,7 +45,7 @@ char				*read_name(unsigned char *buf)
 	return (res);
 }
 
-unsigned int		read_size(unsigned char *buf, char *file_name)
+static unsigned int	read_size(unsigned char *buf, char *file_name)
 {
 	int				i;
 	unsigned int	res;
@@ -67,7 +67,7 @@ unsigned int		read_size(unsigned char *buf, char *file_name)
 	return (res);
 }
 
-char				*read_comment(unsigned char *buf)
+static char			*read_comment(unsigned char *buf)
 {
 	char			*res;
 	int				i;
@@ -86,4 +86,22 @@ char				*read_comment(unsigned char *buf)
 		j++;
 	}
 	return (res);
+}
+
+int					read_header(unsigned char *buf, t_file *file, char *file_name)
+{
+	int				j;
+
+	file->file_name = ft_strdup(file_name);
+	file->magic = read_magic(buf, file);
+	file->prog_name = read_name(buf);
+	file->prog_size = read_size(buf, file_name);
+	file->prog_comment = read_comment(buf);
+	j = sizeof(unsigned int) + PROG_NAME_LENGTH + 1;
+	while (j % 4 != 0)
+		j++;
+	j = j + sizeof(unsigned int) + COMMENT_LENGTH + 1;
+	while (j % 4 != 0)
+		j++;
+	return (j);
 }

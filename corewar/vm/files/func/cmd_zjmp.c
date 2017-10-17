@@ -20,13 +20,6 @@ void			cmd_zjmp(t_map *map, t_ps *ps)
 	int			temp_pc;
 
 	temp_pc = ps->pc;
-
-	// проверка кодирующего бита
-	
-	// printf("%sZJMP HAS BEEN USED BY:%s\n", GREEN, RESET);
-	// printf("%sps->cycles_to_cmd:\t%d%s\n", GREEN, ps->cycles_to_cmd, RESET);
-	// print_process(ps);
-
 	pc = fill_commands(map, ps);
 	if (ps->skip_cmd == 0)
 		execute_zjmp_cmd(map, ps);
@@ -44,6 +37,7 @@ void			cmd_zjmp(t_map *map, t_ps *ps)
 		}
 		printf("\n");
 	}
+
 
 
 	null_commands_variables(ps);

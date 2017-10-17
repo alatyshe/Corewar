@@ -12,24 +12,6 @@
 
 #include "../../header/vm.h"
 
-static int			read_header(unsigned char *buf, t_file *file, char *file_name)
-{
-	int				j;
-
-	file->file_name = ft_strdup(file_name);
-	file->magic = read_magic(buf, file);
-	file->prog_name = read_name(buf);
-	file->prog_size = read_size(buf, file_name);
-	file->prog_comment = read_comment(buf);
-	j = sizeof(unsigned int) + PROG_NAME_LENGTH + 1;
-	while (j % 4 != 0)
-		j++;
-	j = j + sizeof(unsigned int) + COMMENT_LENGTH + 1;
-	while (j % 4 != 0)
-		j++;
-	return (j);
-}
-
 static unsigned int	fill_file_struct(unsigned char *buf, int file_len,
 	t_file *file, char *file_name)
 {

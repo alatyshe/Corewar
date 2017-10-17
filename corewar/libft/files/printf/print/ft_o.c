@@ -27,8 +27,10 @@ void	ft_func_for_zero(t_pflist *lst, int *count, int flag)
 	{
 		if (lst->decimalize != '0')
 			*count += ft_char(1, lst->decimalize);
-		*count += (lst->width > lst->prec)
-			? ft_char(lst->width - lst->prec, ' ') : 0;
+		*count += (lst->width > lst->prec && lst->zero == 0)
+			? ft_char(lst->width - lst->prec, 'f') : 0;
+		*count += (lst->zero == 1) ?
+			ft_char(lst->width - lst->prec, '0') : 0;
 		*count += ft_char(lst->prec, '0');
 	}
 }

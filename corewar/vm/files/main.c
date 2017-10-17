@@ -21,9 +21,12 @@ int				main(int argc, char **argv)
 	files = NULL;
 	flags = create_flags();
 	count_players = 0;
-	files = read_prog_argv(argc, argv, &count_players, flags);
-	// print_flags(flags);
-
-	memory_map(files, count_players, flags);
+	if (argc == 1)
+		print_usage();
+	else
+	{
+		files = read_prog_argv(argc, argv, &count_players, flags);
+		memory_map(files, count_players, flags);
+	}
 	return (0);
 }

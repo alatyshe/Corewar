@@ -119,10 +119,7 @@ typedef void	(*t_cmd_array)(t_map *all_info, t_ps *ps);
 
 // ===================== read ========================
 
-unsigned int	read_magic(unsigned char *buf, t_file *file);
-char			*read_name(unsigned char *buf);
-unsigned int	read_size(unsigned char *buf, char *file_name);
-char			*read_comment(unsigned char *buf);
+int				read_header(unsigned char *buf, t_file *file, char *file_name);
 int				read_commands(unsigned char *buf, t_cmd *cmd, int pos_buf, int len_file);
 t_file			*read_prog_argv(int argc, char **argv, int *counter_players, t_flags *f);
 
@@ -160,6 +157,7 @@ void			print_file(t_file *file);
 void			print_buf(unsigned char *buffer, int buffer_size);
 // DELETE
 
+void			print_usage(void);
 void			introducing_print(t_file *file);
 void			print_flags(t_flags *f);
 void			return_color(int n);

@@ -24,7 +24,7 @@ void			cmd_zjmp(t_map *map, t_ps *ps)
 	if (ps->skip_cmd == 0)
 		execute_zjmp_cmd(map, ps);
 
-	if (check_flags(map->flags, 'v', 16))
+	if (check_flags(map->flags, 'v', 16) && ps->carry != 1)
 	{
 		if (ps->pc == 0)
 			ft_printf("ADV %d (0x0000 -> %#06x) ", pc - temp_pc, pc);
@@ -70,6 +70,5 @@ static void		execute_zjmp_cmd(t_map *map, t_ps *ps)
 			ft_printf("OK\n");
 		else
 			ft_printf("FAILED\n");
-	}
-	
+	}	
 }

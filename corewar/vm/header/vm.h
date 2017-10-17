@@ -73,7 +73,7 @@ typedef struct		s_cmd
 typedef struct		s_ps
 {
 	int					pc;				//	позиция процесса на карте
-	int					player_num;		//	номер игрока 1 2 4 8
+	int					player_num;		//	номер игрока
 	int					reg[16];		//	его регистры
 
 	char				cmd_in_hex;		//	

@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../header/create.h"
+#include "../../header/asm.h"
 
 int		analiz_arg(t_cmd *cmd, int fd)
 {
@@ -19,11 +19,11 @@ int		analiz_arg(t_cmd *cmd, int fd)
 	return (0);
 }
 
-int		write_cmd(int fd, t_header *header, t_cmd *cmd)
+int		write_cmd(int fd, t_cmd *cmd)
 {
 	write(fd, &cmd->code, 1);
 	analiz_arg(cmd, fd);
-	write_arg(fd, header, cmd);
+	write_arg(fd, cmd);
 	return (0);
 }
 
@@ -34,7 +34,7 @@ int		write_program(int fd, t_header *header)
 	cmd = header->commands;
 	while (cmd->next)
 	{
-		write_cmd(fd, header, cmd);
+		write_cmd(fd, cmd);
 		cmd = cmd->next;
 	}
 	return (0);

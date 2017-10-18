@@ -48,7 +48,9 @@ static void		execute_fork_cmd(t_map *map, t_ps *ps)
 	t_ps		*ps_new;
 	int			distance;
 	int			pc;
+	int			i;
 
+	i = 0;
 	ps_new = create_ps(0, 0, map->ps_counter++);
 	ps_new->next = map->ps;
 	map->ps = ps_new;
@@ -56,6 +58,11 @@ static void		execute_fork_cmd(t_map *map, t_ps *ps)
 	ps_new->player_num = ps->player_num;
 	ps_new->check_live = ps->check_live;
 	ps_new->carry = ps->carry;
+	while (i < 16)
+	{
+		ps_new->reg[i] = ps->reg[i];
+		i++;
+	}
 
 	pc = ps->pc;
 	distance = ps->arg[FIRST_ARG] % IDX_MOD;

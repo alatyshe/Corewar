@@ -57,6 +57,8 @@ t_map			*create_map(void)
 	map->cycle_to_die = CYCLE_TO_DIE;
 	map->processes = 0;
 	map->players = NULL;
+	map->winner = NULL;
+	map->checks = 10;
 	map->flags = NULL;
 	map->ps = NULL;
 	map->ps_counter = 1;
@@ -91,6 +93,7 @@ t_ps			*create_ps(int pc, int player, int num)
 	ps->player_num = player;
 	ps->carry = 0;
 	ps->check_live = 0;
+	ps->cycles = 1;
 	ps->cycles_to_cmd = 0;
 	ps->p_size = 0;
 	ps->ps_num = num;

@@ -53,10 +53,12 @@ typedef struct		s_map
 {
 	char				map[MEM_SIZE];
 	unsigned int		cycle;			//	текущий цикл
-	unsigned int		cycle_to_die;	//	цикл смерти
+	int					cycle_to_die;	//	цикл смерти
 	unsigned int		total_lives;
 	unsigned int		processes;		//	количество процессов
 	unsigned int		ps_counter;
+	char				checks;
+	char				*winner;
 	struct s_player		*players;		//	игроки
 	t_flags				*flags;
 	struct s_ps			*ps;
@@ -85,7 +87,7 @@ typedef struct		s_ps
 
 	int					skip_cmd;		//	пропуск команды на ошибочном кодирующем бите
 	int					cycles_to_cmd;	//	текущее количесвто циклов до выполнения комманды
-
+	int					cycles;
 	char				carry;			//	возможен ли перенос 1 - 0
 	int					check_live;		//	исполнил ли процесс функцию live
 	unsigned int		ps_num;			//	номер процесса
@@ -171,7 +173,7 @@ void			print_one_cycle(t_map *map);
 //============================FUNC===============================
 int				fill_commands(t_map *all_info, t_ps *ps);
 void			null_commands_variables(t_ps *ps);
-int				get_variables_idxmod(t_map *all_info, t_ps *ps, int i, int types);
+int				get_variables_idxmod(t_map *all_info, t_ps *ps, int i);
 void			cmd_live(t_map *map, t_ps *ps);
 void			cmd_ld(t_map *map, t_ps *ps);
 void			cmd_st(t_map *map, t_ps *ps);

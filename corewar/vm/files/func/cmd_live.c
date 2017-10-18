@@ -59,6 +59,7 @@ static void		execute_live_cmd(t_map *map, t_ps *ps)
 		if (ps->arg[0] == copy_players->player_num)
 		{
 			copy_players->total_lives++;
+			map->winner = copy_players->name;
 			if (check_flags(map->flags, 'v', 1))
 			{
 				ft_printf("Player %d (%s) is said to be alive\n",

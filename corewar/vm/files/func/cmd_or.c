@@ -52,7 +52,7 @@ static void		execute_or_cmd(t_map *map, t_ps *ps)
 	i = 0;
 	while (i < g_tab[6].count_arg)
 	{
-		value[i] = get_variables_idxmod(map, ps, i, g_tab[6].arg[i]);
+		value[i] = get_variables_idxmod(map, ps, i);
 		if (ps->skip_cmd)
 		{
 			ps->skip_cmd = 0;

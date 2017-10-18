@@ -16,13 +16,13 @@ static int		get_type(t_ps *ps, char type, int argc)
 {
 	if (type == REG_CODE
 		&& (T_REG & g_tab[(int)ps->cmd_in_hex - 1].arg[argc]))
-		ps->arg_types[argc] = REG_CODE;
+		ps->arg_types[argc] = T_REG;
 	else if (type == DIR_CODE
 		&& (T_DIR & g_tab[(int)ps->cmd_in_hex - 1].arg[argc]))
-		ps->arg_types[argc] = DIR_CODE;
+		ps->arg_types[argc] = T_DIR;
 	else if (type == IND_CODE
 		&& (T_IND & g_tab[(int)ps->cmd_in_hex - 1].arg[argc]))
-		ps->arg_types[argc] = IND_CODE;
+		ps->arg_types[argc] = T_IND;
 	else
 		ps->skip_cmd = 1;
 	return (g_sizes[(int)ps->cmd_in_hex][(int)type]);

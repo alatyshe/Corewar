@@ -12,14 +12,14 @@
 
 #include "../../header/vm.h"
 
-int				get_variables_idxmod(t_map *all_info, t_ps *ps, int i, int types)
+int				get_variables_idxmod(t_map *all_info, t_ps *ps, int i)
 {
 	int			pc;
 	int			result;
 	int			distance;
 
 	result = 0;
-	if ((types & ps->arg_types[i]) && ps->arg_types[i] == REG_CODE)
+	if (ps->arg_types[i] == T_REG)
 	{
 		if (ps->arg[i] < 1 || ps->arg[i] > 16)
 		{
@@ -28,9 +28,9 @@ int				get_variables_idxmod(t_map *all_info, t_ps *ps, int i, int types)
 		}
 		result = ps->reg[ps->arg[i] - 1];
 	}
-	else if ((types & ps->arg_types[i]) && ps->arg_types[i] == DIR_CODE)
+	else if (ps->arg_types[i] == T_DIR)
 		result = ps->arg[i];
-	else if ((types & ps->arg_types[i]) && ps->arg_types[i] == IND_CODE)
+	else if (ps->arg_types[i] == T_IND)
 	{
 		pc = ps->pc;
 		distance = ps->arg[i] % IDX_MOD;

@@ -53,7 +53,7 @@ static void		execute_ldi_cmd(t_map *map, t_ps *ps)
 	i = 0;
 	while (i < g_tab[3].count_arg)
 	{
-		value[i] = get_variables_idxmod(map, ps, i, g_tab[3].arg[i]);
+		value[i] = get_variables_idxmod(map, ps, i);
 		if (ps->skip_cmd)
 		{
 			ps->skip_cmd = 0;
@@ -61,10 +61,15 @@ static void		execute_ldi_cmd(t_map *map, t_ps *ps)
 		}
 		i++;
 	}
+
 	distance = (value[FIRST_ARG] + value[SECOND_ARG]) % IDX_MOD;
 	pc = ps->pc;
 	move_map_counter(&pc, distance);
 	if (check_flags(map->flags, 'v', 4))
-		ft_printf("P    %-d | %s %d %d r%d\n       | -> load from %d + %d = %d (with pc and mod %d)\n", ps->ps_num, "ldi", value[FIRST_ARG], value[SECOND_ARG], ps->arg[0], value[FIRST_ARG], value[SECOND_ARG], value[FIRST_ARG] + value[SECOND_ARG], pc);
+	{
+		ft_printf("P    %-d | %s %d %d r%d\n", ps->ps_num, "ldi", value[FIRST_ARG], value[SECOND_ARG], ps->arg[2]);
+		ft_printf("       | -> load from %d + %d = %d", value[FIRST_ARG], value[SECOND_ARG], value[FIRST_ARG] + value[SECOND_ARG]);
+		ft_printf(" (with pc and mod %d)\n", pc);
+	}
 	ps->reg[ps->arg[THIRD_ARG] - 1] = get_value_from_map(map, &pc, 4);
 }

@@ -14,6 +14,11 @@
 
 static void			executing_ps(t_map *map, t_ps *ps)
 {
+	// printf("\t%sat : [%02x]\n", RED,map->map[ps->pc]);
+	// printf("\t%sPS_NUM: |%d|%s\n", MAGENTA, ps->ps_num, RESET);
+	// printf("\t%sy     : |%d|%s\n", MAGENTA, ps->pc / 64 , RESET);
+	// printf("\t%sx     : |%d|%s\n", MAGENTA, ps->pc % 64 , RESET);
+	// print_process (ps);
 	if (map->flags->java_flag)
 		ft_printf("%d:%d:%d", ps->player_num, ps->pc, 1);
 	if (!ps->skip_cmd && !ps->cycles_to_cmd && ps->cmd_in_hex)
@@ -28,7 +33,7 @@ static void			executing_ps(t_map *map, t_ps *ps)
 	{
 		ps->cmd_in_hex = map->map[ps->pc];
 		// printf("\t%sHERE : |%s|%s\n", GREEN, g_tab[(int)ps->cmd_in_hex - 1].name , RESET);
-		// printf("\t\t%sps->pc : |%d|%s\n", GREEN, ps->pc , RESET);
+		// printf("\t%sps->pc : |%d|%s\n", GREEN, ps->pc , RESET);
 		ps->cycles_to_cmd = g_tab[ps->cmd_in_hex - 1].cycle;
 	}
 	if (ps->cycles_to_cmd)
@@ -36,6 +41,7 @@ static void			executing_ps(t_map *map, t_ps *ps)
 	if (ps->cycles_to_cmd == 0
 		&& (map->map[ps->pc] < 1 || map->map[ps->pc] > 16))
 		move_map_counter(&ps->pc, 1);
+	
 	if (map->flags->java_flag)
 		ft_printf(";");
 }
@@ -103,8 +109,11 @@ void				memory_map(t_file *file, int total_players, t_flags *flags)
 	map = create_map();
 	map->flags = flags;
 	fill_map(file, map, total_players);
-	introducing_print(file);
+	if (!flags->java_flag)
+		introducing_print(file);
 	map->total_lives = total_players;
+	if (flags->java_flag)
+		print_map_java(map, file);
 	while (map->total_lives != 0)
 	{
 		i = 1;
@@ -122,6 +131,8 @@ void				memory_map(t_file *file, int total_players, t_flags *flags)
 		if (map->total_lives > NBR_LIVE)
 		{
 			map->cycle_to_die -= CYCLE_DELTA;
+			if (flags->java_flag)
+				ft_printf("(%d)\n", map->cycle_to_die);
 			if (map->cycle && check_flags(flags, 'v', 2))
 				ft_printf("Cycle to die is now %d\n", map->cycle_to_die);
 		}

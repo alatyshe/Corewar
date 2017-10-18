@@ -64,6 +64,8 @@ static void		execute_sti_cmd(t_map *map, t_ps *ps)
 	pc = ps->pc;
 	distance = (value[SECOND_ARG] + value[THIRD_ARG]) % IDX_MOD;
 	move_map_counter(&pc, distance);
+	// printf("CHANGE VALUE ON MAP AT Y : %d, X : %d\n", pc / 64, pc % 64);
+	// printf("VALUE : %08x\n", ps->reg[ps->arg[FIRST_ARG] - 1]);
 	write_value_on_map(map, pc, ps->reg[ps->arg[FIRST_ARG] - 1]);
 	if (map->flags->java_flag)
 		ft_printf("|%d:%d", pc, ps->reg[ps->arg[FIRST_ARG] - 1]);

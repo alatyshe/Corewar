@@ -47,7 +47,7 @@ void			print_process(t_ps *ps)
 	printf("%s==============================================%s\n", YELLOW, RESET);
 	if (ps)
 	{
-		printf("PS->ProgramCounter:\t%d\n", ps->pc);
+		// printf("PS->ProgramCounter:\t%d\n", ps->pc);
 		printf("\t\tREGISTERS\n");
 		while (i < 16)
 		{
@@ -62,27 +62,27 @@ void			print_process(t_ps *ps)
 			i++;
 		}
 		printf("\n\n");
-		printf("ps->cmd_in_hex:\t\t%02x\n", ps->cmd_in_hex);
-		printf("ps->coding_byte:\t%x\n", (ps->coding_byte & 125));
-		i = 0;
-		printf("ARG_TYPES :\t");
-		while (i < MAX_ARGS_NUMBER)
-		{
-			printf("% 4d ", ps->arg_types[i]);
-			i++;
-		}
-		printf("\nARGUMENTS :\t");
-		i = 0;
-		while (i < MAX_ARGS_NUMBER)
-		{		
-			printf("%04x ", ps->arg[i]);
-			i++;
-		}
-		printf("\nps->player_num:\t\t%d\n", ps->player_num);
+		// printf("ps->cmd_in_hex:\t\t%02x\n", ps->cmd_in_hex);
+		// printf("ps->coding_byte:\t%x\n", (ps->coding_byte & 125));
+		// i = 0;
+		// printf("ARG_TYPES :\t");
+		// while (i < MAX_ARGS_NUMBER)
+		// {
+		// 	printf("% 4d ", ps->arg_types[i]);
+		// 	i++;
+		// }
+		// printf("\nARGUMENTS :\t");
+		// i = 0;
+		// while (i < MAX_ARGS_NUMBER)
+		// {		
+		// 	printf("%04x ", ps->arg[i]);
+		// 	i++;
+		// }
+		// printf("\nps->player_num:\t\t%d\n", ps->player_num);
 		printf("ps->carry:\t\t%d\n", ps->carry);
 		printf("ps->cycles_to_cmd:\t%d\n", ps->cycles_to_cmd);
-		printf("ps->check_live:\t\t%d\n", ps->check_live);
-		printf("ps->p_size:\t\t%d\n", ps->p_size);
+		// printf("ps->check_live:\t\t%d\n", ps->check_live);
+		// printf("ps->p_size:\t\t%d\n", ps->p_size);
 	}
 	else
 		printf("NULL\n");

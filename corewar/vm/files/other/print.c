@@ -67,6 +67,28 @@ void			print_one_cycle_for_j(t_map *map)
 	}
 }
 
+void			print_map_java(t_map *map, t_file *file)
+{
+	int			i;
+	int 		players;
+	t_file		*copy_file;
+
+	i = 0;
+	players = 1;
+	copy_file = file;
+	while (copy_file)
+	{
+		ft_printf("%d:%d:", players, copy_file->prog_size);
+		ft_printf("%s:%s;", copy_file->prog_name, copy_file->prog_comment);
+		copy_file = copy_file->next;
+		players++;
+	}
+	ft_printf("\n");
+	while (i < MEM_SIZE)
+		ft_printf("%02x ", 255 & map->map[i++]);
+	ft_printf("\n");
+}
+
 void			print_map(t_map *map)
 {
 	char		*buf;

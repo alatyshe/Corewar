@@ -14,11 +14,11 @@
 
 static void			executing_ps(t_map *map, t_ps *ps)
 {
-	printf("\t%sat : [%02x]\n", RED,map->map[ps->pc]);
-	printf("\t%sPS_NUM: |%d|%s\n", MAGENTA, ps->ps_num, RESET);
-	printf("\t%sy     : |%d|%s\n", MAGENTA, ps->pc / 64 , RESET);
-	printf("\t%sx     : |%d|%s\n", MAGENTA, ps->pc % 64 , RESET);
-	print_process (ps);
+	// printf("\t%sat : [%02x]\n", RED,map->map[ps->pc]);
+	// printf("\t%sPS_NUM: |%d|%s\n", MAGENTA, ps->ps_num, RESET);
+	// printf("\t%sy     : |%d|%s\n", MAGENTA, ps->pc / 64 , RESET);
+	// printf("\t%sx     : |%d|%s\n", MAGENTA, ps->pc % 64 , RESET);
+	// print_process (ps);
 	if (map->flags->java_flag)
 		ft_printf("%d:%d:%d", ps->player_num, ps->pc, 1);
 	if (!ps->skip_cmd && !ps->cycles_to_cmd && ps->cmd_in_hex)
@@ -41,7 +41,7 @@ static void			executing_ps(t_map *map, t_ps *ps)
 	if (ps->cycles_to_cmd == 0
 		&& (map->map[ps->pc] < 1 || map->map[ps->pc] > 16))
 		move_map_counter(&ps->pc, 1);
-	
+
 	if (map->flags->java_flag)
 		ft_printf(";");
 }

@@ -45,17 +45,19 @@ void			cmd_and(t_map *map, t_ps *ps)
 
 static void		execute_and_cmd(t_map *map, t_ps *ps)
 {
-	int			value[g_tab[5].count_arg];
+	int			*value;
 	int			res;
 	int			i;
 
 	i = 0;
+	value = (int *)malloc(sizeof(int) * g_tab[5].count_arg);
 	while (i < g_tab[5].count_arg)
 	{
 		value[i] = get_variables_idxmod(map, ps, i);
 		if (ps->skip_cmd)
 		{
 			ps->skip_cmd = 0;
+			free(value);
 			return ;
 		}
 		i++;
@@ -68,4 +70,5 @@ static void		execute_and_cmd(t_map *map, t_ps *ps)
 	ps->reg[ps->arg[THIRD_ARG] - 1] = res;
 	if (check_flags(map->flags, 'v', 4))
 		ft_printf("P    %-d | %s %d %d r%d\n", ps->ps_num, "and", value[FIRST_ARG], value[SECOND_ARG], ps->arg[2]);
+	free(value);
 }

@@ -23,7 +23,6 @@ void			cmd_st(t_map *map, t_ps *ps)
 	pc = fill_commands(map, ps);
 	if (ps->skip_cmd == 0)
 		execute_st_cmd(map, ps);
-
 	if (check_flags(map->flags, 'v', 16))
 	{
 		if (ps->pc == 0)
@@ -67,7 +66,7 @@ static void		execute_st_cmd(t_map *map, t_ps *ps)
 		move_map_counter(&pc, distance);
 		// printf("CHANGE VALUE ON MAP AT Y : %d, X : %d\n", pc / 64, pc % 64);
 		// printf("VALUE : %08x\n", ps->reg[first_arg - 1]);
-		write_value_on_map(map, pc, ps->reg[first_arg - 1]);
+		write_value_on_map(map, ps, pc, ps->reg[first_arg - 1]);
 		if (map->flags->java_flag)
 			ft_printf(":%d:%d", pc, ps->reg[first_arg - 1]);
 	}

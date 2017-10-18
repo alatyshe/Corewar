@@ -45,18 +45,20 @@ void			cmd_ldi(t_map *map, t_ps *ps)
 
 static void		execute_ldi_cmd(t_map *map, t_ps *ps)
 {
-	int			value[g_tab[3].count_arg];
+	int			*value;
 	int			distance;
 	int			pc;
 	int			i;
 
 	i = 0;
-	while (i < g_tab[3].count_arg)
+	value = (int *)malloc(sizeof(int) * g_tab[9].count_arg);
+	while (i < g_tab[9].count_arg)
 	{
 		value[i] = get_variables_idxmod(map, ps, i);
 		if (ps->skip_cmd)
 		{
 			ps->skip_cmd = 0;
+			free(value);
 			return ;
 		}
 		i++;
@@ -72,4 +74,5 @@ static void		execute_ldi_cmd(t_map *map, t_ps *ps)
 		ft_printf(" (with pc and mod %d)\n", pc);
 	}
 	ps->reg[ps->arg[THIRD_ARG] - 1] = get_value_from_map(map, &pc, 4);
+	free(value);
 }

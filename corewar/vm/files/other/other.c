@@ -14,6 +14,7 @@
 
 void				free_process(t_ps *ps)
 {
+	free(ps->reg);
 	free(ps->arg);
 	free(ps->arg_types);
 	free(ps);
@@ -79,7 +80,7 @@ int					get_value_from_map(t_map *all_info, int *where, int len)
 	return (res);
 }
 
-void				write_value_on_map(t_map *all_info, int where, int value_in)
+void				write_value_on_map(t_map *all_info, t_ps *ps, int where, int value_in)
 {
 	int				j;
 	int				i;

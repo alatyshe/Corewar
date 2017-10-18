@@ -16,7 +16,7 @@ then
 	i=$1
 	shift
 	j=$(($# + 2))
-	./champs/corewar -v $i $* | tail -n +$j > diff.li
+	./corewar1 -v $i $* | tail -n +$j > diff.li
 	./corewar -v $i $* | tail -n +$j > diff.my
 	diff -b diff.my diff.li > text.txt
 #	rm diff.my diff.li

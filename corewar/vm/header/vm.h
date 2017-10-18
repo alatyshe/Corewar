@@ -77,7 +77,7 @@ typedef struct		s_ps
 {
 	int					pc;				//	позиция процесса на карте
 	int					player_num;		//	номер игрока
-	int					reg[16];		//	его регистры
+	int					*reg;		//	его регистры
 
 	char				cmd_in_hex;		//	
 	char				coding_byte;	//	
@@ -141,7 +141,7 @@ t_flags			*create_flags(void);
 void			move_map_counter(int *pos, int delta_pos);
 unsigned int	get_value_from_file(void *buf, int len);
 int				get_value_from_map(t_map *all_info, int *where, int len);
-void			write_value_on_map(t_map *all_info, int where, int value_in);
+void				write_value_on_map(t_map *all_info, t_ps *ps, int where, int value_in);
 void			null_commands_variables(t_ps *ps);
 void			null_cmd(t_cmd *cmd);
 void			free_process(t_ps *ps);

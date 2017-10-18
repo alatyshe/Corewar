@@ -17,7 +17,7 @@ LIBRARY = ../libft/libft.a
 NAME = corewar
 HEAD = header/vm.h header/op.h
 
-FLAGS = -Wall -Wextra -Werror
+# FLAGS = -Wall -Wextra -Werror
 
 
 #------ path -------

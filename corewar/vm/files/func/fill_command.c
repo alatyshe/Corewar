@@ -71,7 +71,6 @@ int				fill_commands(t_map *all_info, t_ps *ps)
 
 	arg = 0;
 	pc_copy = ps->pc;
-	ps->cmd_in_hex = all_info->map[pc_copy];
 	move_map_counter(&pc_copy, 1);
 	ps->p_size++;
 	if (arg < g_tab[ps->cmd_in_hex - 1].coding_byte)

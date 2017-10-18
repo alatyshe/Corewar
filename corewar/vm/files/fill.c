@@ -62,7 +62,10 @@ void				fill_map(t_file *file, t_map *map, int total_players)
 		copy_players_commands_on_map(map->map + pos, copy_file->read, copy_file->prog_size);
 		fill_players(map, copy_file->prog_name, player_num);
 		if (map->ps == NULL)
+		{
 			map->ps = create_ps(pos, -player_num, map->ps_counter);
+			map->winner = copy_file->prog_name;
+		}
 		else
 		{
 			process = create_ps(pos, -player_num, map->ps_counter);

@@ -19,7 +19,7 @@ static unsigned int	fill_file_struct(unsigned char *buf, int file_len,
 
 	j = 0;
 	j = read_header(buf, file, file_name);
-	// read_commands(buf, file->commands, j, file_len) - j; // нафига оно нужно - не понятно
+	//read_commands(buf, file->commands, j, file_len); // нафига оно нужно - не понятно
 	if ((file_len - j) != file->prog_size)
 	{
 		ft_putstr_fd("Error: File ../../ex.cor has a code ", 2);

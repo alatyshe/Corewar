@@ -30,7 +30,7 @@ OBJECTS_PATH	= ./objects
 
 #------ files ------
 FILES_FILES		= main memory_map fill
-READ_FILES		= read_arguments read_header read_commands read_file 
+READ_FILES		= read_arguments read_header read_file 
 OTHER_FILES		= struct_create other print print_debug
 FUNC_FILES		= fill_command fill_variables cmd_live cmd_ld cmd_st cmd_add cmd_sub\
 					cmd_and cmd_or cmd_xor cmd_zjmp cmd_ldi cmd_sti cmd_fork cmd_lld\

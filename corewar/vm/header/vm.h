@@ -164,7 +164,6 @@ void			print_buf(unsigned char *buffer, int buffer_size);
 void			print_usage(void);
 void			introducing_print(t_file *file);
 void			print_flags(t_flags *f);
-void			return_color(int n);
 void			print_map(t_map *map);
 void			print_map_java(t_map *map, t_file *file);
 void			print_one_cycle_for_j(t_map *map);

@@ -1,4 +1,4 @@
-.name "aaaaaaaaa"
+.name "fuck"
 .comment "HAHAHAaaa"
 
 
@@ -32,25 +32,31 @@
 	# fork %-100
 
 	live %1
-	ld	%12380,r3				# name player
+	# ld	%12380,r3				# name player
 	
-	st	r1,-511				#cmd  load	
-	st	r2,-511				#cmd  load	
-	st	r3,-511				#cmd  load	
-	st	r4,-511				#cmd  load	
-	st	r5,-511				#cmd  load	
-	st	r6,-511				#cmd  load	
-	st	r7,-511				#cmd  load	
-	st	r8,-511				#cmd  load	
-	st	r9,-511				#cmd  load	
-	st	r10,-511				#cmd  load	
-	st	r11,-511				#cmd  load	
-	st	r12,-511				#cmd  load	
-	st	r13,-511				#cmd  load	
-	st	r14,-511				#cmd  load	
-	st	r15,-511				#cmd  load	
-	st	r16,-511				#cmd  load
+	# st	r1,-511				#cmd  load	
+	# st	r2,-511				#cmd  load	
+	# st	r3,-511				#cmd  load	
+	# st	r4,-511				#cmd  load	
+	# st	r5,-511				#cmd  load	
+	# st	r6,-511				#cmd  load	
+	# st	r7,-511				#cmd  load	
+	# st	r8,-511				#cmd  load	
+	# st	r9,-511				#cmd  load	
+	# st	r10,-511				#cmd  load	
+	# st	r11,-511				#cmd  load	
+	# st	r12,-511				#cmd  load	
+	# st	r13,-511				#cmd  load	
+	# st	r14,-511				#cmd  load	
+	# st	r15,-511				#cmd  load	
+	# st	r16,-511				#cmd  load
 
-	fork %-80
+	live %1
+	fork %0
+	ld 	%33554431,r2
+	ld 	%4278190080,r3
+	st  r2, -17
+	st  r3, -18
+	# st	r16,-511				#cmd  load
 
 # 02900000

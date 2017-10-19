@@ -23,7 +23,6 @@ void			cmd_fork(t_map *map, t_ps *ps)
 	pc = fill_commands(map, ps);
 	if (ps->skip_cmd == 0)
 		execute_fork_cmd(map, ps);
-
 	if (check_flags(map->flags, 'v', 16))
 	{
 		if (ps->pc == 0)
@@ -37,9 +36,7 @@ void			cmd_fork(t_map *map, t_ps *ps)
 		}
 		printf("\n");
 	}
-
 	ps->pc = pc;
-
 	null_commands_variables(ps);
 }
 
@@ -78,7 +75,7 @@ static void		execute_fork_cmd(t_map *map, t_ps *ps)
 	if (check_flags(map->flags, 'v', 4))
 		ft_printf("P    %-d | %s %d (%d)\n", ps->ps_num, "fork", ps->arg[FIRST_ARG], pc);
 	if (map->flags->java_flag)
-		ft_printf("%d:%d:%d", ps_new->player_num, ps_new->pc, 1);
+		ft_printf(";%d:%d:%d", ps_new->player_num, ps_new->pc, 1);
 
 	// move_map_counter(&ps_new->pc, ps->arg[FIRST_ARG]);
 }

@@ -23,7 +23,6 @@ void			cmd_zjmp(t_map *map, t_ps *ps)
 	pc = fill_commands(map, ps);
 	if (ps->skip_cmd == 0)
 		execute_zjmp_cmd(map, ps);
-
 	if (check_flags(map->flags, 'v', 16) && ps->carry != 1)
 	{
 		if (ps->pc == 0)
@@ -37,9 +36,6 @@ void			cmd_zjmp(t_map *map, t_ps *ps)
 		}
 		printf("\n");
 	}
-
-
-
 	null_commands_variables(ps);
 }
 
@@ -48,7 +44,6 @@ static void		execute_zjmp_cmd(t_map *map, t_ps *ps)
 	int			distance;
 	int			pc;
 
-	
 	if (ps->carry == 1)
 	{
 		pc = ps->pc;

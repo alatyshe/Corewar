@@ -109,25 +109,6 @@ void			print_map(t_map *map)
 	}
 }
 
-void			return_color(int n)
-{
-	if (n == 1)
-		printf("%s", RED);
-	else if (n == 2)
-		printf("%s", GREEN);
-	else if (n == 3)
-		printf("%s", YELLOW);
-	else if (n == 4)
-		printf("%s", BLUE);
-	else if (n == 5)
-		printf("%s", MAGENTA);
-	else if (n == 6)
-		printf("%s", CYAN);
-	else
-		printf("%s", BLACK);
-
-}
-
 void			introducing_print(t_file *file)
 {
 	t_file		*player;

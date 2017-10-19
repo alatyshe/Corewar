@@ -13,7 +13,7 @@
 #include "../../header/vm.h"
 
 static void		execute_lldi_cmd(t_map *map, t_ps *ps);
-// ХУНЯ
+
 void			cmd_lldi(t_map *map, t_ps *ps)
 {
 	int			pc;
@@ -23,7 +23,6 @@ void			cmd_lldi(t_map *map, t_ps *ps)
 	pc = fill_commands(map, ps);
 	if (ps->skip_cmd == 0)
 		execute_lldi_cmd(map, ps);
-
 	if (check_flags(map->flags, 'v', 16))
 	{
 		if (ps->pc == 0)
@@ -37,9 +36,7 @@ void			cmd_lldi(t_map *map, t_ps *ps)
 		}
 		printf("\n");
 	}
-
 	ps->pc = pc;
-	
 	null_commands_variables(ps);
 }
 

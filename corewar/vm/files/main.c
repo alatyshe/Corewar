@@ -31,6 +31,5 @@ int				main(int argc, char **argv)
 		else
 			print_usage();
 	}
-
 	return (0);
 }

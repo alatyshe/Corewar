@@ -18,26 +18,12 @@ static void			executing_ps(t_map *map, t_ps *ps)
 	if (map->flags->java_flag)
 		ft_printf("%d:%d:%d", ps->player_num, ps->pc, 1);
 	if (!ps->skip_cmd && !ps->cycles_to_cmd && ps->cmd_in_hex)
-	{
-		// printf("%s**********************************************************%s\n", MAGENTA, RESET);
-		// printf("\t%sat : [%02x]\n", RED,map->map[ps->pc]);
-		// printf("\t%sPS_NUM: |%d|%s\n", MAGENTA, ps->ps_num, RESET);
-		// printf("\t%sy     : |%d|%s\n", MAGENTA, ps->pc / 64 , RESET);
-		// printf("\t%sx     : |%d|%s\n", MAGENTA, ps->pc % 64 , RESET);
-		// printf("\t%sIUSE : |%s|%s\n", GREEN, g_tab[(int)ps->cmd_in_hex - 1].name , RESET);
-		// printf("%s**********************************************************%s\n", MAGENTA, RESET);
 		g_cmd_arr[(int)ps->cmd_in_hex](map, ps);
-		// printf("ps->ps_num : %d\n", ps->ps_num);
-	}
 
 	if (!ps->cycles_to_cmd && !ps->skip_cmd
 		&& map->map[ps->pc] >= 1 && map->map[ps->pc] <= 16)
 	{
 		ps->cmd_in_hex = map->map[ps->pc];
-		// printf("\t%sISAW : |%s|%s\n", GREEN, g_tab[(int)ps->cmd_in_hex - 1].name , RESET);
-		// printf("%s**********************************************************%s\n", MAGENTA, RESET);
-		// printf("%s**********************************************************%s\n", MAGENTA, RESET);
-		// printf("\t%sps->pc : |%d|%s\n", GREEN, ps->pc , RESET);
 		ps->cycles_to_cmd = g_tab[ps->cmd_in_hex - 1].cycle;
 	}
 	if (ps->cycles_to_cmd)
@@ -45,7 +31,7 @@ static void			executing_ps(t_map *map, t_ps *ps)
 	if (ps->cycles_to_cmd == 0
 		&& (map->map[ps->pc] < 1 || map->map[ps->pc] > 16))
 		move_map_counter(&ps->pc, 1);
-	
+
 	if (map->flags->java_flag)
 		ft_printf(";");
 }

@@ -36,9 +36,7 @@ void			cmd_st(t_map *map, t_ps *ps)
 		}
 		printf("\n");
 	}
-
 	ps->pc = pc;
-
 	null_commands_variables(ps);
 }
 

@@ -88,7 +88,6 @@ void			num_arg_analysing(char *s, t_flags *f)
 		ft_putstr_fd("\n", 2);
 		exit(0);
 	}
-
 }
 
 t_file			*filling_files(t_file *start, int *counter_players, char *s)

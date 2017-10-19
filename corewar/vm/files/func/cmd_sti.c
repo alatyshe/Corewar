@@ -23,7 +23,6 @@ void			cmd_sti(t_map *map, t_ps *ps)
 	pc = fill_commands(map, ps);
 	if (ps->skip_cmd == 0)
 		execute_sti_cmd(map, ps);	
-
 	if (check_flags(map->flags, 'v', 16))
 	{
 		if (ps->pc == 0)
@@ -37,9 +36,7 @@ void			cmd_sti(t_map *map, t_ps *ps)
 		}
 		printf("\n");
 	}
-
 	ps->pc = pc;
-
 	null_commands_variables(ps);
 }
 
@@ -66,8 +63,6 @@ static void		execute_sti_cmd(t_map *map, t_ps *ps)
 	pc = ps->pc;
 	distance = (value[SECOND_ARG] + value[THIRD_ARG]) % IDX_MOD;
 	move_map_counter(&pc, distance);
-	// printf("CHANGE VALUE ON MAP AT Y : %d, X : %d\n", pc / 64, pc % 64);
-	// printf("VALUE : %08x\n", ps->reg[ps->arg[FIRST_ARG] - 1]);
 	write_value_on_map(map, ps, pc, ps->reg[ps->arg[FIRST_ARG] - 1]);
 	if (map->flags->java_flag)
 		ft_printf(":%d:%d", pc, ps->reg[ps->arg[FIRST_ARG] - 1]);

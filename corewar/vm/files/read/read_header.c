@@ -88,7 +88,8 @@ static char			*read_comment(unsigned char *buf)
 	return (res);
 }
 
-int					read_header(unsigned char *buf, t_file *file, char *file_name)
+int					read_header(unsigned char *buf,
+	t_file *file, char *file_name)
 {
 	int				j;
 

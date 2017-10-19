@@ -23,7 +23,6 @@ void			cmd_ldi(t_map *map, t_ps *ps)
 	pc = fill_commands(map, ps);
 	if (ps->skip_cmd == 0)
 		execute_ldi_cmd(map, ps);
-
 	if (check_flags(map->flags, 'v', 16))
 	{
 		if (ps->pc == 0)
@@ -37,9 +36,7 @@ void			cmd_ldi(t_map *map, t_ps *ps)
 		}
 		printf("\n");
 	}
-
 	ps->pc = pc;
-
 	null_commands_variables(ps);
 }
 
@@ -63,7 +60,6 @@ static void		execute_ldi_cmd(t_map *map, t_ps *ps)
 		}
 		i++;
 	}
-
 	distance = (value[FIRST_ARG] + value[SECOND_ARG]) % IDX_MOD;
 	pc = ps->pc;
 	move_map_counter(&pc, distance);

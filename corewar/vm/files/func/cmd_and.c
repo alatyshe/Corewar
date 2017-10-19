@@ -23,7 +23,6 @@ void			cmd_and(t_map *map, t_ps *ps)
 	pc = fill_commands(map, ps);
 	if (ps->skip_cmd == 0)
 		execute_and_cmd(map, ps);
-
 	if (check_flags(map->flags, 'v', 16))
 	{
 		if (ps->pc == 0)
@@ -37,9 +36,7 @@ void			cmd_and(t_map *map, t_ps *ps)
 		}
 		printf("\n");
 	}
-
 	ps->pc = pc;
-
 	null_commands_variables(ps);
 }
 

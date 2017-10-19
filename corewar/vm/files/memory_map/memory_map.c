@@ -12,6 +12,16 @@
 
 #include "../../header/vm.h"
 
+static void		cycle_reducing(t_map *map, t_flags *flags)
+{
+	map->cycle_to_die -= CYCLE_DELTA;
+	map->checks = 10;
+	if (flags->java_flag)
+		ft_printf("(%d)\n", map->cycle_to_die);
+	if (map->cycle && check_flags(flags, 'v', 2))
+		ft_printf("Cycle to die is now %d\n", map->cycle_to_die);
+}
+
 void			memory_map(t_file *file, int total_players, t_flags *flags)
 {
 	t_map		*map;
@@ -40,16 +50,24 @@ void			memory_map(t_file *file, int total_players, t_flags *flags)
 		}
 		kill_processes(map);
 		if (map->total_lives > NBR_LIVE || !map->checks)
-		{
-			map->cycle_to_die -= CYCLE_DELTA;
-			map->checks = 10;
-			if (flags->java_flag)
-				ft_printf("(%d)\n", map->cycle_to_die);
-			if (map->cycle && check_flags(flags, 'v', 2))
-				ft_printf("Cycle to die is now %d\n", map->cycle_to_die);
-		}
+			cycle_reducing(map, flags);
 		i = 1;
 		map->checks--;
 	}
 	ft_printf("Ёбать Contestant 1, \"%s\", has won !\n", map->winner);
 }
+
+// void			print_players(t_map *map)
+// {
+// 	t_file		*copy_players;
+
+// 	copy_players = map->players;
+// 	while (copy_players)
+// 	{
+// 		printf("name : %s\n", copy_players->name);
+// 		printf("player_num : %d\n", copy_players->player_num);
+// 		printf("last_live : %d\n", copy_players->last_live);
+// 		printf("total_lives : %d\n", copy_players->total_lives);
+// 		copy_players = copy_players->next;
+// 	}
+// }

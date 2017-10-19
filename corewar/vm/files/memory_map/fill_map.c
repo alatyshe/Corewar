@@ -49,14 +49,14 @@ void			fill_map(t_file *file, t_map *map, int total_players)
 	int			distance;
 	int			player_num;
 	t_file		*copy_file;
-	t_ps 		*process;
+	t_ps		*process;
 
 	process = map->ps;
 	pos = 0;
 	player_num = 0;
 	copy_file = file;
 	distance = MEM_SIZE / total_players;
-	while(copy_file)
+	while (copy_file)
 	{
 		player_num++;
 		copy_players_commands_on_map(map->map + pos, copy_file->read, copy_file->prog_size);

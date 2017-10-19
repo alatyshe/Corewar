@@ -20,6 +20,8 @@ static void		free_process(t_ps *ps)
 	free(ps);
 }
 
+// static void		move_ps()
+
 void			kill_processes(t_map *map)
 {
 	t_ps		*ps_before;

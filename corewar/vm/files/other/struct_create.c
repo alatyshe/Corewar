@@ -12,24 +12,6 @@
 
 #include "../../header/vm.h"
 
-// t_cmd			*create_cmd()
-// {
-// 	t_cmd		*cmd;
-// 	int			i;
-
-// 	i = 0;
-// 	cmd = (t_cmd *)malloc(sizeof(t_cmd));
-// 	cmd->cmd_size = 0;
-// 	cmd->cmd_in_hex = 0;
-// 	cmd->coding_byte = 0;
-// 	while (i < 3)
-// 	{
-// 		cmd->arg_types[i] = 0;
-// 		cmd->arg[i] = 0;
-// 	}
-// 	return (cmd);
-// }
-
 t_file			*create_file(void)
 {
 	t_file		*file;
@@ -42,7 +24,6 @@ t_file			*create_file(void)
 	file->prog_comment = NULL;
 	file->player_num = 0;
 	file->read = NULL;
-	// file->commands = NULL;
 	file->next = NULL;
 	return (file);
 }

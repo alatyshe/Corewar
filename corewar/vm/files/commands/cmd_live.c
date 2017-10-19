@@ -55,6 +55,7 @@ static void		execute_live_cmd(t_map *map, t_ps *ps)
 	{
 		if (ps->arg[0] == copy_players->player_num)
 		{
+			ft_printf(":l:%d", copy_players->player_num);
 			copy_players->total_lives++;
 			map->winner = copy_players->name;
 			if (check_flags(map->flags, 'v', 1))

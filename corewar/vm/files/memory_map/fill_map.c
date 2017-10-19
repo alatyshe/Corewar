@@ -22,7 +22,7 @@ static void		copy_players_commands_on_map(char *str1,
 	}
 }
 
-static void		fill_players(t_map *map, char *name, int num)
+static void		crate_and_fill_players(t_map *map, char *name, int num)
 {
 	t_player	*player;
 
@@ -43,15 +43,32 @@ static void		fill_players(t_map *map, char *name, int num)
 	player->player_num = num * -1;
 }
 
+static void		put_processes_on_map(t_file *copy_file, t_map *map,
+	int pos, int player_num)
+{
+	t_ps		*process;
+
+	process = NULL;
+	if (map->ps == NULL)
+	{
+		map->ps = create_ps(pos, -player_num, map->ps_counter);
+		map->winner = copy_file->prog_name;
+	}
+	else
+	{
+		process = create_ps(pos, -player_num, map->ps_counter);
+		process->next = map->ps;
+		map->ps = process;
+	}
+}
+
 void			fill_map(t_file *file, t_map *map, int total_players)
 {
 	int			pos;
 	int			distance;
 	int			player_num;
 	t_file		*copy_file;
-	t_ps		*process;
 
-	process = map->ps;
 	pos = 0;
 	player_num = 0;
 	copy_file = file;
@@ -59,19 +76,10 @@ void			fill_map(t_file *file, t_map *map, int total_players)
 	while (copy_file)
 	{
 		player_num++;
-		copy_players_commands_on_map(map->map + pos, copy_file->read, copy_file->prog_size);
-		fill_players(map, copy_file->prog_name, player_num);
-		if (map->ps == NULL)
-		{
-			map->ps = create_ps(pos, -player_num, map->ps_counter);
-			map->winner = copy_file->prog_name;
-		}
-		else
-		{
-			process = create_ps(pos, -player_num, map->ps_counter);
-			process->next = map->ps;
-			map->ps = process;
-		}
+		copy_players_commands_on_map(map->map + pos,
+			copy_file->read, copy_file->prog_size);
+		crate_and_fill_players(map, copy_file->prog_name, player_num);
+		put_processes_on_map(copy_file, map, pos, player_num);
 		map->ps->reg[0] = -player_num;
 		map->ps_counter++;
 		pos += distance;

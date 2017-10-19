@@ -23,6 +23,7 @@ HEAD = header/vm.h header/op.h
 #------ path -------
 FILES_PATH		= ./files
 OTHER_PATH		= ./files/other
+PRINT_PATH		= ./files/print
 READ_PATH		= ./files/read
 CMDS_PATH		= ./files/commands
 MEM_MAP_PATH	= ./files/memory_map
@@ -33,7 +34,8 @@ OBJECTS_PATH	= ./objects
 FILES_FILES		= main
 MEM_MAP_FILES	= memory_map fill_map kill_processes run_players
 READ_FILES		= read_arguments read_header read_file 
-OTHER_FILES		= struct_create other print print_debug
+OTHER_FILES		= struct_create other
+PRINT_FILES		= print print_usage print_debug
 CMDS_FILES		= fill_command fill_variables cmd_live cmd_ld cmd_st cmd_add cmd_sub\
 					cmd_and cmd_or cmd_xor cmd_zjmp cmd_ldi cmd_sti cmd_fork cmd_lld\
 					cmd_lldi cmd_lfork cmd_aff
@@ -44,17 +46,23 @@ READ_OBJ		= $(addprefix $(OBJECTS_PATH)/, $(addsuffix .o, $(READ_FILES)))
 CMDS_OBJ		= $(addprefix $(OBJECTS_PATH)/, $(addsuffix .o, $(CMDS_FILES)))
 MEM_MAP_OBJ		= $(addprefix $(OBJECTS_PATH)/, $(addsuffix .o, $(MEM_MAP_FILES)))
 OTHER_OBG 		= $(addprefix $(OBJECTS_PATH)/, $(addsuffix .o, $(OTHER_FILES)))
+PRINT_OBJ		= $(addprefix $(OBJECTS_PATH)/, $(addsuffix .o, $(PRINT_FILES)))
 
 
 #------ make ------
 all: $(NAME)
 
-$(NAME): $(FILES_OBJ) $(OTHER_OBG) $(READ_OBJ) $(CMDS_OBJ) $(MEM_MAP_OBJ)
+$(NAME): $(FILES_OBJ) $(OTHER_OBG) $(READ_OBJ) $(CMDS_OBJ) $(MEM_MAP_OBJ) $(PRINT_OBJ)
 	@echo "\n"
 	@make -C ../libft/
 	@echo $(CYAN) "\tCompiling $@"$(RESET)
 	@gcc $(FLAGS) -o $@ $^ -lncurses $(LIBRARY)
 	@echo $(GREEN) "\tcorewar\t\t- has been made\n"$(RESET)
+
+$(OBJECTS_PATH)/%.o: $(PRINT_PATH)/%.c
+	@echo $(PURPLE) "\tCompiling $<"$(RESET)
+	@mkdir $(OBJECTS_PATH) 2> /dev/null || true
+	@gcc $(FLAGS) -o $@ -c $<
 
 $(OBJECTS_PATH)/%.o: $(FILES_PATH)/%.c
 	@echo $(PURPLE) "\tCompiling $<"$(RESET)

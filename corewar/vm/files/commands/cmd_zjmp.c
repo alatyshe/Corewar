@@ -65,5 +65,5 @@ static void		execute_zjmp_cmd(t_map *map, t_ps *ps)
 			ft_printf("OK\n");
 		else
 			ft_printf("FAILED\n");
-	}	
+	}
 }

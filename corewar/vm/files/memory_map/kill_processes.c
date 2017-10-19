@@ -12,15 +12,18 @@
 
 #include "../../header/vm.h"
 
-static void		free_process(t_ps *ps)
+static void		free_process(t_map *map, t_ps *ps)
 {
+	if (check_flags(map->flags, 'v', 8))
+	{
+		ft_printf("Process %d has lived for", ps->ps_num);
+		ft_printf(" %d cycles (CTD %d)\n", ps->cycles, map->cycle_to_die);
+	}
 	free(ps->reg);
 	free(ps->arg);
 	free(ps->arg_types);
 	free(ps);
 }
-
-// static void		move_ps()
 
 void			kill_processes(t_map *map)
 {
@@ -35,22 +38,18 @@ void			kill_processes(t_map *map)
 	{
 		if (ps_current->check_live == 0)
 		{
-			if (check_flags(map->flags, 'v', 8))
-				ft_printf("Process %d has lived for %d cycles (CTD %d)\n", ps_current->ps_num, ps_current->cycles, map->cycle_to_die);
-			free_process(ps_current);
+			free_process(map, ps_current);
 			if (ps_before)
 				ps_before->next = ps_after;
 			else
 				map->ps = ps_after;
-			ps_current = ps_after;
-			ps_after = (ps_after != NULL) ? ps_after->next : NULL;
 		}
 		else
 		{
 			ps_current->check_live = 0;
 			ps_before = ps_current;
-			ps_current = ps_after;
-			ps_after = (ps_after != NULL) ? ps_after->next : NULL;
 		}
+		ps_current = ps_after;
+		ps_after = (ps_after != NULL) ? ps_after->next : NULL;
 	}
 }

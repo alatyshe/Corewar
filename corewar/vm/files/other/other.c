@@ -54,7 +54,7 @@ unsigned int		get_value_from_file(void *buf, int len)
 	return (res);
 }
 
-int					get_value_from_map(t_map *all_info, int *where, int len)
+int					get_value_from_map(t_map *map, int *where, int len)
 {
 	int				j;
 	int				res;
@@ -63,7 +63,7 @@ int					get_value_from_map(t_map *all_info, int *where, int len)
 	res = 0;
 	while (j < len)
 	{
-		res = (res << 8) | (all_info->map[(*where)] & 0x000000ff);
+		res = (res << 8) | (map->map[(*where)] & 0x000000ff);
 		move_map_counter(where, 1);
 		j++;
 	}
@@ -72,14 +72,14 @@ int					get_value_from_map(t_map *all_info, int *where, int len)
 	return (res);
 }
 
-void				write_value_on_map(t_map *all_info, t_ps *ps, int where, int value_in)
+void				write_value_on_map(t_map *map, t_ps *ps,
+	int where, int value_in)
 {
 	int				j;
 	int				i;
 	int				value;
 
 	j = 4;
-
 	while (j)
 	{
 		j--;
@@ -90,8 +90,7 @@ void				write_value_on_map(t_map *all_info, t_ps *ps, int where, int value_in)
 			i++;
 			value = value >> 8;
 		}
-		all_info->map[where] = (value & 0x000000ff);
+		map->map[where] = (value & 0x000000ff);
 		move_map_counter(&where, 1);
 	}
 }
-

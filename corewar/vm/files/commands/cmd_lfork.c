@@ -23,7 +23,6 @@ void			cmd_lfork(t_map *map, t_ps *ps)
 	pc = fill_commands(map, ps);
 	if (ps->skip_cmd == 0)
 		execute_lfork(map, ps);
-
 	if (check_flags(map->flags, 'v', 16))
 	{
 		if (ps->pc == 0)
@@ -36,10 +35,8 @@ void			cmd_lfork(t_map *map, t_ps *ps)
 			move_map_counter(&temp_pc, 1);
 		}
 		printf("\n");
-	}	
-	
+	}
 	ps->pc = pc;
-
 	null_commands_variables(ps);
 }
 
@@ -54,7 +51,6 @@ static void		execute_lfork(t_map *map, t_ps *ps)
 	ps_new = create_ps(0, 0, map->ps_counter++);
 	ps_new->next = map->ps;
 	map->ps = ps_new;
-
 	ps_new->player_num = ps->player_num;
 	ps_new->check_live = ps->check_live;
 	ps_new->carry = ps->carry;
@@ -67,17 +63,14 @@ static void		execute_lfork(t_map *map, t_ps *ps)
 	distance = ps->arg[FIRST_ARG];
 	move_map_counter(&pc, distance);
 	ps_new->pc = pc;
-	
 	if (map->map[ps_new->pc] >= 1 && map->map[ps_new->pc] <= 16)
 	{
 		ps_new->cmd_in_hex = map->map[ps_new->pc];
 		ps_new->cycles_to_cmd = g_tab[ps_new->cmd_in_hex - 1].cycle - 1;
 	}
-
 	map->processes++;
 	if (check_flags(map->flags, 'v', 4))
 		ft_printf("P    %-d | %s %d (%d)\n", ps->ps_num, "lfork", ps->arg[FIRST_ARG], pc);
 	if (map->flags->java_flag)
 		ft_printf(";%d:%d:%d", ps_new->player_num, ps_new->pc, 1);
-	// move_map_counter(&ps_new->pc, ps->arg[FIRST_ARG]);
 }

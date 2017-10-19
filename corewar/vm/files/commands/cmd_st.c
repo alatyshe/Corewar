@@ -51,7 +51,7 @@ static void		execute_st_cmd(t_map *map, t_ps *ps)
 	second_arg = ps->arg[SECOND_ARG];
 	if (first_arg < 1 || first_arg > 16)
 			return ;
-	if(ps->arg_types[SECOND_ARG] == REG_CODE)
+	if (ps->arg_types[SECOND_ARG] == REG_CODE)
 	{
 		if (second_arg < 1 || second_arg > 16)
 			return ;
@@ -62,8 +62,6 @@ static void		execute_st_cmd(t_map *map, t_ps *ps)
 		pc = ps->pc;
 		distance = second_arg % IDX_MOD;
 		move_map_counter(&pc, distance);
-		// printf("CHANGE VALUE ON MAP AT Y : %d, X : %d\n", pc / 64, pc % 64);
-		// printf("VALUE : %08x\n", ps->reg[first_arg - 1]);
 		write_value_on_map(map, ps, pc, ps->reg[first_arg - 1]);
 		if (map->flags->java_flag)
 			ft_printf(":%d:%d", pc, ps->reg[first_arg - 1]);

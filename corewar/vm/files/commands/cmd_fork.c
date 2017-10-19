@@ -51,7 +51,6 @@ static void		execute_fork_cmd(t_map *map, t_ps *ps)
 	ps_new = create_ps(0, 0, map->ps_counter++);
 	ps_new->next = map->ps;
 	map->ps = ps_new;
-
 	ps_new->player_num = ps->player_num;
 	ps_new->check_live = ps->check_live;
 	ps_new->carry = ps->carry;
@@ -60,12 +59,10 @@ static void		execute_fork_cmd(t_map *map, t_ps *ps)
 		ps_new->reg[i] = ps->reg[i];
 		i++;
 	}
-
 	pc = ps->pc;
 	distance = ps->arg[FIRST_ARG] % IDX_MOD;
 	move_map_counter(&pc, distance);
 	ps_new->pc = pc;
-
 	if (map->map[ps_new->pc] >= 1 && map->map[ps_new->pc] <= 16)
 	{
 		ps_new->cmd_in_hex = map->map[ps_new->pc];
@@ -76,6 +73,4 @@ static void		execute_fork_cmd(t_map *map, t_ps *ps)
 		ft_printf("P    %-d | %s %d (%d)\n", ps->ps_num, "fork", ps->arg[FIRST_ARG], pc);
 	if (map->flags->java_flag)
 		ft_printf(";%d:%d:%d", ps_new->player_num, ps_new->pc, 1);
-
-	// move_map_counter(&ps_new->pc, ps->arg[FIRST_ARG]);
 }

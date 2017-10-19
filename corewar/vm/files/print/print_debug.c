@@ -12,6 +12,17 @@
 
 #include "../../header/vm.h"
 
+void			print_flags(t_flags *f)
+{
+	printf("a_flag:		%d\n", f->a_flag);
+	printf("b_flag:		%d\n", f->b_flag);
+	printf("d_flag:\t\t%d\td_value\t\t%d\n", f->d_flag, f->d_value);
+	printf("n_flag:		%d\n", f->n_flag);
+	printf("j_flag:		%c\n", f->j_flag);
+	printf("v_flag:\t\t%d\tv_value\t\t%d\n", f->v_flag, f->v_value);
+	printf("s_flag:\t\t%d\ts_value\t\t%d\n", f->s_flag, f->s_value);
+}
+
 void			print_buf(unsigned char *buffer, int buffer_size)
 {
 	int		i;
@@ -101,9 +112,11 @@ void			print_processes(t_ps *ps)
 	}
 }
 
-void			print_players(t_player *player)
+void			print_players(t_player *player_in)
 {
+	t_player	*player;
 	
+	player = player_in;
 	while (player)
 	{
 		printf("%sPLAYER START PLAYER START PLAYER START PLAYER START%s\n", MAGENTA, RESET);
@@ -112,7 +125,6 @@ void			print_players(t_player *player)
 		printf("%sPLAYER->LAST_LIVE:%s\t%d\n", GREEN, RESET, player->last_live);
 		printf("%sPLAYER->TOTAL_LIVES:%s\t%d\n", GREEN, RESET, player->total_lives);
 		printf("\n");
-		printf("%sPROCESS PROCESS PROCESS PROCESS PROCESS PROCESS PROCESS%s\n", CYAN, RESET);
 		printf("%sPLAYER END PLAYER END PLAYER END PLAYER END PLAYER END PLAYER END PLAYER END PLAYER END%s\n\n\n", MAGENTA, RESET);
 		player = player->next;
 	}

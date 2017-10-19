@@ -52,7 +52,6 @@ t_ps			*create_ps(int pc, int player, int num)
 	t_ps		*ps;
 	int			i;
 
-	
 	ps = (t_ps *)malloc(sizeof(t_ps));
 	ps->arg = (int *)malloc(sizeof(int) * MAX_ARGS_NUMBER);
 	ps->arg_types = (int *)malloc(sizeof(int) * MAX_ARGS_NUMBER);

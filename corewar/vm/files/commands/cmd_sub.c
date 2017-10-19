@@ -1,4 +1,4 @@
- // ************************************************************************** 
+/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   cmd_sub.c                                          :+:      :+:    :+:   */
@@ -22,7 +22,7 @@ void			cmd_sub(t_map *map, t_ps *ps)
 	temp_pc = ps->pc;
 	pc = fill_commands(map, ps);
 	if (ps->skip_cmd == 0)
-		execute_sub_cmd(map, ps);	
+		execute_sub_cmd(map, ps);
 	if (check_flags(map->flags, 'v', 16))
 	{
 		if (ps->pc == 0)

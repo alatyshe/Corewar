@@ -24,29 +24,32 @@ HEAD = header/vm.h header/op.h
 FILES_PATH		= ./files
 OTHER_PATH		= ./files/other
 READ_PATH		= ./files/read
-FUNC_PATH		= ./files/func
+CMDS_PATH		= ./files/commands
+MEM_MAP_PATH	= ./files/memory_map
 OBJECTS_PATH	= ./objects
 
 
 #------ files ------
-FILES_FILES		= main memory_map fill
+FILES_FILES		= main
+MEM_MAP_FILES	= memory_map fill_map kill_processes run_players
 READ_FILES		= read_arguments read_header read_file 
 OTHER_FILES		= struct_create other print print_debug
-FUNC_FILES		= fill_command fill_variables cmd_live cmd_ld cmd_st cmd_add cmd_sub\
+CMDS_FILES		= fill_command fill_variables cmd_live cmd_ld cmd_st cmd_add cmd_sub\
 					cmd_and cmd_or cmd_xor cmd_zjmp cmd_ldi cmd_sti cmd_fork cmd_lld\
 					cmd_lldi cmd_lfork cmd_aff
 
 #------ other ------
 FILES_OBJ 		= $(addprefix $(OBJECTS_PATH)/, $(addsuffix .o, $(FILES_FILES)))
 READ_OBJ		= $(addprefix $(OBJECTS_PATH)/, $(addsuffix .o, $(READ_FILES)))
-FUNC_OBJ		= $(addprefix $(OBJECTS_PATH)/, $(addsuffix .o, $(FUNC_FILES)))
+CMDS_OBJ		= $(addprefix $(OBJECTS_PATH)/, $(addsuffix .o, $(CMDS_FILES)))
+MEM_MAP_OBJ		= $(addprefix $(OBJECTS_PATH)/, $(addsuffix .o, $(MEM_MAP_FILES)))
 OTHER_OBG 		= $(addprefix $(OBJECTS_PATH)/, $(addsuffix .o, $(OTHER_FILES)))
 
 
 #------ make ------
 all: $(NAME)
 
-$(NAME): $(FILES_OBJ) $(OTHER_OBG) $(READ_OBJ) $(FUNC_OBJ)
+$(NAME): $(FILES_OBJ) $(OTHER_OBG) $(READ_OBJ) $(CMDS_OBJ) $(MEM_MAP_OBJ)
 	@echo "\n"
 	@make -C ../libft/
 	@echo $(CYAN) "\tCompiling $@"$(RESET)
@@ -68,7 +71,12 @@ $(OBJECTS_PATH)/%.o: $(READ_PATH)/%.c
 	@mkdir $(OBJECTS_PATH) 2> /dev/null || true
 	@gcc $(FLAGS) -o $@ -c $<
 
-$(OBJECTS_PATH)/%.o: $(FUNC_PATH)/%.c
+$(OBJECTS_PATH)/%.o: $(CMDS_PATH)/%.c
+	@echo $(PURPLE) "\tCompiling $<"$(RESET)
+	@mkdir $(OBJECTS_PATH) 2> /dev/null || true
+	@gcc $(FLAGS) -o $@ -c $<
+
+$(OBJECTS_PATH)/%.o: $(MEM_MAP_PATH)/%.c
 	@echo $(PURPLE) "\tCompiling $<"$(RESET)
 	@mkdir $(OBJECTS_PATH) 2> /dev/null || true
 	@gcc $(FLAGS) -o $@ -c $<

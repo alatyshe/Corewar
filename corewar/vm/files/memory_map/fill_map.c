@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fill.c                                             :+:      :+:    :+:   */
+/*   fill_map.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dvynokur <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: alatyshe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/08/20 16:49:51 by dvynokur          #+#    #+#             */
-/*   Updated: 2017/08/20 16:49:52 by dvynokur         ###   ########.fr       */
+/*   Created: 2017/08/20 16:49:51 by alatyshe          #+#    #+#             */
+/*   Updated: 2017/08/20 16:49:52 by alatyshe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../header/vm.h"
+#include "../../header/vm.h"
 
-static void			copy_players_commands_on_map(char *str1,
+static void		copy_players_commands_on_map(char *str1,
 	unsigned char *str2, int len)
 {
 	while (len)
@@ -22,7 +22,7 @@ static void			copy_players_commands_on_map(char *str1,
 	}
 }
 
-static void			fill_players(t_map *map, char *name, int num)
+static void		fill_players(t_map *map, char *name, int num)
 {
 	t_player	*player;
 
@@ -43,13 +43,13 @@ static void			fill_players(t_map *map, char *name, int num)
 	player->player_num = num * -1;
 }
 
-void				fill_map(t_file *file, t_map *map, int total_players)
+void			fill_map(t_file *file, t_map *map, int total_players)
 {
-	int				pos;
-	int				distance;
-	int				player_num;
-	t_file			*copy_file;
-	t_ps 			*process;
+	int			pos;
+	int			distance;
+	int			player_num;
+	t_file		*copy_file;
+	t_ps 		*process;
 
 	process = map->ps;
 	pos = 0;

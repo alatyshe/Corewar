@@ -64,20 +64,11 @@ typedef struct		s_map
 	struct s_ps			*ps;
 }					t_map;
 
-typedef struct		s_cmd
-{
-	short				cmd_size;
-	int					cmd_in_hex;
-	char				coding_byte;
-	char				arg_types[3];
-	int					arg[3];
-}					t_cmd;
-
 typedef struct		s_ps
 {
 	int					pc;				//	позиция процесса на карте
 	int					player_num;		//	номер игрока
-	int					*reg;		//	его регистры
+	int					*reg;			//	его регистры
 
 	char				cmd_in_hex;		//	
 	char				coding_byte;	//	
@@ -98,10 +89,8 @@ typedef struct		s_player
 {
 	char				*name;			//	имя игрока
 	int					player_num;		//	номер игрока
-	// int				color;			//	цвет
 	unsigned int		last_live;		//	последний крик live (номер цикла)
 	unsigned int		total_lives;	//	количество криков live
-	// struct s_ps			*ps;
 	struct s_player		*next;
 }					t_player;
 
@@ -114,7 +103,6 @@ typedef struct		s_file
 	char 				*prog_comment;
 	int					player_num;
 	unsigned char		*read;
-	t_cmd				*commands;
 	struct	s_file		*next;
 }					t_file;
 
@@ -123,28 +111,32 @@ typedef void	(*t_cmd_array)(t_map *all_info, t_ps *ps);
 // ===================== read ========================
 
 int				read_header(unsigned char *buf, t_file *file, char *file_name);
-int				read_commands(unsigned char *buf, t_cmd *cmd, int pos_buf, int len_file);
 t_file			*read_prog_argv(int argc, char **argv, int *counter_players, t_flags *f);
-
 int				check_flags(t_flags *f, char c, int n);
 void			read_file(char *file_name, t_file *file, int player_num);
-void			memory_map(t_file *file, int total_players, t_flags *f);
-// ===================== create struct ========================
 
+
+// =================== memory_map ====================
+void			memory_map(t_file *file, int total_players, t_flags *f);
+void			fill_map(t_file *file, t_map *map, int total_players);
+void			kill_processes(t_map *map);
+void			run_players(t_map *map);
+
+
+// ===================== create struct ========================
 t_file			*create_file(void);
-t_cmd			*create_cmd();
 t_map			*create_map(void);
 t_player		*create_player(void);
 t_ps			*create_ps(int pc, int player, int num);
 t_flags			*create_flags(void);
 
+
+// ============================================================
 void			move_map_counter(int *pos, int delta_pos);
 unsigned int	get_value_from_file(void *buf, int len);
 int				get_value_from_map(t_map *all_info, int *where, int len);
 void				write_value_on_map(t_map *all_info, t_ps *ps, int where, int value_in);
 void			null_commands_variables(t_ps *ps);
-void			null_cmd(t_cmd *cmd);
-void			free_process(t_ps *ps);
 
 int				exec_arg_value(char *map, t_ps *ps, int len);
 unsigned int 	get_value(void *buf, int len);
@@ -152,7 +144,6 @@ void			fill_map(t_file *file, t_map *map, int total_players);
 
 // DELETE print debug
 void			print_info_map(t_map *map);
-void			print_cmd(t_cmd *cmd);
 void			print_players(t_player *player);
 void			print_players(t_player *player);
 void			print_process(t_ps *ps);

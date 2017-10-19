@@ -43,11 +43,10 @@ void			print_process(t_ps *ps)
 	int			i;
 
 	i = 0;
-
 	printf("%s==============================================%s\n", YELLOW, RESET);
 	if (ps)
 	{
-		// printf("PS->ProgramCounter:\t%d\n", ps->pc);
+		printf("PS->ProgramCounter:\t%d\n", ps->pc);
 		printf("\t\tREGISTERS\n");
 		while (i < 16)
 		{
@@ -62,27 +61,27 @@ void			print_process(t_ps *ps)
 			i++;
 		}
 		printf("\n\n");
-		// printf("ps->cmd_in_hex:\t\t%02x\n", ps->cmd_in_hex);
-		// printf("ps->coding_byte:\t%x\n", (ps->coding_byte & 125));
-		// i = 0;
-		// printf("ARG_TYPES :\t");
-		// while (i < MAX_ARGS_NUMBER)
-		// {
-		// 	printf("% 4d ", ps->arg_types[i]);
-		// 	i++;
-		// }
-		// printf("\nARGUMENTS :\t");
-		// i = 0;
-		// while (i < MAX_ARGS_NUMBER)
-		// {		
-		// 	printf("%04x ", ps->arg[i]);
-		// 	i++;
-		// }
-		// printf("\nps->player_num:\t\t%d\n", ps->player_num);
+		printf("ps->cmd_in_hex:\t\t%02x\n", ps->cmd_in_hex);
+		printf("ps->coding_byte:\t%x\n", (ps->coding_byte & 125));
+		i = 0;
+		printf("ARG_TYPES :\t");
+		while (i < MAX_ARGS_NUMBER)
+		{
+			printf("% 4d ", ps->arg_types[i]);
+			i++;
+		}
+		printf("\nARGUMENTS :\t");
+		i = 0;
+		while (i < MAX_ARGS_NUMBER)
+		{		
+			printf("%04x ", ps->arg[i]);
+			i++;
+		}
+		printf("\nps->player_num:\t\t%d\n", ps->player_num);
 		printf("ps->carry:\t\t%d\n", ps->carry);
 		printf("ps->cycles_to_cmd:\t%d\n", ps->cycles_to_cmd);
-		// printf("ps->check_live:\t\t%d\n", ps->check_live);
-		// printf("ps->p_size:\t\t%d\n", ps->p_size);
+		printf("ps->check_live:\t\t%d\n", ps->check_live);
+		printf("ps->p_size:\t\t%d\n", ps->p_size);
 	}
 	else
 		printf("NULL\n");
@@ -117,37 +116,10 @@ void			print_players(t_player *player)
 		printf("%sPLAYER END PLAYER END PLAYER END PLAYER END PLAYER END PLAYER END PLAYER END PLAYER END%s\n\n\n", MAGENTA, RESET);
 		player = player->next;
 	}
-}	
-
-// void			print_cmd(t_cmd *cmd)
-// {
-// 	int			i;
-
-// 	printf("%s===============================%s\n", RED, RESET);
-// 	printf("%scmd_name: %s\n%s", MAGENTA, cmd->cmd_name, RESET);
-// 	printf("cmd_size :\t%d\n", cmd->cmd_size);
-// 	printf("cmd_in_hex :\t%02x\n", cmd->cmd_in_hex);
-// 	printf("coding_byte:\t%02x\n\n", cmd->coding_byte);
-// 	i = 0;
-// 	while (i < g_tab[cmd->cmd_in_hex - 1].count_arg)
-// 	{
-// 		printf("argument[%d]:\t%-10x", i + 1, cmd->arg[i]);
-// 		printf("%sTYPE : %s", GREEN, RESET);
-// 		if (cmd->arg_types[i] == T_REG)
-// 			printf("T_REG");
-// 		else if (cmd->arg_types[i] == T_DIR)
-// 			printf("T_DIR");
-// 		else if (cmd->arg_types[i] == T_IND)
-// 			printf("T_IND");
-// 		printf("\n");
-// 		i++;
-// 	}
-// 	printf("%s===============================%s\n", RED, RESET);
-// }
+}
 
 void			print_info_map(t_map *map)
 {
-
 	printf("cycle:\t\t%d\n", map->cycle);
 	printf("cycle_to_die:\t\t%d\n", map->cycle_to_die);
 	printf("total_lives:\t\t%d\n", map->total_lives);

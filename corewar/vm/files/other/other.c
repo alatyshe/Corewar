@@ -72,8 +72,7 @@ int					get_value_from_map(t_map *map, int *where, int len)
 	return (res);
 }
 
-void				write_value_on_map(t_map *map, t_ps *ps,
-	int where, int value_in)
+void				write_value_on_map(t_map *map, int where, int value_in)
 {
 	int				j;
 	int				i;

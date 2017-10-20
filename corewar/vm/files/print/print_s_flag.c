@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   print_v_flag.c                                     :+:      :+:    :+:   */
+/*   print_s_flag.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alatyshe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,22 +12,37 @@
 
 #include "../../header/vm.h"
 
-void			print_v_flag_adv(t_map *map, t_ps *ps, int pc)
+static void		print_one_cycle(t_map *map)
 {
-	int			temp_pc;
+	int			i;
+	short		mask;
 
-	temp_pc = ps->pc;
-	if (check_flags(map->flags, 'v', 16))
+	mask = 255;
+	i = 0;
+	while (i < MEM_SIZE)
 	{
-		if (ps->pc == 0)
-			ft_printf("ADV %d (0x0000 -> %#06x) ", pc - ps->pc, pc);
-		else
-			ft_printf("ADV %d (%#06x -> %#06x) ", pc - ps->pc, ps->pc, pc);
-		while (temp_pc != pc)
+		if (i == 0)
+			ft_printf("0x0000 : ");
+		if (i != 0 && i % 64 == 0)
+			ft_printf("%#06x : ", i);
+		ft_printf("%02x ", map->map[i] & mask);
+		if ((i + 1) % 64 == 0)
+			ft_printf("\n");
+		i++;
+	}
+}
+
+void			print_map_s_flag(t_map *map)
+{
+	char		*buf;
+
+	buf = NULL;
+	if (check_flags(map->flags, 's', 0))
+	{
+		if (map->cycle % map->flags->s_value == 0)
 		{
-			ft_printf("%02x ", map->map[temp_pc] & 255);
-			move_map_counter(&temp_pc, 1);
+			print_one_cycle(map);
+			get_next_line(0, &buf);
 		}
-		ft_printf("\n");
 	}
 }

@@ -12,77 +12,27 @@
 
 #include "../../header/vm.h"
 
-void			print_one_cycle(t_map *map)
+void			print_usage(void)
 {
-	int			i;
-	short		mask;
-
-	mask = 255;
-	i = 0;
-	while (i < MEM_SIZE)
-	{
-		if (i == 0)
-			ft_printf("0x0000 : ");
-		if (i != 0 && i % 64 == 0)
-			ft_printf("%#06x : ", i);
-		ft_printf("%02x ", map->map[i] & mask);
-		if ((i + 1) % 64 == 0)
-			ft_printf("\n");
-		i++;
-	}
-}
-
-void			print_one_cycle_for_j(t_map *map)
-{
-	int			i;
-
-	i = 0;
-	while (i < MEM_SIZE)
-	{
-		printf("%02x ", map->map[i] & 255);
-		i++;
-	}
-}
-
-void			print_map_java(t_map *map, t_file *file)
-{
-	int			i;
-	int			players;
-	t_file		*copy_file;
-
-	i = 0;
-	players = 1;
-	copy_file = file;
-	while (copy_file)
-	{
-		ft_printf("%d:%d:", players, copy_file->prog_size);
-		ft_printf("%s:%s;", copy_file->prog_name, copy_file->prog_comment);
-		copy_file = copy_file->next;
-		players++;
-	}
-	ft_printf("\n");
-	while (i < MEM_SIZE)
-		ft_printf("%02x ", 255 & map->map[i++]);
-	ft_printf("\n");
-}
-
-void			print_map(t_map *map)
-{
-	char		*buf;
-
-	buf = NULL;
-	if (check_flags(map->flags, 's', 0))
-	{
-		if (map->cycle % map->flags->s_value == 0)
-		{
-			print_one_cycle(map);
-			get_next_line(0, &buf);
-		}
-	}
-	else if (check_flags(map->flags, 'j', 0))
-	{
-		print_one_cycle_for_j(map);
-	}
+	ft_printf("Usage: ./corewar [-d N -s N -v N | -b --stealth | -n --stealth] [-a] <champion1.cor> <...>\n");
+	ft_printf("-a        : Prints output from \"aff\" (Default is to hide it)\n");
+	ft_printf("#### TEXT OUTPUT MODE ##########################################################\n");
+	ft_printf("-d N      : Dumps memory after N cycles then exits\n");
+	ft_printf("-s N      : Runs N cycles, dumps memory, pauses, then repeats\n");
+	ft_printf("-v N      : Verbosity levels, can be added together to enable several\n");
+	ft_printf("\t- 0 : Show only essentials\n");
+	ft_printf("\t- 1 : Show lives\n");
+	ft_printf("\t- 2 : Show cycles\n");
+	ft_printf("\t- 4 : Show operations (Params are NOT litteral ...)\n");
+	ft_printf("\t- 8 : Show deaths\n");
+	ft_printf("\t- 16 : Show PC movements (Except for jumps)\n");
+	ft_printf("#### BINARY OUTPUT MODE ########################################################\n");
+	ft_printf("-b        : Binary output mode for corewar.42.fr\n");
+	ft_printf("--stealth : Hides the real contents of the memory\n");
+	ft_printf("#### NCURSES OUTPUT MODE #######################################################\n");
+	ft_printf("-n        : Ncurses output mode\n");
+	ft_printf("--stealth : Hides the real contents of the memory\n");
+	ft_printf("################################################################################\n");
 }
 
 void			introducing_print(t_file *file)

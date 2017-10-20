@@ -136,7 +136,7 @@ void			copy_process(t_ps *ps, t_ps *ps_new);
 void			move_map_counter(int *pos, int delta_pos);
 unsigned int	get_value_from_file(void *buf, int len);
 int				get_value_from_map(t_map *all_info, int *where, int len);
-void			write_value_on_map(t_map *all_info, t_ps *ps, int where, int value_in);
+void			write_value_on_map(t_map *map, int where, int value_in);
 void			null_commands_variables(t_ps *ps);
 
 int				exec_arg_value(char *map, t_ps *ps, int len);
@@ -155,10 +155,8 @@ void			print_v_flag_adv(t_map *map, t_ps *ps, int pc);
 void			print_usage(void);
 void			introducing_print(t_file *file);
 void			print_flags(t_flags *f);
-void			print_map(t_map *map);
+void			print_map_s_flag(t_map *map);
 void			print_map_java(t_map *map, t_file *file);
-void			print_one_cycle_for_j(t_map *map);
-void			print_one_cycle(t_map *map);
 
 //============================FUNC===============================
 int				fill_commands(t_map *all_info, t_ps *ps);

@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   print_v_flag.c                                     :+:      :+:    :+:   */
+/*   print_java_flag.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alatyshe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,22 +12,24 @@
 
 #include "../../header/vm.h"
 
-void			print_v_flag_adv(t_map *map, t_ps *ps, int pc)
+void			print_map_java(t_map *map, t_file *file)
 {
-	int			temp_pc;
+	int			i;
+	int			players;
+	t_file		*copy_file;
 
-	temp_pc = ps->pc;
-	if (check_flags(map->flags, 'v', 16))
+	i = 0;
+	players = 1;
+	copy_file = file;
+	while (copy_file)
 	{
-		if (ps->pc == 0)
-			ft_printf("ADV %d (0x0000 -> %#06x) ", pc - ps->pc, pc);
-		else
-			ft_printf("ADV %d (%#06x -> %#06x) ", pc - ps->pc, ps->pc, pc);
-		while (temp_pc != pc)
-		{
-			ft_printf("%02x ", map->map[temp_pc] & 255);
-			move_map_counter(&temp_pc, 1);
-		}
-		ft_printf("\n");
+		ft_printf("%d:%d:", players, copy_file->prog_size);
+		ft_printf("%s:%s;", copy_file->prog_name, copy_file->prog_comment);
+		copy_file = copy_file->next;
+		players++;
 	}
+	ft_printf("\n");
+	while (i < MEM_SIZE)
+		ft_printf("%02x ", 255 & map->map[i++]);
+	ft_printf("\n");
 }

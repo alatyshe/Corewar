@@ -41,7 +41,7 @@ static void		run_cycles_to_die(t_map *map, t_flags *flags, int i)
 		if (map->cycle && check_flags(flags, 'v', 2))
 			ft_printf("It is now cycle %d\n", map->cycle);
 		run_players(map);
-		print_map(map);
+		print_map_s_flag(map);
 		map->cycle++;
 		i++;
 	}
@@ -67,7 +67,7 @@ void			memory_map(t_file *file, int total_players, t_flags *flags)
 		run_cycles_to_die(map, flags, i);
 		nulling_players_lives(map->players);
 		kill_processes(map);
-		if (map->total_lives > NBR_LIVE || !map->checks)
+		if (map->total_lives >= NBR_LIVE || !map->checks)
 			cycle_reducing(map, flags);
 		i = 1;
 		map->checks--;

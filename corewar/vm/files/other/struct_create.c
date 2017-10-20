@@ -50,25 +50,15 @@ t_map			*create_map(void)
 t_ps			*create_ps(int pc, int player, int num)
 {
 	t_ps		*ps;
-	int			i;
 
 	ps = (t_ps *)malloc(sizeof(t_ps));
 	ps->arg = (int *)malloc(sizeof(int) * MAX_ARGS_NUMBER);
 	ps->arg_types = (int *)malloc(sizeof(int) * MAX_ARGS_NUMBER);
 	ps->reg = (int *)malloc(sizeof(int) * 16);
+	ft_bzero(ps->arg, MAX_ARGS_NUMBER);
+	ft_bzero(ps->arg_types, MAX_ARGS_NUMBER);
+	ft_bzero(ps->reg, 16);
 	ps->pc = pc;
-	i = 0;
-	while (i < REG_NUMBER || i < MAX_ARGS_NUMBER)
-	{
-		if (i < REG_NUMBER)
-			ps->reg[i] = 0;
-		if (i < MAX_ARGS_NUMBER)
-		{
-			ps->arg[i] = 0;
-			ps->arg_types[i] = 0;
-		}
-		i++;
-	}
 	ps->cmd_in_hex = 0;
 	ps->coding_byte = 0;
 	ps->player_num = player;

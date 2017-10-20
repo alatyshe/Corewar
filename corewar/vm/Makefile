@@ -35,7 +35,7 @@ FILES_FILES		= main
 MEM_MAP_FILES	= memory_map fill_map kill_processes run_players
 READ_FILES		= read_arguments read_header read_file 
 OTHER_FILES		= struct_create other
-PRINT_FILES		= print print_usage print_debug
+PRINT_FILES		= print print_usage print_debug print_v_flag
 CMDS_FILES		= fill_command fill_variables cmd_live cmd_ld cmd_st cmd_add cmd_sub\
 					cmd_and cmd_or cmd_xor cmd_zjmp cmd_ldi cmd_sti cmd_fork cmd_lld\
 					cmd_lldi cmd_lfork cmd_aff

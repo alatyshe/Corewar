@@ -47,7 +47,7 @@ void			print_one_cycle_for_j(t_map *map)
 void			print_map_java(t_map *map, t_file *file)
 {
 	int			i;
-	int 		players;
+	int			players;
 	t_file		*copy_file;
 
 	i = 0;
@@ -71,7 +71,6 @@ void			print_map(t_map *map)
 	char		*buf;
 
 	buf = NULL;
-
 	if (check_flags(map->flags, 's', 0))
 	{
 		if (map->cycle % map->flags->s_value == 0)

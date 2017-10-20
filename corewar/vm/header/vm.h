@@ -132,10 +132,11 @@ t_flags			*create_flags(void);
 
 
 // ============================================================
+void			copy_process(t_ps *ps, t_ps *ps_new);
 void			move_map_counter(int *pos, int delta_pos);
 unsigned int	get_value_from_file(void *buf, int len);
 int				get_value_from_map(t_map *all_info, int *where, int len);
-void				write_value_on_map(t_map *all_info, t_ps *ps, int where, int value_in);
+void			write_value_on_map(t_map *all_info, t_ps *ps, int where, int value_in);
 void			null_commands_variables(t_ps *ps);
 
 int				exec_arg_value(char *map, t_ps *ps, int len);
@@ -150,7 +151,7 @@ void			print_file(t_file *file);
 void			print_buf(unsigned char *buffer, int buffer_size);
 // DELETE
 
-
+void			print_v_flag_adv(t_map *map, t_ps *ps, int pc);
 void			print_usage(void);
 void			introducing_print(t_file *file);
 void			print_flags(t_flags *f);

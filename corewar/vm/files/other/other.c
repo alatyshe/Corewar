@@ -94,3 +94,18 @@ void				write_value_on_map(t_map *map, t_ps *ps,
 		move_map_counter(&where, 1);
 	}
 }
+
+void				copy_process(t_ps *ps, t_ps *ps_new)
+{
+	int				i;
+
+	i = 0;
+	ps_new->player_num = ps->player_num;
+	ps_new->check_live = ps->check_live;
+	ps_new->carry = ps->carry;
+	while (i < 16)
+	{
+		ps_new->reg[i] = ps->reg[i];
+		i++;
+	}
+}

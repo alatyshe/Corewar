@@ -52,7 +52,7 @@ static void		execute_sti_cmd(t_map *map, t_ps *ps)
 	pc = ps->pc;
 	distance = (value[SECOND_ARG] + value[THIRD_ARG]) % IDX_MOD;
 	move_map_counter(&pc, distance);
-	write_value_on_map(map, pc, ps->reg[ps->arg[FIRST_ARG] - 1]);
+	write_value_on_map(map, pc, ps->reg[ps->arg[FIRST_ARG] - 1], ps);
 	print_flags_sti(map, ps, value, pc);
 	free(value);
 }

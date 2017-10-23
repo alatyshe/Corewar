@@ -6,7 +6,7 @@
 /*   By: dvynokur <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/20 16:49:51 by dvynokur          #+#    #+#             */
-/*   Updated: 2017/10/23 16:50:55 by coleksii         ###   ########.fr       */
+/*   Updated: 2017/10/23 18:45:16 by coleksii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,7 +139,7 @@ void			copy_process(t_ps *ps, t_ps *ps_new);
 void			move_map_counter(int *pos, int delta_pos);
 unsigned int	get_value_from_file(void *buf, int len);
 int				get_value_from_map(t_map *all_info, int *where, int len);
-void			write_value_on_map(t_map *map, int where, int value_in);
+void			write_value_on_map(t_map *map, int where, int value_in, t_ps *ps);
 void			null_commands_variables(t_ps *ps);
 
 int				exec_arg_value(char *map, t_ps *ps, int len);

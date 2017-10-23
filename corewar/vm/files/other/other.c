@@ -6,7 +6,7 @@
 /*   By: dvynokur <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/20 16:49:51 by dvynokur          #+#    #+#             */
-/*   Updated: 2017/08/20 16:49:52 by dvynokur         ###   ########.fr       */
+/*   Updated: 2017/10/23 15:08:21 by coleksii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,8 @@ void				write_value_on_map(t_map *map, int where, int value_in)
 		}
 		map->map[where] = (value & 0x000000ff);
 		move_map_counter(&where, 1);
+		if (map->flags->n_flag)
+			put_on_map(where, map->ps->player_num * -1, map->map, map->clr);//NCURS
 	}
 }
 

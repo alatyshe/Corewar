@@ -27,6 +27,7 @@ PRINT_PATH		= ./files/print
 READ_PATH		= ./files/read
 CMDS_PATH		= ./files/commands
 MEM_MAP_PATH	= ./files/memory_map
+VIS_PATH        = ./files/visual
 OBJECTS_PATH	= ./objects
 
 
@@ -35,6 +36,7 @@ FILES_FILES		= main
 MEM_MAP_FILES	= memory_map fill_map kill_processes run_players
 READ_FILES		= read_arguments read_header read_file 
 OTHER_FILES		= struct_create other
+VISUAL_FILES    = visual func
 PRINT_FILES		= print print_debug print_v_flag print_s_flag print_java_flag
 CMDS_FILES		= fill_command fill_variables cmd_live cmd_ld cmd_st cmd_add cmd_sub\
 					cmd_and cmd_or cmd_xor cmd_zjmp cmd_ldi cmd_sti cmd_fork cmd_lld\
@@ -47,12 +49,13 @@ CMDS_OBJ		= $(addprefix $(OBJECTS_PATH)/, $(addsuffix .o, $(CMDS_FILES)))
 MEM_MAP_OBJ		= $(addprefix $(OBJECTS_PATH)/, $(addsuffix .o, $(MEM_MAP_FILES)))
 OTHER_OBG 		= $(addprefix $(OBJECTS_PATH)/, $(addsuffix .o, $(OTHER_FILES)))
 PRINT_OBJ		= $(addprefix $(OBJECTS_PATH)/, $(addsuffix .o, $(PRINT_FILES)))
+VISUAL_OBJ      = $(addprefix $(OBJECTS_PATH)/, $(addsuffix .o, $(VISUAL_FILES)))
 
 
 #------ make ------
 all: $(NAME)
 
-$(NAME): $(FILES_OBJ) $(OTHER_OBG) $(READ_OBJ) $(CMDS_OBJ) $(MEM_MAP_OBJ) $(PRINT_OBJ)
+$(NAME): $(FILES_OBJ) $(OTHER_OBG) $(READ_OBJ) $(CMDS_OBJ) $(MEM_MAP_OBJ) $(PRINT_OBJ) $(VISUAL_OBJ)
 	@echo "\n"
 	@make -C ../libft/
 	@echo $(CYAN) "\tCompiling $@"$(RESET)
@@ -88,6 +91,12 @@ $(OBJECTS_PATH)/%.o: $(MEM_MAP_PATH)/%.c
 	@echo $(PURPLE) "\tCompiling $<"$(RESET)
 	@mkdir $(OBJECTS_PATH) 2> /dev/null || true
 	@gcc $(FLAGS) -o $@ -c $<
+
+$(OBJECTS_PATH)/%.o: $(VIS_PATH)/%.c
+	@echo $(PURPLE) "\tCompiling $<"$(RESET)
+	@mkdir $(OBJECTS_PATH) 2> /dev/null || true
+	@gcc $(FLAGS) -o $@ -c $<
+
 
 #------ make clean ------
 cleanlib:

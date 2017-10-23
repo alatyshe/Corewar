@@ -6,7 +6,7 @@
 /*   By: dvynokur <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/20 16:49:51 by dvynokur          #+#    #+#             */
-/*   Updated: 2017/08/20 16:49:52 by dvynokur         ###   ########.fr       */
+/*   Updated: 2017/10/23 14:05:56 by coleksii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ typedef struct		s_map
 	struct s_player		*players;		//	игроки
 	t_flags				*flags;
 	struct s_ps			*ps;
+	char				*clr;
 }					t_map;
 
 typedef struct		s_ps
@@ -178,6 +179,16 @@ void			cmd_lld(t_map *map, t_ps *ps);
 void			cmd_lldi(t_map *map, t_ps *ps);
 void			cmd_lfork(t_map *map, t_ps *ps);
 void			cmd_aff(t_map *map, t_ps *ps);
+
+//=========================VISUAL================================
+int             visual(t_map *m, int pl, t_file *file);
+int             cursor_on_map(int num, int player, char *mem, char *clr);
+int             cursor_from_map(int num, char *mem, char *clr);
+int             put_on_map(int num, int player, char *mem, char *clr);
+int             cycle(int cycles);
+int             cycle_to_die(int cycles);
+int             ref(t_map *map);
+void            winner(char *s);
 
 
 static t_cmd_array	g_cmd_arr[17] = {

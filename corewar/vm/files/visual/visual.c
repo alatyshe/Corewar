@@ -6,7 +6,7 @@
 /*   By: coleksii <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/11 18:29:24 by coleksii          #+#    #+#             */
-/*   Updated: 2017/10/23 14:14:36 by coleksii         ###   ########.fr       */
+/*   Updated: 2017/10/23 18:21:19 by coleksii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../../header/vm.h"
@@ -38,8 +38,8 @@ int     create_skelet(int col, int row)
 int		color_proc(char *clr, t_file *file, int players)
 {
 	int	pl;
-	unsigned int	i;
-	unsigned int	j;
+	int	i;
+	int	j;
 	int	size;
 
 	size = 4096 / players;
@@ -48,7 +48,7 @@ int		color_proc(char *clr, t_file *file, int players)
 	while (file)
 	{
 		j = i;
-		while (j - i < file->prog_size)
+		while (j - i < (int)file->prog_size)
 			clr[j++] = pl;
 		i += size;
 		file = file->next;
@@ -136,6 +136,7 @@ int     first_print_cykle(int players)
     players = pl - 1;
 	mvprintw(2, x, "Cycles:");
 	mvprintw(3, x, "Cycles to die:   1536");
+	mvprintw(4, x, "Speed: 1");
     while (players--)
     {
         mvprintw(y - 10, x, "Cycles: 0");
@@ -165,6 +166,8 @@ void    prepare(char *mem, char *clr, int players, t_file *file)
 int     visual(t_map *m, int pl, t_file *file)
 {
 
+	m->speed = 100000;
+	m->speed_v = 1;
     initscr();
     m->clr = create_col();
     prepare(m->map, m->clr, pl, file);

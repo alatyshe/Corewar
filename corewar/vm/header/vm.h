@@ -6,7 +6,7 @@
 /*   By: dvynokur <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/20 16:49:51 by dvynokur          #+#    #+#             */
-/*   Updated: 2017/10/23 14:05:56 by coleksii         ###   ########.fr       */
+/*   Updated: 2017/10/23 16:50:55 by coleksii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,8 @@ typedef struct		s_map
 	t_flags				*flags;
 	struct s_ps			*ps;
 	char				*clr;
+	int					speed;
+	int					speed_v;
 }					t_map;
 
 typedef struct		s_ps
@@ -185,7 +187,7 @@ int             visual(t_map *m, int pl, t_file *file);
 int             cursor_on_map(int num, int player, char *mem, char *clr);
 int             cursor_from_map(int num, char *mem, char *clr);
 int             put_on_map(int num, int player, char *mem, char *clr);
-int             cycle(int cycles);
+int             cycle(t_map *map);
 int             cycle_to_die(int cycles);
 int             ref(t_map *map);
 void            winner(char *s);

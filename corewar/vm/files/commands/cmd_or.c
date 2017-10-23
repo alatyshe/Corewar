@@ -15,7 +15,7 @@
 static void		print_flags_or(t_map *map, t_ps *ps, int *value)
 {
 	if (check_flags(map->flags, 'v', 4))
-		ft_printf("P    %-d | %s %d %d r%d\n", ps->ps_num, "or",
+		ft_printf("P%5d | %s %d %d r%d\n", ps->ps_num, "or",
 			value[FIRST_ARG], value[SECOND_ARG], ps->arg[2]);
 }
 

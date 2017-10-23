@@ -16,7 +16,7 @@ static void		print_flags_add(t_map *map, t_ps *ps)
 {
 	if (check_flags(map->flags, 'v', 4))
 	{
-		ft_printf("P    %-d | %s ", ps->ps_num, "add");
+		ft_printf("P%5d | %s ", ps->ps_num, "add");
 		ft_printf("r%d r%d r%d\n", ps->arg[0], ps->arg[1], ps->arg[2]);
 	}
 }

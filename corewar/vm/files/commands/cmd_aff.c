@@ -23,6 +23,7 @@ void			cmd_aff(t_map *map, t_ps *ps)
 	int			pc;
 	int			temp_pc;
 
+	printf("[%d]\n", ps->cmd_in_hex);
 	temp_pc = ps->pc;
 	pc = fill_commands(map, ps);
 	if (ps->skip_cmd == 0)

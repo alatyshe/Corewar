@@ -16,12 +16,10 @@ static void		print_flags_sti(t_map *map, t_ps *ps, int *value, int pc)
 {
 	int			res;
 
-	if (map->flags->java_flag)
-		ft_printf(":%d:%d", pc, ps->reg[ps->arg[FIRST_ARG] - 1]);
 	if (check_flags(map->flags, 'v', 4))
 	{
 		res = value[SECOND_ARG] + value[THIRD_ARG];
-		ft_printf("P    %-d | %s r%d", ps->ps_num, "sti", ps->arg[0]);
+		ft_printf("P%5d | %s r%d", ps->ps_num, "sti", ps->arg[0]);
 		ft_printf(" %d %d\n       | -> store to", value[SECOND_ARG],
 			value[THIRD_ARG]);
 		ft_printf(" %d + %d = ", value[SECOND_ARG], value[THIRD_ARG]);
@@ -53,7 +51,9 @@ static void		execute_sti_cmd(t_map *map, t_ps *ps)
 	distance = (value[SECOND_ARG] + value[THIRD_ARG]) % IDX_MOD;
 	move_map_counter(&pc, distance);
 	write_value_on_map(map, pc, ps->reg[ps->arg[FIRST_ARG] - 1]);
-	print_flags_sti(map, ps, value, pc);
+	if (map->flags->java_flag)
+		ft_printf(":%d:%d", pc, ps->reg[ps->arg[FIRST_ARG] - 1]);
+	print_flags_sti(map, ps, value, ps->pc + distance);
 	free(value);
 }
 
@@ -74,10 +74,10 @@ void			cmd_sti(t_map *map, t_ps *ps)
 			ft_printf("ADV %d (%#06x -> %#06x) ", pc - ps->pc, ps->pc, pc);
 		while (temp_pc != pc)
 		{
-			printf("%02x ", map->map[temp_pc] & 255);
+			ft_printf("%02x ", map->map[temp_pc] & 255);
 			move_map_counter(&temp_pc, 1);
 		}
-		printf("\n");
+		ft_printf("\n");
 	}
 	ps->pc = pc;
 	null_commands_variables(ps);

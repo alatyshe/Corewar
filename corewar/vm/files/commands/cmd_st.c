@@ -16,7 +16,7 @@ static void		print_flags_st(t_map *map, t_ps *ps)
 {
 	if (check_flags(map->flags, 'v', 4))
 	{
-		ft_printf("P    %-d | %s r%d %d\n", ps->ps_num,
+		ft_printf("P%5d | %s r%d %d\n", ps->ps_num,
 			"st", ps->arg[0], ps->arg[1]);
 	}
 }
@@ -67,10 +67,10 @@ void			cmd_st(t_map *map, t_ps *ps)
 			ft_printf("ADV %d (%#06x -> %#06x) ", pc - ps->pc, ps->pc, pc);
 		while (temp_pc != pc)
 		{
-			printf("%02x ", map->map[temp_pc] & 255);
+			ft_printf("%02x ", map->map[temp_pc] & 255);
 			move_map_counter(&temp_pc, 1);
 		}
-		printf("\n");
+		ft_printf("\n");
 	}
 	ps->pc = pc;
 	null_commands_variables(ps);

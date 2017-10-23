@@ -17,7 +17,7 @@ static void		print_flags_ldi(t_map *map, t_ps *ps,
 {
 	if (check_flags(map->flags, 'v', 4))
 	{
-		ft_printf("P    %-d | %s %d %d r%d\n", ps->ps_num,
+		ft_printf("P%5d | %s %d %d r%d\n", ps->ps_num,
 			"ldi", value[FIRST_ARG], value[SECOND_ARG], ps->arg[2]);
 		ft_printf("       | -> load from %d + %d = %d", value[FIRST_ARG],
 			value[SECOND_ARG], value[FIRST_ARG] + value[SECOND_ARG]);
@@ -61,19 +61,21 @@ void			cmd_ldi(t_map *map, t_ps *ps)
 	temp_pc = ps->pc;
 	pc = fill_commands(map, ps);
 	if (ps->skip_cmd == 0)
-		execute_ldi_cmd(map, ps);
-	if (check_flags(map->flags, 'v', 16))
 	{
-		if (ps->pc == 0)
-			ft_printf("ADV %d (0x0000 -> %#06x) ", pc - ps->pc, pc);
-		else
-			ft_printf("ADV %d (%#06x -> %#06x) ", pc - ps->pc, ps->pc, pc);
-		while (temp_pc != pc)
+		execute_ldi_cmd(map, ps);
+		if (check_flags(map->flags, 'v', 16))
 		{
-			ft_printf("%02x ", map->map[temp_pc] & 255);
-			move_map_counter(&temp_pc, 1);
+			if (ps->pc == 0)
+				ft_printf("ADV %d (0x0000 -> %#06x) ", pc - ps->pc, pc);
+			else
+				ft_printf("ADV %d (%#06x -> %#06x) ", pc - ps->pc, ps->pc, pc);
+			while (temp_pc != pc)
+			{
+				ft_printf("%02x ", map->map[temp_pc] & 255);
+				move_map_counter(&temp_pc, 1);
+			}
+			ft_printf("\n");
 		}
-		ft_printf("\n");
 	}
 	ps->pc = pc;
 	null_commands_variables(ps);

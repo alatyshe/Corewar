@@ -16,7 +16,7 @@ static void		print_flags_lfork(t_map *map, t_ps *ps, t_ps *ps_new, int pc)
 {
 	if (check_flags(map->flags, 'v', 4))
 	{
-		ft_printf("P    %-d | %s", ps->ps_num, "lfork");
+		ft_printf("P%5d | %s", ps->ps_num, "lfork");
 		ft_printf(" %d (%d)\n", ps->arg[FIRST_ARG], pc);
 	}
 	if (map->flags->java_flag)

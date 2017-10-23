@@ -6,7 +6,7 @@
 /*   By: alatyshe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/20 16:49:51 by alatyshe          #+#    #+#             */
-/*   Updated: 2017/08/20 16:49:52 by alatyshe         ###   ########.fr       */
+/*   Updated: 2017/10/23 19:21:16 by coleksii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ static void		free_process(t_map *map, t_ps *ps)
 		ft_printf("Process %d has lived for", ps->ps_num);
 		ft_printf(" %d cycles (CTD %d)\n", ps->cycles, map->cycle_to_die);
 	}
+	if (map->flags->n_flag)
+		cursor_from_map(ps->pc, map->map, map->clr);
 	free(ps->reg);
 	free(ps->arg);
 	free(ps->arg_types);

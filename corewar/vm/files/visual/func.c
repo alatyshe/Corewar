@@ -6,7 +6,7 @@
 /*   By: coleksii <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/11 18:41:44 by coleksii          #+#    #+#             */
-/*   Updated: 2017/10/23 17:08:22 by coleksii         ###   ########.fr       */
+/*   Updated: 2017/10/23 19:23:10 by coleksii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ int     put_on_map(int num, int player, char *mem, char *clr)
 		clr[num] = player;
 	position(num, &x, &y);
 	attron(COLOR_PAIR(player));
+	attron(A_BOLD);
 	mvprintw(y, x, "%02x", 0xff & mem[num]);
 	attrset(A_NORMAL);
 	refresh();

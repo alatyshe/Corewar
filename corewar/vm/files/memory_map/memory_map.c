@@ -6,7 +6,7 @@
 /*   By: alatyshe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/20 16:49:51 by alatyshe          #+#    #+#             */
-/*   Updated: 2017/10/23 16:39:25 by coleksii         ###   ########.fr       */
+/*   Updated: 2017/10/23 19:23:05 by coleksii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,8 @@ static void		run_cycles_to_die(t_map *map, t_flags *flags, int i)
 		if (flags->n_flag)
 		{
 			cycle(map); //NCURSES
-			ref(map);
+			if (map->cycle % 50 == 0)
+				ref(map);
 		}
 		if (map->cycle && check_flags(flags, 'v', 2))
 			ft_printf("It is now cycle %d\n", map->cycle);

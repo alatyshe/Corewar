@@ -48,10 +48,10 @@ $(OBJECTS_PATH)/%.o: $(FILES_PATH)/%.c
 
 #------ make clean ------
 cleanlib:
-	# @make clean -C ../libft
+	@make clean -C ../libft
 
 clean: cleanlib
-	@echo $(YELLOW)"\t\t\t\tDCMP"$(RESET)
+	@echo $(YELLOW)"\t\t\t\tDECOMPILER"$(RESET)
 	@rm -f $(FILES_OBJ)
 	@rm -f $(OTHER_OBG)
 	@echo $(RED) "\t.o files have been cleaned.\n"$(RESET)
@@ -60,10 +60,10 @@ clean: cleanlib
 
 #------ make fclean ------
 fcleanlib:
-	# @make fclean -C ../libft
+	@make fclean -C ../libft
 
 fclean: fcleanlib
-	@echo $(YELLOW)"\t\t\t\tDCMP"$(RESET)
+	@echo $(YELLOW)"\t\t\t\tDECOMPILER"$(RESET)
 	@rm -f $(FILES_OBJ)
 	@rm -f $(OTHER_OBG)
 	@echo $(RED) "\t.o files have been cleaned.\n"$(RESET)

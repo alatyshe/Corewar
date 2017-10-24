@@ -21,6 +21,11 @@ int		main(int argc, char **argv)
 	files = NULL;
 	count_players = 0;
 	files = read_prog_argv(argc, argv, &count_players);
+	if (argc == 1)
+	{
+		ft_printf("Usage: ./asm [-a] <sourcefile.s>\n");
+		exit(0);
+	}
 	f = files;
 	while (f)
 	{

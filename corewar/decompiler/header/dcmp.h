@@ -54,25 +54,22 @@ typedef struct			s_file
 }						t_file;
 t_file					*read_prog_argv(int argc, char **argv,
 						int *counter_players);
+t_file					*filling_files(t_file *start, int *counter_players,
+						char *s);
 int						read_header(unsigned char *buf, t_file *file,
 						char *file_name);
 t_cmd					*read_commands(unsigned char *buf, int pos_buf,
 						int file_len);
 int						fill_args(unsigned char *buf, t_cmd *cmd,
 						int pos_buf, int argc);
-unsigned int			get_value_from_file(void *buf, int len);
 void					read_file(char *file_name, t_file *file,
 						int player_num);
 t_file					*create_file(void);
 t_cmd					*create_cmd();
-void					null_cmd(t_cmd *cmd);
 unsigned int			get_value_from_file(void *buf, int len);
-unsigned int			get_value(void *buf, int len);
-void					print_buf(unsigned char *buffer, int buffer_size);
 void					writing_to_file(t_file *file);
 void					writing_commands(int fd, t_file *file);
 void					writing_header(int fd, t_file *file);
 char					*create_name_of_file(char *s);
-void					print_usage(void);
 
 #endif

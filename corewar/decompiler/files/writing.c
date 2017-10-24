@@ -12,32 +12,51 @@
 
 #include "../header/dcmp.h"
 
+static char		*making_name(char *s, int i, int j)
+{
+	char	*name;
+	char	*name_temp;
+	char	*temp;
+
+	name = NULL;
+	if (i != 0)
+	{
+		name = ft_strndup(s, i + 1);
+		name_temp = ft_strjoin(name, "dcmp_");
+		free(name);
+		temp = ft_strndup(&s[i + 1], j - i - 1);
+		name = ft_strjoin(name_temp, temp);
+		free(temp);
+		free(name_temp);
+	}
+	else
+	{
+		name_temp = ft_strdup("dcmp_");
+		temp = ft_strndup(s, j);
+		name = ft_strjoin(name_temp, temp);
+		free(name_temp);
+		free(temp);
+	}
+	return (name);
+}
+
 char			*create_name_of_file(char *s)
 {
 	int			i;
 	int			j;
 	char		*name;
+	char		*name_temp;
 
-	name = NULL;
 	i = ft_strlen(s);
 	j = i;
 	while (s[j] != '.')
 		j--;
-	while (s[i] != '/' && i != 0)	
+	while (s[i] != '/' && i != 0)
 		i--;
-	if (i != 0)
-	{
-		name = ft_strndup(s, i + 1);
-		name = ft_strjoin(name, "dcmp_");
-		name = ft_strjoin(name, ft_strndup(&s[i + 1], j - i - 1));
-	}
-	else
-	{
-		name = ft_strdup("dcmp_");
-		name = ft_strjoin(name, ft_strndup(s, j));
-	}
-	name = ft_strjoin(name, ".s");
-	return (name);
+	name = making_name(s, i, j);
+	name_temp = ft_strjoin(name, ".s");
+	free(name);
+	return (name_temp);
 }
 
 void			writing_header(int fd, t_file *file)
@@ -91,5 +110,6 @@ void			writing_to_file(t_file *file)
 	writing_header(fd, file);
 	writing_commands(fd, file);
 	ft_printf("Writing output program to %s\n", name);
+	free(name);
 	close(fd);
 }

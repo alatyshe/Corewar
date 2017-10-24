@@ -74,6 +74,7 @@ void			memory_map(t_file *file, int total_players, t_flags *flags)
 	while (map->total_lives != 0)
 	{
 		map->total_lives = 0;
+		print_processes(map->ps);
 		run_cycles_to_die(map, flags, i);
 		nulling_players_lives(map->players);
 		kill_processes(map);

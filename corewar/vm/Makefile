@@ -34,7 +34,7 @@ OBJECTS_PATH	= ./objects
 #------ files ------
 FILES_FILES		= main
 MEM_MAP_FILES	= memory_map fill_map kill_processes run_players
-READ_FILES		= read_arguments read_header read_file 
+READ_FILES		= read_arguments read_header read_file read_flags
 OTHER_FILES		= struct_create other
 VISUAL_FILES    = visual func
 PRINT_FILES		= print print_debug print_v_flag print_s_flag print_java_flag
@@ -50,7 +50,6 @@ MEM_MAP_OBJ		= $(addprefix $(OBJECTS_PATH)/, $(addsuffix .o, $(MEM_MAP_FILES)))
 OTHER_OBG 		= $(addprefix $(OBJECTS_PATH)/, $(addsuffix .o, $(OTHER_FILES)))
 VISUAL_OBJ      = $(addprefix $(OBJECTS_PATH)/, $(addsuffix .o, $(VISUAL_FILES)))
 PRINT_OBJ		= $(addprefix $(OBJECTS_PATH)/, $(addsuffix .o, $(PRINT_FILES)))
-
 
 #------ make ------
 all: $(NAME)

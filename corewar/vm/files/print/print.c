@@ -12,27 +12,39 @@
 
 #include "../../header/vm.h"
 
+static void		print_usage_continue(void)
+{
+	ft_printf("#### NCURSES OUTPUT MODE ##############################");
+	ft_printf("#########################\n");
+	ft_printf("-n        : Ncurses output mode\n");
+	ft_printf("#### JAVA VISUALIZER OUTPUT MODE ######################");
+	ft_printf("#########################\n");
+	ft_printf("-java     : Java visualizer output mode\n");
+	ft_printf("#######################################################");
+	ft_printf("#########################\n");
+}
+
 void			print_usage(void)
 {
-	ft_printf("Usage: ./corewar [-d N -s N -v N | -b --stealth | -n --stealth] [-a] <champion1.cor> <...>\n");
-	ft_printf("-a        : Prints output from \"aff\" (Default is to hide it)\n");
-	ft_printf("#### TEXT OUTPUT MODE ##########################################################\n");
+	ft_printf("Usage: ./corewar [-d N -s N -v N | -n |");
+	ft_printf(" -db ] [-java] [-a] <champion1.cor> <...>\n");
+	ft_printf("-a        : Prints output from \"aff\" (Default ");
+	ft_printf("is to hide it)\n");
+	ft_printf("#### TEXT OUTPUT MODE ##########################");
+	ft_printf("################################\n");
 	ft_printf("-d N      : Dumps memory after N cycles then exits\n");
-	ft_printf("-s N      : Runs N cycles, dumps memory, pauses, then repeats\n");
-	ft_printf("-v N      : Verbosity levels, can be added together to enable several\n");
+	ft_printf("-s N      : Runs N cycles, dumps memory, pauses, the");
+	ft_printf("n repeats\n");
+	ft_printf("-v N      : Verbosity levels, can be added together ");
+	ft_printf("to enable several\n");
 	ft_printf("\t- 0 : Show only essentials\n");
 	ft_printf("\t- 1 : Show lives\n");
 	ft_printf("\t- 2 : Show cycles\n");
 	ft_printf("\t- 4 : Show operations (Params are NOT litteral ...)\n");
 	ft_printf("\t- 8 : Show deaths\n");
 	ft_printf("\t- 16 : Show PC movements (Except for jumps)\n");
-	ft_printf("#### BINARY OUTPUT MODE ########################################################\n");
-	ft_printf("-b        : Binary output mode for corewar.42.fr\n");
-	ft_printf("--stealth : Hides the real contents of the memory\n");
-	ft_printf("#### NCURSES OUTPUT MODE #######################################################\n");
-	ft_printf("-n        : Ncurses output mode\n");
-	ft_printf("--stealth : Hides the real contents of the memory\n");
-	ft_printf("################################################################################\n");
+	ft_printf("-db       : debugging output mode\n");
+	print_usage_continue();
 }
 
 void			introducing_print(t_file *file)

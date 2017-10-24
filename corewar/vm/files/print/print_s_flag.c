@@ -32,17 +32,36 @@ static void		print_one_cycle(t_map *map)
 	}
 }
 
+static void		print_d_flag(t_map *map)
+{
+	if (map->flags->d_flag == 'd' && map->flags->d_value == 0)
+	{
+		print_one_cycle(map);
+		exit(0);
+	}
+	if (check_flags(map->flags, 'd', map->flags->d_value))
+	{
+		if (map->cycle % map->flags->d_value == 0)
+		{
+			print_one_cycle(map);
+			exit(0);
+		}
+	}
+}
+
 void			print_map_s_flag(t_map *map)
 {
 	char		*buf;
 
 	buf = NULL;
-	if (check_flags(map->flags, 's', 0))
+	if (check_flags(map->flags, 's', 0) && map->flags->s_value != 0)
 	{
 		if (map->cycle % map->flags->s_value == 0)
 		{
 			print_one_cycle(map);
 			get_next_line(0, &buf);
+			print_d_flag(map);
 		}
 	}
+	print_d_flag(map);
 }

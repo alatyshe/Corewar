@@ -12,92 +12,47 @@
 
 #include "../../header/vm.h"
 
-void			print_flags(t_flags *f)
-{
-	printf("a_flag:		%d\n", f->a_flag);
-	printf("b_flag:		%d\n", f->b_flag);
-	printf("d_flag:\t\t%d\td_value\t\t%d\n", f->d_flag, f->d_value);
-	printf("n_flag:		%d\n", f->n_flag);
-	printf("j_flag:		%c\n", f->j_flag);
-	printf("v_flag:\t\t%d\tv_value\t\t%d\n", f->v_flag, f->v_value);
-	printf("s_flag:\t\t%d\ts_value\t\t%d\n", f->s_flag, f->s_value);
-}
-
-void			print_buf(unsigned char *buffer, int buffer_size)
+void			print_registers(t_ps *ps)
 {
 	int		i;
 
 	i = 0;
-	while (i < buffer_size)
+	printf("REGISTERS :\n%s%s", BOLD_ON, GREEN);
+	while (i < 16)
 	{
-		printf("[%x]", buffer[i]);
+		printf("%5.2d    ", i + 1);
 		i++;
 	}
-	printf("\n");
-}
-
-void			print_file(t_file *file)
-{
-	printf("%s===============================%s\n", GREEN, RESET);
-	printf("fileName :\t|%s|\n", file->file_name);
-	printf("magic :\t\t%x\n", file->magic);
-	printf("progName:\t|%s|\n", file->prog_name);
-	printf("prog_size:\t%d\n", file->prog_size);
-	printf("prog_comment:\t|%s|\n", file->prog_comment);
-	printf("player_num:\t|%d|\n", file->player_num);
-	print_buf(file->read, file->prog_size);
-	printf("%s===============================%s\n\n", GREEN, RESET);
+	printf("%s%s\n", BOLD_OFF, CYAN);
+	i = 0;
+	while (i < 16)
+	{
+		printf("%08x ", ps->reg[i]);
+		i++;
+	}
+	printf("%s\n\n", RESET);
 }
 
 void			print_process(t_ps *ps)
 {
-	int			i;
-
-	i = 0;
-	printf("%s==============================================%s\n", YELLOW, RESET);
-	if (ps)
+	if (ps->cmd_in_hex && ps->cycles_to_cmd == 0)
 	{
-		printf("PS->ProgramCounter:\t%d\n", ps->pc);
-		printf("\t\tREGISTERS\n");
-		while (i < 16)
+		printf("%s==============================================%s\n", YELLOW, RESET);
+		if (ps)
 		{
-			printf("%5.2d    ", i + 1);
-			i++;
+			printf("PS->ProgramCounter:\t%d\n", ps->pc);
+			print_registers(ps);
+			printf("ps->cmd_in_hex:\t\t%02x\n", ps->cmd_in_hex);
+			printf("ps->coding_byte:\t%x\n", (g_tab[ps->cmd_in_hex - 1].coding_byte));
+			printf("ps->player_num:\t\t%d\n", ps->player_num);
+			printf("ps->carry:\t\t%d\n", ps->carry);
+			printf("ps->cycles_to_cmd:\t%d\n", ps->cycles_to_cmd);
+			printf("ps->check_live:\t\t%d\n", ps->check_live);
 		}
-		printf("\n");
-		i = 0;
-		while (i < 16)
-		{
-			printf("%08x ", ps->reg[i]);
-			i++;
-		}
-		printf("\n\n");
-		printf("ps->cmd_in_hex:\t\t%02x\n", ps->cmd_in_hex);
-		printf("ps->coding_byte:\t%x\n", (ps->coding_byte & 125));
-		i = 0;
-		printf("ARG_TYPES :\t");
-		while (i < MAX_ARGS_NUMBER)
-		{
-			printf("% 4d ", ps->arg_types[i]);
-			i++;
-		}
-		printf("\nARGUMENTS :\t");
-		i = 0;
-		while (i < MAX_ARGS_NUMBER)
-		{		
-			printf("%04x ", ps->arg[i]);
-			i++;
-		}
-		printf("\nps->player_num:\t\t%d\n", ps->player_num);
-		printf("ps->carry:\t\t%d\n", ps->carry);
-		printf("ps->cycles_to_cmd:\t%d\n", ps->cycles_to_cmd);
-		printf("ps->check_live:\t\t%d\n", ps->check_live);
-		printf("ps->p_size:\t\t%d\n", ps->p_size);
+		else
+			printf("NULL\n");
+		printf("%s==============================================%s\n\n", YELLOW, RESET);
 	}
-	else
-		printf("NULL\n");
-	printf("%s==============================================%s\n\n", YELLOW, RESET);  
-	
 }
 
 void			print_processes(t_ps *ps)

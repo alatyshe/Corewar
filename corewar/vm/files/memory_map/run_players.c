@@ -14,6 +14,7 @@
 
 static void		executing_ps(t_map *map, t_ps *ps)
 {
+
 	if (map->flags->java_flag)
 		ft_printf("%d:%d:%d", ps->player_num, ps->pc, 1);
 	if (!ps->skip_cmd && !ps->cycles_to_cmd && ps->cmd_in_hex)
@@ -42,12 +43,15 @@ void			run_players(t_map *map)
 	ps = map->ps;
 	while (ps)
 	{
+		print_process(ps);
 		if (map->flags->n_flag)
 			cursor_from_map(ps->pc, map->map, map->clr);//NCURSES
 		executing_ps(map, ps);
+
 		if (map->flags->n_flag)
 			cursor_on_map(ps->pc, ps->player_num * -1, map->map, map->clr);
 		ps->cycles++;
+
 		ps = ps->next;
 	}
 	if (map->flags->java_flag)

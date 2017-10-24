@@ -12,14 +12,16 @@
 
 #ifndef VM_H
 # define VM_H
-# define RED     "\x1b[31m"
-# define GREEN   "\x1b[32m"
-# define YELLOW  "\x1b[33m"
-# define BLUE    "\x1b[34m"
-# define MAGENTA "\x1b[35m"
-# define CYAN    "\x1b[36m"
-# define BLACK   "\x1b[37m"
-# define RESET   "\x1b[0m"
+# define RED		"\x1b[31m"
+# define GREEN		"\x1b[32m"
+# define YELLOW		"\x1b[33m"
+# define BLUE		"\x1b[34m"
+# define MAGENTA	"\x1b[35m"
+# define CYAN		"\x1b[36m"
+# define BLACK		"\x1b[37m"
+# define RESET		"\x1b[0m"
+# define BOLD_ON	"\x1b[1m"
+# define BOLD_OFF	"\x1b[22m"
 
 # define FIRST_ARG		0
 # define SECOND_ARG		1
@@ -36,16 +38,15 @@
 typedef struct		s_flags
 {
 	char			a_flag;
-	char			b_flag;
 	char			d_flag;
 	int				d_value;
-	char			j_flag;
 	char			n_flag;
 	char			v_flag;
 	int				v_value;
 	char			s_flag;
 	int				s_value;
 	char			java_flag;
+	char			db_flag;
 }					t_flags;
 
 
@@ -117,14 +118,17 @@ int				read_header(unsigned char *buf, t_file *file, char *file_name);
 t_file			*read_prog_argv(int argc, char **argv, int *counter_players, t_flags *f);
 int				check_flags(t_flags *f, char c, int n);
 void			read_file(char *file_name, t_file *file, int player_num);
-
+int				check_flags(t_flags *f, char c, int n);
+void			num_arg_analysing(char *s, t_flags *f);
+int				it_is_flag(char *s);
+int				filling_flags(char *s, t_flags *flags);
+void			min_arg_value(t_flags *f);
 
 // =================== memory_map ====================
 void			memory_map(t_file *file, int total_players, t_flags *f);
 void			fill_map(t_file *file, t_map *map, int total_players);
 void			kill_processes(t_map *map);
 void			run_players(t_map *map);
-
 
 // ===================== create struct ========================
 t_file			*create_file(void);
@@ -150,6 +154,7 @@ void			fill_map(t_file *file, t_map *map, int total_players);
 void			print_info_map(t_map *map);
 void			print_players(t_player *player);
 void			print_process(t_ps *ps);
+void			print_processes(t_ps *ps);
 void			print_file(t_file *file);
 void			print_buf(unsigned char *buffer, int buffer_size);
 // DELETE

@@ -79,16 +79,15 @@ t_flags			*create_flags(void)
 
 	flags = (t_flags *)malloc(sizeof(t_flags));
 	flags->a_flag = 0;
-	flags->b_flag = 0;
 	flags->d_flag = 0;
 	flags->d_value = 0;
-	flags->j_flag = 0;
 	flags->n_flag = 0;
 	flags->v_flag = 0;
 	flags->v_value = 0;
 	flags->s_flag = 0;
 	flags->s_value = 0;
 	flags->java_flag = 0;
+	flags->db_flag = 0;
 	return (flags);
 }
 

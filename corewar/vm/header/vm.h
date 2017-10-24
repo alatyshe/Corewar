@@ -6,7 +6,7 @@
 /*   By: dvynokur <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/20 16:49:51 by dvynokur          #+#    #+#             */
-/*   Updated: 2017/08/20 16:49:52 by dvynokur         ###   ########.fr       */
+/*   Updated: 2017/10/24 16:17:10 by coleksii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,9 @@ typedef struct		s_map
 	struct s_player		*players;		//	игроки
 	t_flags				*flags;
 	struct s_ps			*ps;
+	char                *clr;
+	int                 speed;
+	int                 speed_v;
 }					t_map;
 
 typedef struct		s_ps
@@ -136,7 +139,7 @@ void			copy_process(t_ps *ps, t_ps *ps_new);
 void			move_map_counter(int *pos, int delta_pos);
 unsigned int	get_value_from_file(void *buf, int len);
 int				get_value_from_map(t_map *all_info, int *where, int len);
-void			write_value_on_map(t_map *map, int where, int value_in);
+void			write_value_on_map(t_map *map, int where, int value_in, t_ps *ps);
 void			null_commands_variables(t_ps *ps);
 
 int				exec_arg_value(char *map, t_ps *ps, int len);
@@ -178,6 +181,16 @@ void			cmd_lld(t_map *map, t_ps *ps);
 void			cmd_lldi(t_map *map, t_ps *ps);
 void			cmd_lfork(t_map *map, t_ps *ps);
 void			cmd_aff(t_map *map, t_ps *ps);
+//=========================VISUAL================================
+int             visual(t_map *m, int pl, t_file *file);
+int             cursor_on_map(int num, int player, char *mem, char *clr);
+int             cursor_from_map(int num, char *mem, char *clr);
+int             put_on_map(int num, int player, char *mem, char *clr);
+int             cycle(t_map *map);
+int             cycle_to_die(int cycles);
+int             ref(t_map *map);
+void            winner(char *s);
+int				position(int num, int *x, int *y);
 
 
 static t_cmd_array	g_cmd_arr[17] = {

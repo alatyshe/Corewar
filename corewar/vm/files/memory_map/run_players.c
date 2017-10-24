@@ -6,7 +6,7 @@
 /*   By: alatyshe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/20 16:49:51 by alatyshe          #+#    #+#             */
-/*   Updated: 2017/08/20 16:49:52 by alatyshe         ###   ########.fr       */
+/*   Updated: 2017/10/24 16:13:28 by coleksii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,9 @@ void			run_players(t_map *map)
 	ps = map->ps;
 	while (ps)
 	{
+		cursor_from_map(ps->pc, map->map, map->clr);//NCURSES
 		executing_ps(map, ps);
+		cursor_on_map(ps->pc, ps->player_num * -1, map->map, map->clr);
 		ps->cycles++;
 		ps = ps->next;
 	}

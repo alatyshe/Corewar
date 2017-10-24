@@ -6,7 +6,7 @@
 /*   By: dvynokur <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/20 16:49:51 by dvynokur          #+#    #+#             */
-/*   Updated: 2017/08/20 16:49:52 by dvynokur         ###   ########.fr       */
+/*   Updated: 2017/10/24 16:18:08 by coleksii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ static void		execute_sti_cmd(t_map *map, t_ps *ps)
 	pc = ps->pc;
 	distance = (value[SECOND_ARG] + value[THIRD_ARG]) % IDX_MOD;
 	move_map_counter(&pc, distance);
-	write_value_on_map(map, pc, ps->reg[ps->arg[FIRST_ARG] - 1]);
+	write_value_on_map(map, pc, ps->reg[ps->arg[FIRST_ARG] - 1], ps);
 	if (map->flags->java_flag)
 		ft_printf(":%d:%d", pc, ps->reg[ps->arg[FIRST_ARG] - 1]);
 	print_flags_sti(map, ps, value, ps->pc + distance);

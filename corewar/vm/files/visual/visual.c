@@ -6,7 +6,7 @@
 /*   By: coleksii <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/11 18:29:24 by coleksii          #+#    #+#             */
-/*   Updated: 2017/10/23 19:14:18 by coleksii         ###   ########.fr       */
+/*   Updated: 2017/10/24 15:05:27 by coleksii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../../header/vm.h"
@@ -105,10 +105,11 @@ char    *create_col()
     init_pair(7, COLOR_YELLOW, COLOR_MAGENTA);
     init_pair(8, COLOR_BLUE, COLOR_MAGENTA);
     init_pair(9, COLOR_RED, COLOR_MAGENTA);
+    init_pair(11, COLOR_MAGENTA, COLOR_BLACK);
     col = malloc(4096);
     i = 0;
     while (i < 4096)
-        col[i++] = 5;
+        col[i++] = 11;
     return (col);
 }
 

@@ -6,7 +6,7 @@
 /*   By: dvynokur <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/20 16:49:51 by dvynokur          #+#    #+#             */
-/*   Updated: 2017/08/20 16:49:52 by dvynokur         ###   ########.fr       */
+/*   Updated: 2017/10/24 16:16:43 by coleksii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ int					get_value_from_map(t_map *map, int *where, int len)
 	return (res);
 }
 
-void				write_value_on_map(t_map *map, int where, int value_in)
+void				write_value_on_map(t_map *map, int where, int value_in, t_ps *ps)
 {
 	int				j;
 	int				i;
@@ -90,6 +90,8 @@ void				write_value_on_map(t_map *map, int where, int value_in)
 			value = value >> 8;
 		}
 		map->map[where] = (value & 0x000000ff);
+		if (map->flags->n_flag)
+			put_on_map(where, ps->player_num * -1, map->map, map->clr);
 		move_map_counter(&where, 1);
 	}
 }

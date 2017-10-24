@@ -73,8 +73,9 @@ void			memory_map(t_file *file, int total_players, t_flags *flags)
 		print_map_java(map, file);
 	while (map->total_lives != 0)
 	{
+		if (map->flags->db_flag)
+			print_players(map->players, map);
 		map->total_lives = 0;
-		print_processes(map->ps);
 		run_cycles_to_die(map, flags, i);
 		nulling_players_lives(map->players);
 		kill_processes(map);

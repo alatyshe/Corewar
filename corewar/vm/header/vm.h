@@ -151,8 +151,8 @@ unsigned int 	get_value(void *buf, int len);
 void			fill_map(t_file *file, t_map *map, int total_players);
 
 // DELETE print debug
-void			print_info_map(t_map *map);
-void			print_players(t_player *player);
+// void			print_info_map(t_map *map);
+void			print_players(t_player *player, t_map *map);
 void			print_process(t_ps *ps);
 void			print_processes(t_ps *ps);
 void			print_file(t_file *file);

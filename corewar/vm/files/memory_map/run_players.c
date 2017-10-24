@@ -43,7 +43,8 @@ void			run_players(t_map *map)
 	ps = map->ps;
 	while (ps)
 	{
-		print_process(ps);
+		if (map->flags->db_flag)
+			print_process(ps);
 		if (map->flags->n_flag)
 			cursor_from_map(ps->pc, map->map, map->clr);//NCURSES
 		executing_ps(map, ps);

@@ -95,7 +95,7 @@ int				check_flags(t_flags *f, char c, int n)
 		f->java_flag == 0 && f->db_flag == 0)
 		return (1);
 	else if (f->v_flag == c && f->n_flag == 0 &&
-		f->java_flag == 0 && f->db_flag == 0)
+		f->java_flag == 0)
 	{
 		if (f->v_value & n)
 			return (1);

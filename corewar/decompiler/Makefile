@@ -26,7 +26,7 @@ OBJECTS_PATH	= ./objects
 
 
 #------ files ------
-FILES_FILES		= main create read_arguments read_commands read_file read_header print
+FILES_FILES		= main create read_arguments read_commands read_file read_header writing
 
 #------ other ------
 FILES_OBJ 		= $(addprefix $(OBJECTS_PATH)/, $(addsuffix .o, $(FILES_FILES)))

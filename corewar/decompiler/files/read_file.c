@@ -55,7 +55,6 @@ void				read_file(char *file_name, t_file *file, int player_num)
 	file->read = malloc(sizeof(unsigned char) * cmd_len + 1);
 	lseek(fd, -cmd_len, 2);
 	read(fd, file->read, cmd_len);
-
 	free(buf);
 	close(fd);
 }

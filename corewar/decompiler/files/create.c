@@ -29,7 +29,7 @@ t_file			*create_file(void)
 	return (file);
 }
 
-t_cmd			*create_cmd()
+t_cmd			*create_cmd(void)
 {
 	t_cmd		*cmd;
 	int			i;
@@ -40,7 +40,6 @@ t_cmd			*create_cmd()
 	cmd->cmd_size = 0;
 	cmd->cmd_in_hex = 0;
 	cmd->coding_byte = 0;
-
 	while (i < 3)
 	{
 		cmd->arg_types[i] = 0;

@@ -88,14 +88,14 @@ static char			*read_comment(unsigned char *buf)
 	return (res);
 }
 
-int					read_header(unsigned char *buf, t_file *file, char *file_name)
+int					read_header(unsigned char *buf, t_file *file, char *name)
 {
 	int				j;
 
-	file->file_name = ft_strdup(file_name);
+	file->file_name = ft_strdup(name);
 	file->magic = read_magic(buf, file);
 	file->prog_name = read_name(buf);
-	file->prog_size = read_size(buf, file_name);
+	file->prog_size = read_size(buf, name);
 	file->prog_comment = read_comment(buf);
 	j = sizeof(unsigned int) + PROG_NAME_LENGTH + 1;
 	while (j % 4 != 0)

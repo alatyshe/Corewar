@@ -60,7 +60,7 @@ static int		get_length_arg(t_cmd *cmd, int argc)
 	return (len);
 }
 
-int		fill_args(unsigned char *buf, t_cmd *cmd, int pos_buf, int argc)
+int				fill_args(unsigned char *buf, t_cmd *cmd, int pos_buf, int argc)
 {
 	int			len;
 
@@ -80,16 +80,10 @@ t_cmd			*read_commands(unsigned char *buf, int pos_buf, int file_len)
 	t_cmd		*cmd;
 
 	argc = 0;
-
-	// printf("pos_buf: %d\n", pos_buf);
-	// printf("file_len: %d\n", file_len);
-
 	if (pos_buf < file_len
 		&& buf[pos_buf] >= 1 && buf[pos_buf] <= 16)
 	{
-
 		cmd = create_cmd(g_tab[(((char*)buf)[pos_buf] - 1)].count_arg);
-
 		cmd->cmd_in_hex = ((char*)buf)[pos_buf++];
 		cmd->cmd_name = ft_strdup(g_tab[cmd->cmd_in_hex - 1].name);
 		cmd->cmd_size++;

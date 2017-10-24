@@ -50,16 +50,19 @@ static void		execute_xor_cmd(t_map *map, t_ps *ps)
 	free(value);
 }
 
-void			cmd_xor(t_map *map, t_ps *ps)
+int				cmd_xor(t_map *map, t_ps *ps)
 {
 	int			pc;
 	int			temp_pc;
+	int			stop_moving;
 
 	temp_pc = ps->pc;
 	pc = fill_commands(map, ps);
+	stop_moving = ps->skip_cmd;
 	if (ps->skip_cmd == 0)
 		execute_xor_cmd(map, ps);
 	print_v_flag_adv(map, ps, pc);
 	ps->pc = pc;
 	null_commands_variables(ps);
+	return (stop_moving);
 }

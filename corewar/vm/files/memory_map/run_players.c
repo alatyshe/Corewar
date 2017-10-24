@@ -14,21 +14,37 @@
 
 static void		executing_ps(t_map *map, t_ps *ps)
 {
+	// int			dont_move;
+
+	// dont_move = 0;
 	if (map->flags->java_flag)
 		ft_printf("%d:%d:%d", ps->player_num, ps->pc, 1);
-	if (!ps->skip_cmd && !ps->cycles_to_cmd && ps->cmd_in_hex)
+	
+	if (ps->cycles_to_cmd == 0 && ps->cmd_in_hex == 0
+		&& (map->map[ps->pc] < 1 || map->map[ps->pc] > 16))
+	{
+		move_map_counter(&ps->pc, 1);
+		ft_printf("%s[P%5d][PC%5d]%s\n",CYAN, ps->ps_num, ps->pc, RESET);
+	}
+	
+	if (!ps->cycles_to_cmd && ps->cmd_in_hex)
+	{
+		ft_printf("%s[P%5d] %s",RED,  ps->ps_num, RESET);
 		g_cmd_arr[(int)ps->cmd_in_hex](map, ps);
-	if (!ps->cycles_to_cmd && !ps->skip_cmd
+		ft_printf("%s[P%5d][PC%5d]%s\n",RED, ps->ps_num, ps->pc, RESET);
+	}
+	if (!ps->cycles_to_cmd
 		&& map->map[ps->pc] >= 1 && map->map[ps->pc] <= 16)
 	{
+		ft_printf("%sI FIND THIS CMD [%02x][P%5d]",GREEN, map->map[ps->pc], ps->ps_num);
+		ft_printf("[PC%5d]",ps->pc);
+		ft_printf("[CYCLES%5d]%s\n", g_tab[map->map[ps->pc] - 1].cycle, RESET);
 		ps->cmd_in_hex = map->map[ps->pc];
 		ps->cycles_to_cmd = g_tab[ps->cmd_in_hex - 1].cycle;
 	}
+
 	if (ps->cycles_to_cmd)
 		ps->cycles_to_cmd--;
-	if (ps->cycles_to_cmd == 0
-		&& (map->map[ps->pc] < 1 || map->map[ps->pc] > 16))
-		move_map_counter(&ps->pc, 1);
 	if (map->flags->java_flag)
 		ft_printf(";");
 }

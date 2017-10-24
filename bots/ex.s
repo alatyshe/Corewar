@@ -31,7 +31,13 @@
 	# live	%-1
 	# fork %-100
 
-	live %1
+	# ld	%101056768,r3				# name player 06060100
+	# ld	%102105344,r3				# name player 06160100 ok
+	# ld	%114688256,r3				# name player 06d60100 
+	ld	%100993280,r3				# name player 06d60100 
+	st	r3,5						#cmd  load	
+
+
 	# ld	%12380,r3				# name player
 	
 	# st	r1,-511				#cmd  load	
@@ -51,12 +57,12 @@
 	# st	r15,-511				#cmd  load	
 	# st	r16,-511				#cmd  load
 
-	live %1
-	fork %0
-	ld 	%33554431,r2
-	ld 	%4278190080,r3
-	st  r2, -17
-	st  r3, -18
+	# live %1
+	# fork %0
+	# ld 	%33554431,r2
+	# ld 	%4278190080,r3
+	# st  r2, -17
+	# st  r3, -18
 	# st	r16,-511				#cmd  load
 
 # 02900000

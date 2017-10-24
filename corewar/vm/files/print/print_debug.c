@@ -12,92 +12,53 @@
 
 #include "../../header/vm.h"
 
-void			print_flags(t_flags *f)
-{
-	printf("a_flag:		%d\n", f->a_flag);
-	printf("b_flag:		%d\n", f->b_flag);
-	printf("d_flag:\t\t%d\td_value\t\t%d\n", f->d_flag, f->d_value);
-	printf("n_flag:		%d\n", f->n_flag);
-	printf("j_flag:		%c\n", f->j_flag);
-	printf("v_flag:\t\t%d\tv_value\t\t%d\n", f->v_flag, f->v_value);
-	printf("s_flag:\t\t%d\ts_value\t\t%d\n", f->s_flag, f->s_value);
-}
-
-void			print_buf(unsigned char *buffer, int buffer_size)
+void			print_registers(t_ps *ps)
 {
 	int		i;
 
 	i = 0;
-	while (i < buffer_size)
+	ft_printf("%s%s", BOLD_ON, GREEN);
+	while (i < 16)
 	{
-		printf("[%x]", buffer[i]);
+		ft_printf("%5.2d    ", i + 1);
 		i++;
 	}
-	printf("\n");
-}
-
-void			print_file(t_file *file)
-{
-	printf("%s===============================%s\n", GREEN, RESET);
-	printf("fileName :\t|%s|\n", file->file_name);
-	printf("magic :\t\t%x\n", file->magic);
-	printf("progName:\t|%s|\n", file->prog_name);
-	printf("prog_size:\t%d\n", file->prog_size);
-	printf("prog_comment:\t|%s|\n", file->prog_comment);
-	printf("player_num:\t|%d|\n", file->player_num);
-	print_buf(file->read, file->prog_size);
-	printf("%s===============================%s\n\n", GREEN, RESET);
+	ft_printf("%s%s\n", BOLD_OFF, CYAN);
+	i = 0;
+	while (i < 16)
+	{
+		ft_printf("%08x ", ps->reg[i]);
+		i++;
+	}
+	ft_printf("%s\n\n", RESET);
 }
 
 void			print_process(t_ps *ps)
 {
-	int			i;
-
-	i = 0;
-	printf("%s==============================================%s\n", YELLOW, RESET);
-	if (ps)
+	if (ps->cmd_in_hex && ps->cycles_to_cmd == 0)
 	{
-		printf("PS->ProgramCounter:\t%d\n", ps->pc);
-		printf("\t\tREGISTERS\n");
-		while (i < 16)
+		ft_printf("%s==============================================", YELLOW);
+		ft_printf("=====================================================");
+		ft_printf("============================================%s\n", RESET);
+		if (ps)
 		{
-			printf("%5.2d    ", i + 1);
-			i++;
+			print_registers(ps);
+			ft_printf("pc:\t\t\t%s%d\n%s", BOLD_ON, ps->pc, BOLD_OFF);
+			ft_printf("command in hex:\t\t%s%02x\n%s", BOLD_ON,
+				ps->cmd_in_hex, BOLD_OFF);
+			ft_printf("coding byte:\t\t%s%x\n%s", BOLD_ON,
+				(g_tab[ps->cmd_in_hex - 1].coding_byte), BOLD_OFF);
+			ft_printf("player number:\t\t%s%d\n%s", BOLD_ON,
+				ps->player_num, BOLD_OFF);
+			ft_printf("carry:\t\t\t%s%d\n%s", BOLD_ON, ps->carry, BOLD_OFF);
+			ft_printf("live:\t\t\t%s%d\n%s", BOLD_ON, ps->check_live, BOLD_OFF);
 		}
-		printf("\n");
-		i = 0;
-		while (i < 16)
-		{
-			printf("%08x ", ps->reg[i]);
-			i++;
-		}
-		printf("\n\n");
-		printf("ps->cmd_in_hex:\t\t%02x\n", ps->cmd_in_hex);
-		printf("ps->coding_byte:\t%x\n", (ps->coding_byte & 125));
-		i = 0;
-		printf("ARG_TYPES :\t");
-		while (i < MAX_ARGS_NUMBER)
-		{
-			printf("% 4d ", ps->arg_types[i]);
-			i++;
-		}
-		printf("\nARGUMENTS :\t");
-		i = 0;
-		while (i < MAX_ARGS_NUMBER)
-		{		
-			printf("%04x ", ps->arg[i]);
-			i++;
-		}
-		printf("\nps->player_num:\t\t%d\n", ps->player_num);
-		printf("ps->carry:\t\t%d\n", ps->carry);
-		printf("ps->cycles_to_cmd:\t%d\n", ps->cycles_to_cmd);
-		printf("ps->check_live:\t\t%d\n", ps->check_live);
-		printf("ps->p_size:\t\t%d\n", ps->p_size);
+		else
+			ft_printf("NULL\n");
+		ft_printf("%s==============================================", YELLOW);
+		ft_printf("=====================================================");
+		ft_printf("============================================%s\n", RESET);
 	}
-	else
-		printf("NULL\n");
-	printf("%s==============================================%s\n\n", YELLOW, RESET);  
-	
 }
 
 void			print_processes(t_ps *ps)
@@ -112,29 +73,26 @@ void			print_processes(t_ps *ps)
 	}
 }
 
-void			print_players(t_player *player_in)
+void			print_players(t_player *player_in, t_map *map)
 {
 	t_player	*player;
-	
+	int			i;
+
+	i = 1;
 	player = player_in;
+	ft_printf("\n");
 	while (player)
 	{
-		printf("%sPLAYER START PLAYER START PLAYER START PLAYER START%s\n", MAGENTA, RESET);
-		printf("%sPLAYER->NAME:%s\t\t%s\n", GREEN, RESET, player->name);
-		printf("%sPLAYER->PLAYER_NUM:%s\t%d\n", GREEN, RESET, player->player_num);
-		printf("%sPLAYER->LAST_LIVE:%s\t%d\n", GREEN, RESET, player->last_live);
-		printf("%sPLAYER->TOTAL_LIVES:%s\t%d\n", GREEN, RESET, player->total_lives);
-		printf("\n");
-		printf("%sPLAYER END PLAYER END PLAYER END PLAYER END PLAYER END PLAYER END PLAYER END PLAYER END%s\n\n\n", MAGENTA, RESET);
+		ft_printf("%s%d Player name:%s\t\t%s\n", GREEN, i, RESET, player->name);
+		ft_printf("%sPlayer number:%s\t\t%d\n", GREEN,
+			RESET, player->player_num);
+		ft_printf("%sLast live:%s\t\t%d\n", GREEN, RESET, player->last_live);
+		ft_printf("%sTotal lives:%s\t\t%d\n", GREEN,
+			RESET, player->total_lives);
+		ft_printf("\n");
+		i++;
 		player = player->next;
 	}
-}
-
-void			print_info_map(t_map *map)
-{
-	printf("cycle:\t\t%d\n", map->cycle);
-	printf("cycle_to_die:\t\t%d\n", map->cycle_to_die);
-	printf("total_lives:\t\t%d\n", map->total_lives);
-	printf("processes:\t\t%d\n", map->processes);
-	printf("ps_counter:\t\t%d\n\n", map->ps_counter);
+	ft_printf("%stotal_lives:%s\t\t%d\n", GREEN, RESET, map->total_lives);
+	ft_printf("%sprocesses:%s\t\t%d\n\n", GREEN, RESET, map->processes);
 }

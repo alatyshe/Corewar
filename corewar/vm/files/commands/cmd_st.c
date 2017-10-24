@@ -6,7 +6,7 @@
 /*   By: dvynokur <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/20 16:49:51 by dvynokur          #+#    #+#             */
-/*   Updated: 2017/08/20 16:49:52 by dvynokur         ###   ########.fr       */
+/*   Updated: 2017/10/24 16:17:53 by coleksii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static void		execute_st_cmd(t_map *map, t_ps *ps)
 		pc = ps->pc;
 		distance = second_arg % IDX_MOD;
 		move_map_counter(&pc, distance);
-		write_value_on_map(map, pc, ps->reg[first_arg - 1]);
+		write_value_on_map(map, pc, ps->reg[first_arg - 1], ps);
 		if (map->flags->java_flag)
 			ft_printf(":%d:%d", pc, ps->reg[first_arg - 1]);
 	}

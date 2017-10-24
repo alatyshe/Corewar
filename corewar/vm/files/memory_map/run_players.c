@@ -42,9 +42,11 @@ void			run_players(t_map *map)
 	ps = map->ps;
 	while (ps)
 	{
-		cursor_from_map(ps->pc, map->map, map->clr);//NCURSES
+		if (map->flags->n_flag)
+			cursor_from_map(ps->pc, map->map, map->clr);//NCURSES
 		executing_ps(map, ps);
-		cursor_on_map(ps->pc, ps->player_num * -1, map->map, map->clr);
+		if (map->flags->n_flag)
+			cursor_on_map(ps->pc, ps->player_num * -1, map->map, map->clr);
 		ps->cycles++;
 		ps = ps->next;
 	}

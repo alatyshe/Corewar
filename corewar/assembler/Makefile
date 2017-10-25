@@ -14,7 +14,7 @@ RESET = "\x1b[0m"
 
 LIBRARY = ../libft/libft.a
 
-NAME = asm
+NAME = ../asm
 HEAD = header/asm.h header/other.h header/func.h
 
 FLAGS = -Wall -Wextra -Werror
@@ -88,7 +88,7 @@ clean: cleanlib
 	@rm -f $(FILL_OBG)
 	@rm -f $(VALIDATE_OBJ)
 	@rm -f $(CRE_OBJ)
-	@echo $(RED) "\t.o files have been cleaned.\n"$(RESET)
+	@echo $(RED) "\t.o files have been cleaned."$(RESET)
 	@rm -rf $(OBJECTS_PATH)
 	@echo $(RED) "\t./objects path have been cleaned."$(RESET)
 
@@ -103,7 +103,7 @@ fclean: fcleanlib
 	@rm -f $(FILL_OBG)
 	@rm -f $(VALIDATE_OBJ)
 	@rm -f $(CRE_OBJ)
-	@echo $(RED) "\t.o files have been cleaned.\n"$(RESET)
+	@echo $(RED) "\t.o files have been cleaned."$(RESET)
 	@rm -rf $(OBJECTS_PATH)
 	@echo $(RED) "\t./objects path have been cleaned."$(RESET)
 	@rm -f $(NAME)

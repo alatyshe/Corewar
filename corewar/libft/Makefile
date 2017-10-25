@@ -105,27 +105,18 @@ $(PF_OBJECTS_PATH)/%.o: $(PF_PRINT_PATH)/%.c
 	@gcc $(FLAGS) -o $@ -c $<
 
 clean:
-	@echo $(YELLOW) "\t\t\t\tLIBFT"$(RESET)
 	@rm -f $(LFT_SRC_OBJ)
 	@rm -f $(PF_SRC_OBJ)
 	@rm -f $(PF_PRINT_OBJ)
-	@echo $(RED) "\t.o files have been cleaned."$(RESET)
 	@rm -rf $(LFT_OBJECTS_PATH)
 	@rm -rf $(PF_OBJECTS_PATH)
-	@echo $(RED) "\t./objects path have been cleaned."$(RESET)
-	@echo $(RED) "\t./files/printf/objects path have been cleaned."$(RESET)
 
 fclean:
-	@echo $(YELLOW) "\t\t\t\tLIBFT"$(RESET)
 	@rm -f $(LFT_SRC_OBJ)
 	@rm -f $(PF_SRC_OBJ)
 	@rm -f $(PF_PRINT_OBJ)
-	@echo $(RED) "\t.o files have been cleaned."$(RESET)
 	@rm -rf $(LFT_OBJECTS_PATH)
 	@rm -rf $(PF_OBJECTS_PATH)
-	@echo $(RED) "\t./objects path have been cleaned."$(RESET)
-	@echo $(RED) "\t./files/printf/objects path have been cleaned."$(RESET)
 	@rm -f $(NAME)
-	@echo $(RED) "\tlibft.a have been cleaned.\n"$(RESET)
 
 re: fclean all

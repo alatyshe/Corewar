@@ -40,6 +40,7 @@ static void		execute_live_cmd(t_map *map, t_ps *ps)
 		{
 			copy_players->total_lives++;
 			map->winner = copy_players->name;
+			map->winner_num = copy_players->player_num * -1;
 			print_flags_live(map, copy_players);
 			copy_players->last_live = map->cycle;
 			return ;

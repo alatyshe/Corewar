@@ -494,7 +494,7 @@ public class CoreFrame {
 			super.paintComponent(g);
 			super.setBackground(Color.BLACK);
 			try {
-				g.drawImage(new ImageIcon("resources/CoreWarLogo.jpg").getImage(), this.frameWidth * 5 / 6 + 7, 0, this.frame.getWidth() / 6, 200, null);
+				g.drawImage(new ImageIcon("/nfs/2016/d/dvynokur/ex/corewar/corewar/JVisualisation/resources/CoreWarLogo.jpg").getImage(), this.frameWidth * 5 / 6 + 7, 0, this.frame.getWidth() / 6, 200, null);
 			}
 			catch (Exception e) {
 				System.out.println("Image not found");

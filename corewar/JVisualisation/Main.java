@@ -1,15 +1,19 @@
 import ui.Sound;
-import java.io.File;
+import java.io.*;
 
 public class Main {
 
+	public static String	dirPath;
+
 	public static void main(String[] args) throws Exception {
 
+		String myJarPath = Main.class.getProtectionDomain().getCodeSource().getLocation().getPath();
+		dirPath = myJarPath.substring(0, myJarPath.lastIndexOf('/') + 1);
 		try {
 			Sound		sound = null;
 
 			try {
-				sound = new Sound(new File("resources/Bit_Rush_Arcade_Ahri.wav"));
+				sound = new Sound(new File(dirPath + "resources/Bit_Rush_Arcade_Ahri.wav"));
 				sound.play(true);
 			}
 			catch (Exception e) {

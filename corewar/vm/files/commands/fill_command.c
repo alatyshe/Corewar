@@ -84,7 +84,5 @@ int				fill_commands(t_map *all_info, t_ps *ps)
 		fill_args(all_info, ps, &pc_copy, arg);
 		arg++;
 	}
-	// if (ps->skip_cmd == 1)
-	// 	pc_copy--;
 	return (pc_copy);
 }

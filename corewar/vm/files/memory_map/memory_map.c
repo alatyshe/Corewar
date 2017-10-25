@@ -28,8 +28,6 @@ static void		cycle_reducing(t_map *map, t_flags *flags)
 {
 	map->cycle_to_die -= CYCLE_DELTA;
 	map->checks = 10;
-	if (flags->java_flag)
-		ft_printf("(%d)\n", map->cycle_to_die);
 	if (flags->n_flag)
 		    cycle_to_die(map->cycle_to_die);//NCURSES
 	if (map->cycle && check_flags(flags, 'v', 2))
@@ -81,6 +79,8 @@ void			memory_map(t_file *file, int total_players, t_flags *flags)
 		kill_processes(map);
 		if (map->total_lives >= NBR_LIVE || !map->checks)
 			cycle_reducing(map, flags);
+		if (flags->java_flag)
+			ft_printf("(%d)\n", map->cycle_to_die);
 		i = 1;
 		map->checks--;
 	}
@@ -89,5 +89,8 @@ void			memory_map(t_file *file, int total_players, t_flags *flags)
 		    winner(map->winner);
 			    while(getch() == -1);
 	}
-	ft_printf("Contestant 1, \"%s\", has won !\n", map->winner);
+	if (flags->java_flag == 0)
+		ft_printf("Contestant 1, \"%s\", has won !\n", map->winner);
+	else
+		;
 }

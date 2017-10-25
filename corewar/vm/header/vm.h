@@ -6,7 +6,7 @@
 /*   By: dvynokur <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/20 16:49:51 by dvynokur          #+#    #+#             */
-/*   Updated: 2017/10/24 16:17:10 by coleksii         ###   ########.fr       */
+/*   Updated: 2017/10/25 17:06:39 by coleksii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -196,6 +196,9 @@ int             cycle_to_die(int cycles);
 int             ref(t_map *map);
 void            winner(char *s);
 int				position(int num, int *x, int *y);
+int				create_skelet(int col, int row);
+int				color_proc(char *clr, t_file *file, int players);
+void			key_map(t_map *map);
 
 
 static t_cmd_array	g_cmd_arr[17] = {

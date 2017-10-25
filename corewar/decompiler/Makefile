@@ -39,7 +39,7 @@ $(NAME): $(FILES_OBJ)
 	@make -C ../libft/
 	@echo $(CYAN) "\tCompiling $@"$(RESET)
 	@gcc $(FLAGS) -o $@ $^ -lncurses $(LIBRARY)
-	@echo $(GREEN) "\tdecompiler (dcmp)\t\t- has been made\n"$(RESET)
+	@echo $(GREEN) "\tdcmp\t\t- has been made(decompiler)\n"$(RESET)
 
 $(OBJECTS_PATH)/%.o: $(FILES_PATH)/%.c
 	@echo $(PURPLE) "\tCompiling $<"$(RESET)

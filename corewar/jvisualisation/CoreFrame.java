@@ -21,6 +21,8 @@ public class CoreFrame {
 	private static String		winner = null;
 	private GameField			field;
 	private static boolean		stepIn = false;
+	private static boolean		pianoMod = false;
+	private static boolean		soundOn = false;
 
 	private CoreFrame() {
 
@@ -51,7 +53,9 @@ public class CoreFrame {
 		this.frame = new JFrame("CoreWar");
 		this.frame.setLocation(sSize.width / 8, sSize.height / 40);
 		this.frame.setSize(new Dimension(1920, 1180));
-		this.frame.setResizable(false);
+		this.frame.setMinimumSize(new Dimension(1920, 1180));
+		this.frame.setMaximumSize(new Dimension(sSize.width, 1180));
+		this.frame.setResizable(true);
 		this.frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		this.container = frame.getContentPane();
 		this.frame.addKeyListener(new KeyListener() {
@@ -66,26 +70,33 @@ public class CoreFrame {
 				else if (e.getKeyCode() == 32 && CoreFrame.stopped)
 					CoreFrame.stopped = false;
 
+				if (e.getKeyCode() == 67) {
+					if (CoreFrame.pianoMod)
+						CoreFrame.pianoMod = false;
+					else
+						CoreFrame.pianoMod = true;
+				}
+
 				if (CoreFrame.sound != null) {
-					if (e.getKeyChar() == 's' && CoreFrame.sound.isPlaying())
+					if (e.getKeyChar() == 's' && CoreFrame.sound.isPlaying()) {
 						CoreFrame.sound.stop();
-					else if (e.getKeyChar() == 's' && !CoreFrame.sound.isPlaying())
+						CoreFrame.soundOn = false;
+					}
+					else if (e.getKeyChar() == 's' && !CoreFrame.sound.isPlaying()) {
 						CoreFrame.sound.play();
+						CoreFrame.soundOn = true;
+					}
 				}
 
 				if (!CoreFrame.stopped) {
-					if (e.getKeyCode() == 107 && CoreFrame.itersPerSec > 0 && CoreFrame.itersPerSec < 10)
-						CoreFrame.itersPerSec += 1;
-					else if (e.getKeyCode() == 107 && CoreFrame.itersPerSec > 9 && CoreFrame.itersPerSec < 100)
+					if (e.getKeyCode() == 107 && CoreFrame.itersPerSec > 9 && CoreFrame.itersPerSec < 100)
 						CoreFrame.itersPerSec += 10;
 					else if (e.getKeyCode() == 107 && CoreFrame.itersPerSec > 99 && CoreFrame.itersPerSec < 1000)
 						CoreFrame.itersPerSec += 100;
 					else if (e.getKeyCode() == 107 && CoreFrame.itersPerSec > 999 && CoreFrame.itersPerSec < 2000)
 						CoreFrame.itersPerSec += 1000;
 
-					if (e.getKeyCode() == 109 && CoreFrame.itersPerSec > 1 && CoreFrame.itersPerSec <= 10)
-						CoreFrame.itersPerSec--;
-					else if (e.getKeyCode() == 109 && CoreFrame.itersPerSec > 10 && CoreFrame.itersPerSec <= 100)
+					if (e.getKeyCode() == 109 && CoreFrame.itersPerSec > 10 && CoreFrame.itersPerSec <= 100)
 						CoreFrame.itersPerSec -= 10;
 					else if (e.getKeyCode() == 109 && CoreFrame.itersPerSec > 100 && CoreFrame.itersPerSec <= 1000)
 						CoreFrame.itersPerSec -= 100;
@@ -181,6 +192,8 @@ public class CoreFrame {
 
 		while (gameField.updateField() != 0) {
 
+			if (CoreFrame.sound != null && !CoreFrame.sound.isPlaying() && CoreFrame.soundOn)
+				CoreFrame.sound.play();
 			try {
 				new Thread(gameField::repaint).start();
 				while (CoreFrame.stopped) {if (CoreFrame.stepIn) break;Thread.sleep(1); }
@@ -190,6 +203,9 @@ public class CoreFrame {
 					for (int j = 0; j < 4096; j++) {
 
 						PlacePoint	placePoint = gameField.gameField.get(j);
+
+						if (CoreFrame.itersPerSec < 51)
+							placePoint.playSound();
 						placePoint.isExecuting = false;
 						placePoint.setWritten(false);
 						placePoint.carret = 0;
@@ -202,7 +218,10 @@ public class CoreFrame {
 			}
 			catch (Exception e) {}
 		}
-		System.out.println(winner);
+		System.out.println("Contestant, " + winner + " has won!");
+		try { Thread.sleep(60000); }
+		catch (InterruptedException ie) {}
+		System.exit(0);
 	}
 
 	private static class Player {
@@ -271,12 +290,15 @@ public class CoreFrame {
 		private short	commandLength = 1;
 		private boolean	isWritten = false;
 		private int		writeDelay;
+		private Sound	sound;
+		private boolean	isSoundPlayed = false;
 
-		private PlacePoint(int x, int y, int player, String data) {
+		private PlacePoint(int x, int y, int player, String data, Sound sound) {
 			this.x = x;
 			this.y = y;
 			this.player = player;
 			this.data = data;
+			this.sound = sound;
 		}
 
 		public int getPlayer() {
@@ -299,7 +321,7 @@ public class CoreFrame {
 			return (Color.gray);
 		}
 
-		public void setWritten(boolean written) {
+		private void setWritten(boolean written) {
 
 			if (written) {
 				this.isWritten = true;
@@ -310,6 +332,18 @@ public class CoreFrame {
 					this.writeDelay--;
 				else
 					this.isWritten = false;
+			}
+		}
+
+		private void	playSound() {
+
+			if (!CoreFrame.pianoMod)
+				return;
+			if (carret == 0 && this.isSoundPlayed)
+				this.isSoundPlayed = false;
+			if (this.carret != 0 && !this.isSoundPlayed) {
+				this.sound.play();
+				this.isSoundPlayed = true;
 			}
 		}
 	}
@@ -332,13 +366,7 @@ public class CoreFrame {
 		private HashMap<Integer, PlacePoint>	gameField;
 		private static BufferedReader			reader;
 
-		private static long						dbg = 0;
-
-
-		static {
-//			try {GameField.reader = new BufferedReader(new FileReader("res/output2"));}catch (Exception e){ System.out.println("ERROR"); }
-			try {GameField.reader = new BufferedReader(new InputStreamReader(System.in));}catch (Exception e){ System.out.println("ERROR"); }
-		}
+		static { try { GameField.reader = new BufferedReader(new InputStreamReader(System.in));}catch (Exception e){ System.out.println("ERROR"); }}
 
 		public GameField(JFrame	frame, Player[] players) {
 
@@ -355,7 +383,7 @@ public class CoreFrame {
 			for (int i = 0; i < this.fieldHeight; i++) {
 				int	k;
 				for (k = 0; k < this.fieldWidth; k++) {
-					this.gameField.put(id, new PlacePoint(k, i, 0, "00"));
+					this.gameField.put(id, new PlacePoint(k, i, 0, "00", MySounds.allSounds[k]));
 					id++;
 				}
 			}
@@ -368,11 +396,12 @@ public class CoreFrame {
 			String		read = reader.readLine();
 			long[]		check = new long[4];
 
-			dbg++;
-			System.out.println(read);
+			if (read == null)
+				return (0);
 			if (read.contains("has won")) {
 
 				this.cyclesToDie = 0;
+				this.cyclesLeft = 0;
 				read = read.substring(0, read.indexOf(' '));
 				int		winnerID = Integer.parseInt(read);
 				for (Player winner : this.players) {
@@ -457,12 +486,6 @@ public class CoreFrame {
 					if (this.cyclesToDie < 0)
 						this.cyclesToDie = 0;
 					this.cyclesLeft = this.cyclesToDie;
-
-//					System.out.println("Taken data at line " + dbg + " is:");
-//					for (String s : serviceInfo) {
-//						System.out.println(s);
-//					}
-//					System.out.println();
 				}
 				catch (NullPointerException ne)
 				{
@@ -490,7 +513,7 @@ public class CoreFrame {
 			super.paintComponent(g);
 			super.setBackground(Color.BLACK);
 			try {
-				g.drawImage(new ImageIcon(Main.dirPath + "resources/CoreWarLogo.jpg").getImage(), this.frameWidth * 5 / 6 + 7, 0, this.frame.getWidth() / 6, 200, null);
+				g.drawImage(new ImageIcon(Main.dirPath + "jvisualisation/resources/CoreWarLogo.jpg").getImage(), this.frameWidth * 5 / 6 + 7, 0, this.frame.getWidth() / 6, 200, null);
 			}
 			catch (Exception e) {
 				System.out.println("Image not found");
@@ -529,18 +552,22 @@ public class CoreFrame {
 			for (int i = 0; i < 4; i++)
 				this.drawPlayer(this.players[i], i * 100, g);
 			g.setColor(Color.yellow);
-			g.drawString("****************************************************************************************************", this.frameWidth * 5 / 6, 630);
+			g.drawString("*******************************************************************************************************************************************************************", this.frameWidth * 5 / 6, 630);
 			g.drawString("Cycles to die: " + this.cyclesToDie, this.frameWidth * 5 / 6 + 25, 660);
 			g.drawString("Cycles delta: " + this.cyclesDelta, this.frameWidth * 5 / 6 + 25, 690);
 			g.drawString("NBR_LIVE: " + this.nbrLive, this.frameWidth * 5 / 6 + 25, 720);
 			g.drawString("Current Cycle: " + this.cycles, this.frameWidth * 5 / 6 + 25, 750);
 			g.drawString("Cycles left: " + this.cyclesLeft, this.frameWidth * 5 / 6 + 25, 780);
-			g.drawString("****************************************************************************************************", this.frameWidth * 5 / 6, 810);
+			g.drawString("*******************************************************************************************************************************************************************", this.frameWidth * 5 / 6, 810);
 			g.drawString("Cycles per second: ", this.frameWidth * 5 / 6 + 25, 870);
 			if (CoreFrame.itersPerSec < 1001)
 				g.drawString(String.valueOf(CoreFrame.itersPerSec), this.frameWidth * 5 / 6 + 235, 870);
 			else
 				g.drawString("native", this.frameWidth * 5 / 6 + 235, 870);
+			if (CoreFrame.winner != null) {
+				g.setColor(Color.red);
+				g.drawString("--- GAME OVER ---", this.frameWidth * 5 / 6 + 55, 1020);
+			}
 			g.setFont(MyFonts.defaultFont);
 		}
 

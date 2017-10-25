@@ -91,10 +91,7 @@ void			memory_map(t_file *file, int total_players, t_flags *flags)
 		print_map_java(map, file);
 	map_running(map, flags);
 	if (flags->n_flag)
-	{
 		winner(map->winner);
-			while (getch() == -1);
-	}
 	if (flags->java_flag == 0)
 		ft_printf("Contestant %d, \"%s\", has won !\n",
 			map->winner_num, map->winner);

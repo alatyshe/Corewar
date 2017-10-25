@@ -6,7 +6,7 @@
 /*   By: coleksii <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/25 17:07:29 by coleksii          #+#    #+#             */
-/*   Updated: 2017/10/25 17:08:36 by coleksii         ###   ########.fr       */
+/*   Updated: 2017/10/25 18:45:49 by coleksii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,26 +18,26 @@ void	key_map(t_map *map)
 
 	while (1)
 	{
+		attron(A_BOLD);
 		ch = getch();
 		if (ch == 32)
 			break ;
 		if (ch == 261)
-			if (map->speed_v < 15)
+			if (map->speed_v < 15 && map->speed_v++)
 			{
-				map->speed_v++;
-				mvprintw(4, 207, "      ");
-				mvprintw(4, 207, "%d", map->speed_v);
+				mvprintw(4, 217, "      ");
+				mvprintw(4, 217, "%d", map->speed_v);
 				map->speed /= 2;
 			}
 		if (ch == 260)
-			if (map->speed_v > 0)
+			if (map->speed_v > 0 && map->speed_v--)
 			{
-				map->speed_v--;
-				mvprintw(4, 207, "      ");
-				mvprintw(4, 207, "%d", map->speed_v);
+				mvprintw(4, 217, "      ");
+				mvprintw(4, 217, "%d", map->speed_v);
 				map->speed *= 2;
 			}
 	}
+	attrset(A_NORMAL);
 }
 
 int		cycle(t_map *map)
@@ -47,7 +47,9 @@ int		cycle(t_map *map)
 
 	x = 217;
 	y = 2;
+	attron(A_BOLD);
 	mvprintw(y, x, "%d", map->cycle);
+	attrset(A_NORMAL);
 	refresh();
 	usleep(map->speed);
 	if (getch() == 32)
@@ -62,8 +64,10 @@ int		cycle_to_die(int cycles)
 
 	x = 217;
 	y = 3;
+	attron(A_BOLD);
 	mvprintw(y, x, "      ");
 	mvprintw(y, x, "%d", cycles);
+	attrset(A_NORMAL);
 	refresh();
 	return (0);
 }
@@ -85,4 +89,6 @@ void	winner(char *s)
 	x = 200;
 	y = 5;
 	mvprintw(y, x, "Winner: %s", s);
+	while (getch() == -1)
+		;
 }

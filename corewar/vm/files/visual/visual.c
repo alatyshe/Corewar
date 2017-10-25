@@ -6,7 +6,7 @@
 /*   By: coleksii <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/11 18:29:24 by coleksii          #+#    #+#             */
-/*   Updated: 2017/10/25 16:50:23 by coleksii         ###   ########.fr       */
+/*   Updated: 2017/10/25 18:53:47 by coleksii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ int		first_print(char *mem, char *clr, t_file *file, int pl)
 	col = 241;
 	color_proc(clr, file, pl);
 	attron(COLOR_PAIR(10));
-	mvprintw(0, 3, "AND IT FUCK UP");
 	attrset(A_NORMAL);
 	while (i < 4096)
 	{
@@ -66,29 +65,31 @@ char	*create_col(void)
 	return (col);
 }
 
-int		first_print_cykle(int players)
+int		first_print_cykle(int players, t_file *file)
 {
-	int	x;
 	int	y;
 	int	pl;
 
 	pl = 1;
-	x = 200;
-	y = 20;
+	y = 21;
 	while (pl < players + 1 && pl < 5)
 	{
 		attron(COLOR_PAIR(pl));
-		mvprintw(y - 14, x, "___________________________________");
-		mvprintw(y - 13, x, "Player %d", pl);
-		mvprintw(y, x, "___________________________________");
-		y += 15;
+		mvprintw(y - 13, 200, "___________________________________");
+		mvprintw(y - 12, 200, "Player %d %s", pl, file->prog_name);
+		mvprintw(y, 200, "___________________________________");
+		y += 14;
 		pl++;
+		file = file->next;
 	}
-	x = 200;
 	attrset(A_NORMAL);
-	mvprintw(2, x, "Cycles:");
-	mvprintw(3, x, "Cycles to die:   1536");
-	mvprintw(4, x, "Speed: 1");
+	attron(A_BOLD);
+	mvprintw(2, 200, "Cycles:");
+	mvprintw(3, 200, "Cycles to die:   1536");
+	mvprintw(4, 200, "Speed:           1");
+	mvprintw(5, 200, "NBR_LIVE:        21");
+	mvprintw(6, 200, "MAX_CHECKS:      10");
+	attrset(A_NORMAL);
 	refresh();
 	return (0);
 }
@@ -106,7 +107,7 @@ void	prepare(char *mem, char *clr, int players, t_file *file)
 	keypad(stdscr, true);
 	create_skelet(col, row);
 	first_print(mem, clr, file, players);
-	first_print_cykle(players);
+	first_print_cykle(players, file);
 }
 
 int		visual(t_map *m, int pl, t_file *file)

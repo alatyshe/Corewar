@@ -85,4 +85,5 @@ void	winner(char *s)
 	x = 200;
 	y = 5;
 	mvprintw(y, x, "Winner: %s", s);
+	while (getch() == -1);
 }

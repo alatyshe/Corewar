@@ -185,8 +185,6 @@ public class CoreFrame {
 		while (gameField.updateField() != 0) {
 
 			try {
-				if (CoreFrame.sound != null && !CoreFrame.sound.isPlaying())
-					CoreFrame.sound.play();
 				new Thread(gameField::repaint).start();
 				while (CoreFrame.stopped) {if (CoreFrame.stepIn) break;Thread.sleep(1); }
 				CoreFrame.stepIn = false;
@@ -200,7 +198,8 @@ public class CoreFrame {
 						placePoint.carret = 0;
 					}
 				}
-				gameField.cycles++;
+				if (gameField.cyclesLeft != gameField.cyclesToDie)
+					gameField.cycles++;
 				if (gameField.cyclesLeft > 0)
 					gameField.cyclesLeft--;
 			}
@@ -373,7 +372,7 @@ public class CoreFrame {
 			long[]		check = new long[4];
 
 			dbg++;
-//			System.out.println(read);
+			// System.out.println(read);
 			if (read.contains("has won")) {
 
 				this.cyclesToDie = 0;

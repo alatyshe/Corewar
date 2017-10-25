@@ -6,7 +6,7 @@
 /*   By: dvynokur <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/20 16:49:51 by dvynokur          #+#    #+#             */
-/*   Updated: 2017/10/24 16:17:10 by coleksii         ###   ########.fr       */
+/*   Updated: 2017/10/25 17:06:39 by coleksii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,98 @@ typedef struct		s_file
 	struct s_file		*next;
 }					t_file;
 
+
+typedef int		(*t_cmd_array)(t_map *all_info, t_ps *ps);
+
+// ===================== read ========================
+
+int				read_header(unsigned char *buf, t_file *file, char *file_name);
+t_file			*read_prog_argv(int argc, char **argv, int *counter_players, t_flags *f);
+int				check_flags(t_flags *f, char c, int n);
+void			read_file(char *file_name, t_file *file, int player_num);
+int				check_flags(t_flags *f, char c, int n);
+void			num_arg_analysing(char *s, t_flags *f);
+int				it_is_flag(char *s);
+int				filling_flags(char *s, t_flags *flags);
+void			min_arg_value(t_flags *f);
+
+// =================== memory_map ====================
+void			memory_map(t_file *file, int total_players, t_flags *f);
+void			fill_map(t_file *file, t_map *map, int total_players);
+void			kill_processes(t_map *map);
+void			run_players(t_map *map);
+
+// ===================== create struct ========================
+t_file			*create_file(void);
+t_map			*create_map(void);
+t_player		*create_player(void);
+t_ps			*create_ps(int pc, int player, int num);
+t_flags			*create_flags(void);
+
+
+// ============================================================
+void			copy_process(t_ps *ps, t_ps *ps_new);
+void			move_map_counter(int *pos, int delta_pos);
+unsigned int	get_value_from_file(void *buf, int len);
+int				get_value_from_map(t_map *all_info, int *where, int len);
+void			write_value_on_map(t_map *map, int where, int value_in, t_ps *ps);
+void			null_commands_variables(t_ps *ps);
+
+int				exec_arg_value(char *map, t_ps *ps, int len);
+unsigned int 	get_value(void *buf, int len);
+void			fill_map(t_file *file, t_map *map, int total_players);
+
+// DELETE print debug
+// void			print_info_map(t_map *map);
+void			print_players(t_player *player, t_map *map);
+void			print_process(t_ps *ps);
+void			print_processes(t_ps *ps);
+void			print_file(t_file *file);
+void			print_buf(unsigned char *buffer, int buffer_size);
+// DELETE
+
+void			print_v_flag_adv(t_map *map, t_ps *ps, int pc);
+void			print_usage(void);
+void			introducing_print(t_file *file);
+void			print_flags(t_flags *f);
+void			print_map_s_flag(t_map *map);
+void			print_map_java(t_map *map, t_file *file);
+
+//============================FUNC===============================
+int				fill_commands(t_map *all_info, t_ps *ps);
+void			null_commands_variables(t_ps *ps);
+int				get_variables_idxmod(t_map *all_info, t_ps *ps, int i);
+int				cmd_live(t_map *map, t_ps *ps);
+int				cmd_ld(t_map *map, t_ps *ps);
+int				cmd_st(t_map *map, t_ps *ps);
+int				cmd_add(t_map *map, t_ps *ps);
+int				cmd_sub(t_map *map, t_ps *ps);
+int				cmd_and(t_map *map, t_ps *ps);
+int				cmd_or(t_map *map, t_ps *ps);
+int				cmd_xor(t_map *map, t_ps *ps);
+int				cmd_zjmp(t_map *map, t_ps *ps);
+int				cmd_ldi(t_map *map, t_ps *ps);
+int				cmd_sti(t_map *map, t_ps *ps);
+int				cmd_fork(t_map *map, t_ps *ps);
+int				cmd_lld(t_map *map, t_ps *ps);
+int				cmd_lldi(t_map *map, t_ps *ps);
+int				cmd_lfork(t_map *map, t_ps *ps);
+int				cmd_aff(t_map *map, t_ps *ps);
+//=========================VISUAL================================
+int             visual(t_map *m, int pl, t_file *file);
+int             cursor_on_map(int num, int player, char *mem, char *clr);
+int             cursor_from_map(int num, char *mem, char *clr);
+int             put_on_map(int num, int player, char *mem, char *clr);
+int             cycle(t_map *map);
+int             cycle_to_die(int cycles);
+int             ref(t_map *map);
+void            winner(char *s);
+int				position(int num, int *x, int *y);
+int				create_skelet(int col, int row);
+int				color_proc(char *clr, t_file *file, int players);
+void			key_map(t_map *map);
+
+=======
 typedef int			(*t_cmd_array)(t_map *all_info, t_ps *ps);
 
 /*
@@ -204,6 +296,10 @@ int					cycle_to_die(int cycles);
 int					ref(t_map *map);
 void				winner(char *s);
 int					position(int num, int *x, int *y);
+int         create_skelet(int col, int row);
+int         color_proc(char *clr, t_file *file, int players);
+void        key_map(t_map *map);
+
 
 static t_cmd_array	g_cmd_arr[17] = {
 	NULL,

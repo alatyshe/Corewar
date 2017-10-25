@@ -1,7 +1,11 @@
-#debut du mega truc qu'il est trop dur a faire
+.name "|__beng__beng__beng__|"
+.comment "ozh.. ozhov.. ozhovuv!"
 
-.name "Jumper !"
-.comment "en fait C forker !"
+st r1,r2
+
+
+fork %20
+
 
 gobepc:	st r1,:buff
 	st r6,-4

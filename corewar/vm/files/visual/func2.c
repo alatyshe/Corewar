@@ -6,7 +6,7 @@
 /*   By: coleksii <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/25 17:07:29 by coleksii          #+#    #+#             */
-/*   Updated: 2017/10/25 18:35:44 by coleksii         ###   ########.fr       */
+/*   Updated: 2017/10/25 18:45:49 by coleksii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,10 @@ int		cycle_to_die(int cycles)
 
 	x = 217;
 	y = 3;
+	attron(A_BOLD);
 	mvprintw(y, x, "      ");
 	mvprintw(y, x, "%d", cycles);
+	attrset(A_NORMAL);
 	refresh();
 	return (0);
 }

@@ -57,8 +57,8 @@ typedef struct		s_map
 	int					cycle_to_die;	//	цикл смерти
 	unsigned int		total_lives;
 	unsigned int		processes;		//	количество процессов
-	unsigned int		ps_counter;
-	char				checks;
+	unsigned int		ps_counter;		//	итератор создание процесов
+	char				checks;			//	для cycle to die
 	char				*winner;
 	struct s_player		*players;		//	игроки
 	t_flags				*flags;
@@ -110,7 +110,7 @@ typedef struct		s_file
 	struct	s_file		*next;
 }					t_file;
 
-typedef void	(*t_cmd_array)(t_map *all_info, t_ps *ps);
+typedef int		(*t_cmd_array)(t_map *all_info, t_ps *ps);
 
 // ===================== read ========================
 
@@ -170,22 +170,23 @@ void			print_map_java(t_map *map, t_file *file);
 int				fill_commands(t_map *all_info, t_ps *ps);
 void			null_commands_variables(t_ps *ps);
 int				get_variables_idxmod(t_map *all_info, t_ps *ps, int i);
-void			cmd_live(t_map *map, t_ps *ps);
-void			cmd_ld(t_map *map, t_ps *ps);
-void			cmd_st(t_map *map, t_ps *ps);
-void			cmd_add(t_map *map, t_ps *ps);
-void			cmd_sub(t_map *map, t_ps *ps);
-void			cmd_and(t_map *map, t_ps *ps);
-void			cmd_or(t_map *map, t_ps *ps);
-void			cmd_xor(t_map *map, t_ps *ps);
-void			cmd_zjmp(t_map *map, t_ps *ps);
-void			cmd_ldi(t_map *map, t_ps *ps);
-void			cmd_sti(t_map *map, t_ps *ps);
-void			cmd_fork(t_map *map, t_ps *ps);
-void			cmd_lld(t_map *map, t_ps *ps);
-void			cmd_lldi(t_map *map, t_ps *ps);
-void			cmd_lfork(t_map *map, t_ps *ps);
-void			cmd_aff(t_map *map, t_ps *ps);
+int				get_variables(t_map *all_info, t_ps *ps, int i);
+int				cmd_live(t_map *map, t_ps *ps);
+int				cmd_ld(t_map *map, t_ps *ps);
+int				cmd_st(t_map *map, t_ps *ps);
+int				cmd_add(t_map *map, t_ps *ps);
+int				cmd_sub(t_map *map, t_ps *ps);
+int				cmd_and(t_map *map, t_ps *ps);
+int				cmd_or(t_map *map, t_ps *ps);
+int				cmd_xor(t_map *map, t_ps *ps);
+int				cmd_zjmp(t_map *map, t_ps *ps);
+int				cmd_ldi(t_map *map, t_ps *ps);
+int				cmd_sti(t_map *map, t_ps *ps);
+int				cmd_fork(t_map *map, t_ps *ps);
+int				cmd_lld(t_map *map, t_ps *ps);
+int				cmd_lldi(t_map *map, t_ps *ps);
+int				cmd_lfork(t_map *map, t_ps *ps);
+int				cmd_aff(t_map *map, t_ps *ps);
 //=========================VISUAL================================
 int             visual(t_map *m, int pl, t_file *file);
 int             cursor_on_map(int num, int player, char *mem, char *clr);

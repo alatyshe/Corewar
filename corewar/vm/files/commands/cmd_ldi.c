@@ -53,13 +53,15 @@ static void		execute_ldi_cmd(t_map *map, t_ps *ps)
 	free(value);
 }
 
-void			cmd_ldi(t_map *map, t_ps *ps)
+int				cmd_ldi(t_map *map, t_ps *ps)
 {
 	int			pc;
 	int			temp_pc;
+	int			stop_moving;
 
 	temp_pc = ps->pc;
 	pc = fill_commands(map, ps);
+	stop_moving = ps->skip_cmd;
 	if (ps->skip_cmd == 0)
 	{
 		execute_ldi_cmd(map, ps);
@@ -67,4 +69,5 @@ void			cmd_ldi(t_map *map, t_ps *ps)
 	}
 	ps->pc = pc;
 	null_commands_variables(ps);
+	return (stop_moving);
 }

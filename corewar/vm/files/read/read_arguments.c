@@ -12,9 +12,21 @@
 
 #include "../../header/vm.h"
 
-t_file			*filling_files(t_file *start, int *counter_players, char *s)
+unsigned int		get_value_from_file(void *buf, int len)
 {
-	t_file		*file;
+	int				j;
+	unsigned int	res;
+
+	j = 0;
+	res = 0;
+	while (j < len)
+		res = (res << 8) | (((char *)buf)[j++] & 0x000000ff);
+	return (res);
+}
+
+t_file				*filling_files(t_file *start, int *counter_players, char *s)
+{
+	t_file			*file;
 
 	if (start == NULL)
 	{
@@ -35,12 +47,12 @@ t_file			*filling_files(t_file *start, int *counter_players, char *s)
 	return (start);
 }
 
-t_file			*read_prog_argv(int argc, char **argv,
+t_file				*read_prog_argv(int argc, char **argv,
 	int *counter_players, t_flags *f)
 {
-	int			i;
-	t_file		*start;
-	int			flag_return;
+	int				i;
+	t_file			*start;
+	int				flag_return;
 
 	i = 1;
 	flag_return = 0;

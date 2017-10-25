@@ -6,7 +6,7 @@
 /*   By: coleksii <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/11 18:29:24 by coleksii          #+#    #+#             */
-/*   Updated: 2017/10/25 18:41:01 by coleksii         ###   ########.fr       */
+/*   Updated: 2017/10/25 18:53:47 by coleksii         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ int		first_print_cykle(int players, t_file *file)
 	{
 		attron(COLOR_PAIR(pl));
 		mvprintw(y - 13, 200, "___________________________________");
-		mvprintw(y - 12, 200, "Player %d %s %s", pl, file->prog_name);
+		mvprintw(y - 12, 200, "Player %d %s", pl, file->prog_name);
 		mvprintw(y, 200, "___________________________________");
 		y += 14;
 		pl++;

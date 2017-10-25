@@ -1,17 +1,14 @@
 import enums.FieldSize;
 import ui.MyColors;
-import ui.MyFonts;
 import ui.Sound;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.HashMap;
-import java.util.Map;
 
 public class CoreFrame {
 
@@ -185,8 +182,6 @@ public class CoreFrame {
 		while (gameField.updateField() != 0) {
 
 			try {
-				if (CoreFrame.sound != null && !CoreFrame.sound.isPlaying())
-					CoreFrame.sound.play();
 				new Thread(gameField::repaint).start();
 				while (CoreFrame.stopped) {if (CoreFrame.stepIn) break;Thread.sleep(1); }
 				CoreFrame.stepIn = false;
@@ -200,7 +195,8 @@ public class CoreFrame {
 						placePoint.carret = 0;
 					}
 				}
-				gameField.cycles++;
+				if (gameField.cyclesLeft != gameField.cyclesToDie)
+					gameField.cycles++;
 				if (gameField.cyclesLeft > 0)
 					gameField.cyclesLeft--;
 			}
@@ -373,7 +369,7 @@ public class CoreFrame {
 			long[]		check = new long[4];
 
 			dbg++;
-//			System.out.println(read);
+			System.out.println(read);
 			if (read.contains("has won")) {
 
 				this.cyclesToDie = 0;
@@ -494,7 +490,7 @@ public class CoreFrame {
 			super.paintComponent(g);
 			super.setBackground(Color.BLACK);
 			try {
-				g.drawImage(new ImageIcon("resources/CoreWarLogo.jpg").getImage(), this.frameWidth * 5 / 6 + 7, 0, this.frame.getWidth() / 6, 200, null);
+				g.drawImage(new ImageIcon(Main.dirPath + "resources/CoreWarLogo.jpg").getImage(), this.frameWidth * 5 / 6 + 7, 0, this.frame.getWidth() / 6, 200, null);
 			}
 			catch (Exception e) {
 				System.out.println("Image not found");

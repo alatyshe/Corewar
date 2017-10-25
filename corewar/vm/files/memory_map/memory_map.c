@@ -96,8 +96,8 @@ void			memory_map(t_file *file, int total_players, t_flags *flags)
 			while (getch() == -1);
 	}
 	if (flags->java_flag == 0)
-		ft_printf("Contestant %d, \"%s\", has won !\n", map->winner_num, map->winner);
+		ft_printf("Contestant %d, \"%s\", has won !\n",
+			map->winner_num, map->winner);
 	else
-		if (flags->java_flag == 0)
 		ft_printf("-%d has won\n", map->winner_num);
 }

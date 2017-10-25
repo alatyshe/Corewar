@@ -34,9 +34,9 @@ static void		execute_sti_cmd(t_map *map, t_ps *ps)
 	int			pc;
 	int			i;
 
-	i = 0;
+	i = -1;
 	value = (int *)malloc(sizeof(int) * g_tab[10].count_arg);
-	while (i < g_tab[10].count_arg)
+	while (++i < g_tab[10].count_arg)
 	{
 		value[i] = get_variables_idxmod(map, ps, i);
 		if (ps->skip_cmd)
@@ -45,7 +45,6 @@ static void		execute_sti_cmd(t_map *map, t_ps *ps)
 			free(value);
 			return ;
 		}
-		i++;
 	}
 	pc = ps->pc;
 	distance = (value[SECOND_ARG] + value[THIRD_ARG]) % IDX_MOD;

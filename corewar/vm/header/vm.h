@@ -205,10 +205,9 @@ int					cycle_to_die(int cycles);
 int					ref(t_map *map);
 void				winner(char *s);
 int					position(int num, int *x, int *y);
-int         create_skelet(int col, int row);
-int         color_proc(char *clr, t_file *file, int players);
-void        key_map(t_map *map);
-
+int					create_skelet(int col, int row);
+int					color_proc(char *clr, t_file *file, int players);
+void				key_map(t_map *map);
 
 static t_cmd_array	g_cmd_arr[17] = {
 	NULL,

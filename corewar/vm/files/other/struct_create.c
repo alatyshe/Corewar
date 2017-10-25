@@ -39,6 +39,7 @@ t_map			*create_map(void)
 	map->processes = 0;
 	map->players = NULL;
 	map->winner = NULL;
+	map->winner_num = 1;
 	map->checks = 10;
 	map->flags = NULL;
 	map->ps = NULL;

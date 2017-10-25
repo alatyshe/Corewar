@@ -59,6 +59,7 @@ typedef struct		s_map
 	unsigned int		ps_counter;
 	char				checks;
 	char				*winner;
+	int					winner_num;
 	struct s_player		*players;
 	t_flags				*flags;
 	struct s_ps			*ps;

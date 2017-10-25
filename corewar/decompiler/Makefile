@@ -14,7 +14,7 @@ RESET = "\x1b[0m"
 
 LIBRARY = ../libft/libft.a
 
-NAME = dcmp
+NAME = ../dcmp
 HEAD = header/dcmp.h header/op.h
 
 FLAGS = -Wall -Wextra -Werror
@@ -54,7 +54,7 @@ clean: cleanlib
 	@echo $(YELLOW)"\t\t\t\tDECOMPILER"$(RESET)
 	@rm -f $(FILES_OBJ)
 	@rm -f $(OTHER_OBG)
-	@echo $(RED) "\t.o files have been cleaned.\n"$(RESET)
+	@echo $(RED) "\t.o files have been cleaned."$(RESET)
 	@rm -rf $(OBJECTS_PATH)
 	@echo $(RED) "\t./objects path have been cleaned."$(RESET)
 
@@ -66,7 +66,7 @@ fclean: fcleanlib
 	@echo $(YELLOW)"\t\t\t\tDECOMPILER"$(RESET)
 	@rm -f $(FILES_OBJ)
 	@rm -f $(OTHER_OBG)
-	@echo $(RED) "\t.o files have been cleaned.\n"$(RESET)
+	@echo $(RED) "\t.o files have been cleaned."$(RESET)
 	@rm -rf $(OBJECTS_PATH)
 	@echo $(RED) "\t./objects path have been cleaned."$(RESET)
 	@rm -f $(NAME)

@@ -14,7 +14,7 @@ RESET = "\x1b[0m"
 
 LIBRARY = ../libft/libft.a
 
-NAME = corewar
+NAME = ../corewar
 HEAD = header/vm.h header/op.h
 
 FLAGS = -Wall -Wextra -Werror
@@ -99,25 +99,25 @@ $(OBJECTS_PATH)/%.o: $(VIS_PATH)/%.c
 
 #------ make clean ------
 cleanlib:
-	# @make clean -C ../libft
+	@make clean -C ../libft
 
 clean: cleanlib
 	@echo $(YELLOW)"\t\t\t\tCOREWAR"$(RESET)
 	@rm -f $(FILES_OBJ)
 	@rm -f $(OTHER_OBG)
-	@echo $(RED) "\t.o files have been cleaned.\n"$(RESET)
+	@echo $(RED) "\t.o files have been cleaned."$(RESET)
 	@rm -rf $(OBJECTS_PATH)
 	@echo $(RED) "\t./objects path have been cleaned."$(RESET)
 
 #------ make fclean ------
 fcleanlib:
-	# @make fclean -C ../libft
+	@make fclean -C ../libft
 
 fclean: fcleanlib
 	@echo $(YELLOW)"\t\t\t\tCOREWAR"$(RESET)
 	@rm -f $(FILES_OBJ)
 	@rm -f $(OTHER_OBG)
-	@echo $(RED) "\t.o files have been cleaned.\n"$(RESET)
+	@echo $(RED) "\t.o files have been cleaned."$(RESET)
 	@rm -rf $(OBJECTS_PATH)
 	@echo $(RED) "\t./objects path have been cleaned."$(RESET)
 	@rm -f $(NAME)
@@ -125,5 +125,4 @@ fclean: fcleanlib
 
 #------ make re ------
 re: fclean all
-
 

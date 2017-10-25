@@ -32,7 +32,7 @@ CLASSFILES = CoreFrame\$$1.class CoreFrame\$$GameField.class \
 
 MANIFEST = MANIFEST.MF
 
-JARNAME = JVisualiser.jar
+JARNAME = jvisualiser.jar
 
 DELFILES = CoreFrame\$$1.class CoreFrame\$$GameField.class \
 				CoreFrame\$$PlacePoint.class CoreFrame\$$Player.class \

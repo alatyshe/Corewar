@@ -9,11 +9,7 @@ public class MyFonts {
 	public static Font 			arcadeFont;
 
 	static {
-
-		try {
-//			arcadeFont = new Font(Font.createFont(Font.TRUETYPE_FONT, new File("/nfs/2016/v/vboiko/Downloads/CoreWarVisualizer/ui/ARCADECLASSIC.TTF")).getName(), Font.PLAIN, 40);
-		arcadeFont = Font.createFont(Font.TRUETYPE_FONT, new File(Main.dirPath + "resources/ConnectionSerif.otf")).deriveFont(Font.PLAIN, 20);
-		}
+		try { arcadeFont = Font.createFont(Font.TRUETYPE_FONT, new File(Main.dirPath + "jvisualisation/resources/ConnectionSerif.otf")).deriveFont(Font.PLAIN, 20); }
 		catch (Exception e) { System.out.println(e.toString()); }
 	}
 }

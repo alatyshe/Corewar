@@ -13,8 +13,7 @@ public class Main {
 			Sound		sound = null;
 
 			try {
-				sound = new Sound(new File(dirPath + "resources/Bit_Rush_Arcade_Ahri.wav"));
-				sound.play(true);
+				sound = new Sound(new File(dirPath + "jvisualisation/resources/Bit_Rush_Arcade_Ahri.wav"));
 			}
 			catch (Exception e) {
 				System.out.println("Music not found");
@@ -25,7 +24,6 @@ public class Main {
 		}
 		catch (Exception e) {
 			System.out.println("ERROR");
-			System.out.println(e);
 		}
 	}
 }

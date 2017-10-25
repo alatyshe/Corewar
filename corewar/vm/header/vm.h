@@ -57,8 +57,8 @@ typedef struct		s_map
 	int					cycle_to_die;	//	цикл смерти
 	unsigned int		total_lives;
 	unsigned int		processes;		//	количество процессов
-	unsigned int		ps_counter;
-	char				checks;
+	unsigned int		ps_counter;		//	итератор создание процесов
+	char				checks;			//	для cycle to die
 	char				*winner;
 	struct s_player		*players;		//	игроки
 	t_flags				*flags;
@@ -170,6 +170,7 @@ void			print_map_java(t_map *map, t_file *file);
 int				fill_commands(t_map *all_info, t_ps *ps);
 void			null_commands_variables(t_ps *ps);
 int				get_variables_idxmod(t_map *all_info, t_ps *ps, int i);
+int				get_variables(t_map *all_info, t_ps *ps, int i);
 int				cmd_live(t_map *map, t_ps *ps);
 int				cmd_ld(t_map *map, t_ps *ps);
 int				cmd_st(t_map *map, t_ps *ps);

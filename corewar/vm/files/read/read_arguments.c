@@ -64,8 +64,8 @@ t_file				*read_prog_argv(int argc, char **argv,
 	int				flag_return;
 	int				count_files;
 
-	i = 0;
-	count_files = 1;
+	i = 1;
+	count_files = 0;
 	flag_return = 0;
 	start = NULL;
 	while (i < argc)

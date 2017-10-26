@@ -12,6 +12,28 @@
 
 #include "../header/asm.h"
 
+void					print_cmds(t_header *head)
+{
+	t_cmd				*cmd;
+	int					i;
+
+	i = 0;
+	if (head->commands)
+	{
+		cmd = head->commands;
+		while (cmd->next)
+		{
+			printf("%02x", cmd->code & 255);
+			if (g_tab[cmd->code - 1].op_code)
+				printf(" %02x", cmd->arg_types & 255);
+			while (i < g_tab[cmd->code - 1].count_arg)
+				printf(" %06x", cmd->arg[i++]->num);
+			printf("\n");
+			cmd = cmd->next;
+		}
+	}
+}
+
 static void				error_last_line(t_header *head)
 {
 	head->error = EMPTY;
@@ -45,6 +67,7 @@ static int				reading_file(t_header *head, int fd)
 		read = NULL;
 		head->line++;
 	}
+	print_cmds(head);
 	return (1);
 }
 
@@ -60,13 +83,13 @@ static void				file_manipulaton(t_header *head, int fd)
 			fill_command_arguments(head);
 		if (head->error > 0)
 			return ;
-		crop_name_and_comment(head, &head->prog_name, PROG_NAME_LENGTH);
-		crop_name_and_comment(head, &head->prog_comment, COMMENT_LENGTH);
-		if (head->error == 0)
-		{
-			print_create(head);
-			create_file(head);
-		}
+		// crop_name_and_comment(head, &head->prog_name, PROG_NAME_LENGTH);
+		// crop_name_and_comment(head, &head->prog_comment, COMMENT_LENGTH);
+		// if (head->error == 0)
+		// {
+		// 	print_create(head);
+		// 	create_file(head);
+		// }
 	}
 }
 

@@ -21,7 +21,9 @@ static unsigned int	fill_file_struct(unsigned char *buf, int file_len,
 	j = read_header(buf, file, file_name);
 	if ((file_len - j) != file->prog_size)
 	{
-		ft_putstr_fd("Error: File ../../ex.cor has a code ", 2);
+		ft_putstr_fd("Error: File ", 2);
+		ft_putstr_fd(file_name, 2);
+		ft_putstr_fd(" has a code ", 2);
 		ft_putstr_fd("size that differ from what its header says\n", 2);
 		exit(0);
 	}

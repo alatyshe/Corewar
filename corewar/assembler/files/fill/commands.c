@@ -39,7 +39,7 @@ static int			get_argument_size(t_header *head, t_cmd *cmd,
 		arg_type = REG_CODE;
 	else if ((g_tab[cmd->code - 1].arg[arg_num] & T_IND)
 		&& (ft_isdigit(read[x]) || read[x] == LABEL_CHAR || read[x] == '-'))
-		arg_type = T_IND;
+		arg_type = IND_CODE;
 	else
 		error_invalid_argument(head, cmd, read + x, arg_num);
 	if (head->error == 0)

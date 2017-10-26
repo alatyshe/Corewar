@@ -7,8 +7,15 @@ public class Main {
 
 	public static void main(String[] args) throws Exception {
 
-		String myJarPath = Main.class.getProtectionDomain().getCodeSource().getLocation().getPath();
-		dirPath = myJarPath.substring(0, myJarPath.lastIndexOf('/') + 1);
+		try
+		{
+			String myJarPath = Main.class.getProtectionDomain().getCodeSource().getLocation().getPath();
+			dirPath = myJarPath.substring(0, myJarPath.lastIndexOf('/') + 1);
+		}
+		catch(Exception e)
+		{
+			System.out.println("ERROR");
+		}
 		try {
 			Sound		sound = null;
 

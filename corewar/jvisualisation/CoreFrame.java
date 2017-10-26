@@ -13,8 +13,6 @@ import java.util.HashMap;
 public class CoreFrame {
 
 	private static CoreFrame	coreFrame = null;
-	private JFrame				frame;
-	private Container			container;
 	private static boolean		stopped = true;
 	private static int			itersPerSec = 10;
 	private static Sound		sound;
@@ -24,22 +22,11 @@ public class CoreFrame {
 	private static boolean		pianoMod = false;
 	private static boolean		soundOn = false;
 
-	private CoreFrame() {
+	private CoreFrame() throws Exception {
 
 	}
 
-	protected JFrame getFrame() {
-		return frame;
-	}
-
-	public static CoreFrame	getInstance() {
-
-		if (CoreFrame.coreFrame == null)
-			CoreFrame.coreFrame = new CoreFrame();
-		return (CoreFrame.coreFrame);
-	}
-
-	public static CoreFrame	getInstance(Sound sound) {
+	public static CoreFrame	getInstance(Sound sound) throws Exception {
 
 		if (CoreFrame.coreFrame == null)
 			CoreFrame.coreFrame = new CoreFrame();
@@ -47,18 +34,18 @@ public class CoreFrame {
 		return (CoreFrame.coreFrame);
 	}
 
-	public void createFrame() throws InterruptedException {
+	public void createFrame() throws Exception {
 
 		Dimension sSize = Toolkit.getDefaultToolkit().getScreenSize();
-		this.frame = new JFrame("CoreWar");
-		this.frame.setLocation(sSize.width / 8, sSize.height / 40);
-		this.frame.setSize(new Dimension(1920, 1180));
-		this.frame.setMinimumSize(new Dimension(1920, 1180));
-		this.frame.setMaximumSize(new Dimension(sSize.width, 1180));
-		this.frame.setResizable(true);
-		this.frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-		this.container = frame.getContentPane();
-		this.frame.addKeyListener(new KeyListener() {
+		JFrame frame = new JFrame("CoreWar");
+		frame.setLocation(sSize.width / 8, sSize.height / 40);
+		frame.setSize(new Dimension(1920, 1180));
+		frame.setMinimumSize(new Dimension(1920, 1180));
+		frame.setMaximumSize(new Dimension(sSize.width, 1180));
+		frame.setResizable(true);
+		frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+		Container container = frame.getContentPane();
+		frame.addKeyListener(new KeyListener() {
 			public void keyTyped(KeyEvent e) {
 
 			}
@@ -71,10 +58,7 @@ public class CoreFrame {
 					CoreFrame.stopped = false;
 
 				if (e.getKeyCode() == 67) {
-					if (CoreFrame.pianoMod)
-						CoreFrame.pianoMod = false;
-					else
-						CoreFrame.pianoMod = true;
+					CoreFrame.pianoMod = !CoreFrame.pianoMod;
 				}
 
 				if (CoreFrame.sound != null) {
@@ -124,26 +108,26 @@ public class CoreFrame {
 			for (String playerInfo : playersList) {
 
 				String[]	info = playerInfo.split(":");
-				players[i] = new Player(info[2], Integer.parseInt(info[0]), Integer.parseInt(info[1]), info[3]);
+				players[i] = new Player(info[2], Integer.parseInt(info[0]), Integer.parseInt(info[1]));
 				i++;
 			}
-			GameField	gameField = new GameField(this.frame, players);
+			GameField	gameField = new GameField(frame, players);
 			this.field = gameField;
-			this.container.add(gameField);
-			this.frame.setVisible(true);
+			container.add(gameField);
+			frame.setVisible(true);
 
 			new Thread(() -> {
 
 				try{
 					CoreFrame.coreFrame.runBattle(CoreFrame.coreFrame.field);
 				}
-				catch (IOException e) {}
+				catch (Exception e) { System.out.println("ERROR"); }
 			}).start();
 		}
 		catch (IOException e) { System.out.println("ERROR"); }
 	}
 
-	private void	setPlayers(GameField gameField) {
+	private void	setPlayers(GameField gameField) throws Exception {
 
 		int		count = 0;
 
@@ -169,7 +153,7 @@ public class CoreFrame {
 		}
 	}
 
-	private void	runBattle(GameField gameField) throws IOException {
+	private void	runBattle(GameField gameField) throws Exception {
 
 		int k = 0;
 
@@ -216,11 +200,11 @@ public class CoreFrame {
 				if (gameField.cyclesLeft > 0)
 					gameField.cyclesLeft--;
 			}
-			catch (Exception e) {}
+			catch (Exception e) { System.out.println("ERROR"); }
 		}
 		System.out.println("Contestant, " + winner + " has won!");
 		try { Thread.sleep(60000); }
-		catch (InterruptedException ie) {}
+		catch (InterruptedException ie) { System.out.println("ERROR"); }
 		System.exit(0);
 	}
 
@@ -229,44 +213,18 @@ public class CoreFrame {
 		private String		name;
 		private int			id = 0;
 		private long		live = 0;
-		private boolean		dead = false;
 		private long		processes = 0;
-		private long		livesAmount = 0;
 		private int			length;
-		private String		comment;
 		private int			startingCell;
 		private boolean		isWinner = false;
 
-		private Player(String name, int id, int length, String comment) {
+		private Player(String name, int id, int length) throws Exception {
 			this.name = name;
 			this.id = id;
 			this.length = length;
-			this.comment = comment;
 		}
 
-		public String getName() {
-			return name;
-		}
-
-		public void setDead(boolean dead) {
-			this.dead = dead;
-		}
-
-		public long getLivesAmount() {
-			return livesAmount;
-		}
-
-		public void sayAlive() {
-
-			this.livesAmount++;
-		}
-
-		public void resetLives() {
-
-			this.livesAmount = 0;
-		}
-
-		private Color	getColor() {
+		private Color	getColor() throws Exception {
 
 			switch (Math.abs(this.id)) {
 				case 0 : return (Color.gray);
@@ -281,35 +239,22 @@ public class CoreFrame {
 
 	private static class PlacePoint {
 
-		private int		x;
-		private int		y;
 		private int		player;
 		private String	data;
 		private int		carret = 0;
 		private boolean	isExecuting = false;
-		private short	commandLength = 1;
 		private boolean	isWritten = false;
 		private int		writeDelay;
 		private Sound	sound;
 		private boolean	isSoundPlayed = false;
 
-		private PlacePoint(int x, int y, int player, String data, Sound sound) {
-			this.x = x;
-			this.y = y;
+		private PlacePoint(int player, String data, Sound sound) throws Exception {
 			this.player = player;
 			this.data = data;
 			this.sound = sound;
 		}
 
-		public int getPlayer() {
-			return player;
-		}
-
-		private void setPlayer(int player) {
-			this.player = player;
-		}
-
-		private Color	getColor(int c, boolean written) {
+		private Color	getColor(int c, boolean written) throws Exception {
 
 			switch (c) {
 				case 0 : return (Color.gray);
@@ -321,7 +266,7 @@ public class CoreFrame {
 			return (Color.gray);
 		}
 
-		private void setWritten(boolean written) {
+		private void setWritten(boolean written) throws Exception {
 
 			if (written) {
 				this.isWritten = true;
@@ -335,7 +280,7 @@ public class CoreFrame {
 			}
 		}
 
-		private void	playSound() {
+		private void	playSound() throws Exception {
 
 			if (!CoreFrame.pianoMod)
 				return;
@@ -353,7 +298,6 @@ public class CoreFrame {
 		private int								fieldWidth = FieldSize.SIZE / FieldSize.ROWS;
 		private int								fieldHeight = FieldSize.SIZE / fieldWidth;
 		private int								frameWidth;
-		private int								frameHeight;
 		private int								cellSize = 14;
 		private int								offsetSize = 18;
 		private short							cyclesToDie;
@@ -368,12 +312,11 @@ public class CoreFrame {
 
 		static { try { GameField.reader = new BufferedReader(new InputStreamReader(System.in));}catch (Exception e){ System.out.println("ERROR"); }}
 
-		public GameField(JFrame	frame, Player[] players) {
+		public GameField(JFrame	frame, Player[] players) throws Exception {
 
 			int	id = 0;
 			this.frame = frame;
 			this.frameWidth = this.frame.getWidth();
-			this.frameHeight = this.frame.getHeight();
 			this.players = players;
 			this.gameField = new HashMap<>();
 			this.cycles = 0;
@@ -383,13 +326,13 @@ public class CoreFrame {
 			for (int i = 0; i < this.fieldHeight; i++) {
 				int	k;
 				for (k = 0; k < this.fieldWidth; k++) {
-					this.gameField.put(id, new PlacePoint(k, i, 0, "00", MySounds.allSounds[k]));
+					this.gameField.put(id, new PlacePoint(0, "00", MySounds.allSounds[k]));
 					id++;
 				}
 			}
 		}
 
-		private int		updateField() throws IOException {
+		private int		updateField() throws Exception {
 
 			if (CoreFrame.winner != null)
 				return (0);
@@ -426,7 +369,7 @@ public class CoreFrame {
 			return (1);
 		}
 
-		private void	setProcesses(String[] serviceInfo, long[] check) {
+		private void	setProcesses(String[] serviceInfo, long[] check) throws Exception {
 
 			String[]	info;
 			int			playerID;
@@ -460,10 +403,10 @@ public class CoreFrame {
 						else {
 							writingStart = Integer.parseInt(info[3]);
 							writingLength = Integer.parseInt(info[4]);
-							String	write = Integer.toHexString(writingLength);
+							StringBuilder	write = new StringBuilder(Integer.toHexString(writingLength));
 							if (write.length() < 8)
 								while (write.length() < 8)
-									write = '0' + write;
+									write = write.insert(0, '0');
 							for (int i = 0; i < 4; i++) {
 
 								int		cID;
@@ -473,9 +416,10 @@ public class CoreFrame {
 								else
 									cID = writingStart + i - 4096;
 								this.gameField.get(cID).data = write.substring(0, 2);
-								write = write.substring(2, write.length());
+								write = new StringBuilder(write.substring(2, write.length()));
 								this.gameField.get(cID).player = Math.abs(playerID);
-								this.gameField.get(cID).setWritten(true);
+								try { this.gameField.get(cID).setWritten(true); }
+								catch (Exception e) { System.out.println("ERROR"); }
 							}
 						}
 					}
@@ -510,19 +454,25 @@ public class CoreFrame {
 
 		protected void	paintComponent(Graphics g) {
 
-			super.paintComponent(g);
-			super.setBackground(Color.BLACK);
+			try {
+				super.paintComponent(g);
+				super.setBackground(Color.BLACK);
+			}
+			catch (Exception e) { System.out.println("ERROR"); }
 			try {
 				g.drawImage(new ImageIcon(Main.dirPath + "jvisualisation/resources/CoreWarLogo.jpg").getImage(), this.frameWidth * 5 / 6 + 7, 0, this.frame.getWidth() / 6, 200, null);
 			}
 			catch (Exception e) {
 				System.out.println("Image not found");
 			}
-			this.drawSidebar(g);
-			this.drawField(g);
+			try {
+				this.drawSidebar(g);
+				this.drawField(g);
+			}
+			catch (Exception e) { System.out.println("ERROR"); }
 		}
 
-		private void	drawPlayer(Player player, int n, Graphics g) {
+		private void	drawPlayer(Player player, int n, Graphics g) throws Exception {
 
 			if (player == null) {
 				g.drawString("Player offline", this.frameWidth * 5 / 6 + 5, 220 + n);
@@ -546,7 +496,7 @@ public class CoreFrame {
 			g.setColor(Color.red);
 		}
 
-		private void	drawSidebar(Graphics g) {
+		private void	drawSidebar(Graphics g) throws Exception {
 
 			g.setFont(MyFonts.arcadeFont);
 			for (int i = 0; i < 4; i++)
@@ -571,7 +521,7 @@ public class CoreFrame {
 			g.setFont(MyFonts.defaultFont);
 		}
 
-		private void	drawField(Graphics g) {
+		private void	drawField(Graphics g) throws Exception {
 
 			int		widthOffset = 5;
 			int		heightOffset = 5;
